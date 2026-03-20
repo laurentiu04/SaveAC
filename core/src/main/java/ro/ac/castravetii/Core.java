@@ -2,31 +2,37 @@ package ro.ac.castravetii;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Core extends ApplicationAdapter {
-    private SpriteBatch batch;
-    private Texture image;
+
+    private Sprite cubeSprite;
+    private SpriteBatch spriteBatch;
+    private TextureAtlas atlas;
+
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        // added comment
-        image = new Texture("libgdx.png");
+        atlas = new TextureAtlas(Utils.getInternalPath("atlas/testAtlas.atlas"));
+
+        cubeSprite =  atlas.createSprite("stair");
+        spriteBatch = new SpriteBatch();
     }
 
     @Override
     public void render() {
-//        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        batch.begin();
-//        batch.draw(image, 140, 210);
-        batch.end();
+        spriteBatch.begin();
+        cubeSprite.draw(spriteBatch);
+        spriteBatch.end();
     }
 
     @Override
         public void dispose() {
-        batch.dispose();
-        image.dispose();
+        spriteBatch.dispose();
+        atlas.dispose();
     }
+
 }

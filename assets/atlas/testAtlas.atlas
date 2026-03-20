@@ -1,0 +1,7 @@
+testAtlas.png
+size:256,128
+repeat:none
+cube
+bounds:2,2,64,64
+stair
+bounds:68,2,64,64
