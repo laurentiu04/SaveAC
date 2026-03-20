@@ -12,7 +12,7 @@ public class Core extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-
+        // added comment
         image = new Texture("libgdx.png");
     }
 
