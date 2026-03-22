@@ -30,7 +30,7 @@ public final class Player {
             Services.camera.viewportHeight/2f
         );
 
-        transform.scale = new Vector2(4f, 4f);
+        transform.scale = new Vector2(3f, 3f);
         playerEntity.add(transform);
 
         TextureComponent text = new TextureComponent();
@@ -39,8 +39,10 @@ public final class Player {
 
         PlayerComponent p = new PlayerComponent();
         p.health = 250;
-        p.speed = 100;
         playerEntity.add(p);
+
+        MovementComponent move = new MovementComponent();
+        playerEntity.add(move);
 
         Services.engine.addEntity(playerEntity);
 

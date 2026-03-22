@@ -7,5 +7,4 @@ import com.badlogic.ashley.core.Component;
  */
 public class PlayerComponent implements Component {
     public int health = 100;
-    public float speed = 10f;
 }

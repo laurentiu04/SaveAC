@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class RenderSystem extends IteratingSystem {
     ComponentMapper<TextureComponent> txm = ComponentMapper.getFor(TextureComponent.class);
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
+    ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
 
     public RenderSystem() {
         super(Family.all(TextureComponent.class, TransformComponent.class).get());
@@ -29,6 +30,11 @@ public class RenderSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         TextureRegion region = txm.get(entity).region;
         TransformComponent transform = tm.get(entity);
+        int direction = 1;
+
+        if (mm.has(entity)) {
+            direction = mm.get(entity).directionX;
+        }
 
         Services.batch.draw(
             region,
@@ -38,7 +44,7 @@ public class RenderSystem extends IteratingSystem {
             region.getRegionHeight()/2.0f,
             region.getRegionWidth(),
             region.getRegionHeight(),
-            transform.scale.x,
+            transform.scale.x * direction,
             transform.scale.y,
             transform.rotation
         );
