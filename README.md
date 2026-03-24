@@ -3,11 +3,11 @@
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
 Proiect creat pentru PIP_Proiect, 2026. \
-Colatoratori:
+Echipa **Castraveții**:
 - `LASLĂU LAURENȚIU` - Team leader
 - `MITITELU ANDREI`
-- `FLAVIUS`
-- `RAREȘ`
+- `ANTON FLAVIUS`
+- `ANTOHE RAREȘ`
 
 
 ## Platforme
