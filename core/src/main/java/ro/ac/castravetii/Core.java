@@ -43,6 +43,7 @@ public class Core implements ApplicationListener {
         Services.engine.addSystem(new RenderSystem());
         // Adaug si sistemul de miscare
         Services.engine.addSystem(new MovementSystem());
+        Services.engine.addSystem(new PlayerInputSystem(0));
 
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 

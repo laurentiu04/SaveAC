@@ -37,6 +37,11 @@ public final class Services {
     public static AssetManager assetManager;
 
     /**
+     * Stari pentru animatii.
+     */
+
+
+    /**
      * Functie pentru eliminarea resurselor create
      */
     public static void dispose() {
@@ -44,4 +49,5 @@ public final class Services {
         if (textureAtlas != null) textureAtlas.dispose();
         if (assetManager != null) assetManager.dispose();
     }
+
 }
