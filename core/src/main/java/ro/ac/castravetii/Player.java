@@ -31,6 +31,7 @@ public final class Player {
 
         // Marchez crearea player-ului.
         INSTANCE = true;
+
         // Creez o entitate pentru player.
         Entity playerEntity = Services.engine.createEntity();
 
@@ -41,7 +42,7 @@ public final class Player {
             Services.camera.viewportHeight/2f
         );
 
-        transform.scale = new Vector2(3f, 3f);
+        transform.scale = new Vector2(3f, 3f); // Setez scalarea
         playerEntity.add(transform);
 
         TextureComponent text = new TextureComponent();
@@ -53,7 +54,16 @@ public final class Player {
         playerEntity.add(p);
 
         MovementComponent move = new MovementComponent();
+        move.max_vel = 450f;
+        move.acceleration = move.max_vel * 0.085f; // 8.5% din viteza maxima
+        move.deceleration = move.max_vel * 0.05f; // 5% din viteza maxima
         playerEntity.add(move);
+
+        AnimationComponent anim = new AnimationComponent();
+        anim.movingAnim = Utils.createAnimation(64, 0.055f, "castravete-moving");
+        anim.idleSprite = text.region;
+//        System.out.println(anim.movingAnim);
+        playerEntity.add(anim);
 
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);

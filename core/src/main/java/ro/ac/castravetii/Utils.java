@@ -2,10 +2,13 @@ package ro.ac.castravetii;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * Clasa asta este facuta special ca sa nu trebuiasca sa scriem mereu Gdx.files.functie()
  * Pentru mai multe informatii despre ce sunt chestiile de jos, uitati-va aici: <a href="https://libgdx.com/wiki/file-handling">File Handling Wiki</a>
+ * LATER EDIT: Sincer nu cred ca o sa folosim functiile pentru fisiere deloc :).
  */
 public class Utils {
     /**
@@ -48,5 +51,18 @@ public class Utils {
      */
     public static FileHandle getLocalPath(String filepath) {
         return Gdx.files.local(filepath);
+    }
+
+    public static Animation<TextureRegion> createAnimation(int frameSize, float frameDuration, String animName) {
+
+        TextureRegion spritesheet = Services.textureAtlas.findRegion(animName);
+        int frameCount = spritesheet.getRegionWidth()/frameSize;
+        TextureRegion[][] tmp = spritesheet.split(frameSize, frameSize);
+        TextureRegion[] frames = new TextureRegion[frameCount];
+
+        System.arraycopy(tmp[0], 0, frames, 0, frameCount);
+//        System.out.println(spritesheet.getRegionWidth());
+
+        return new Animation<>(frameDuration, frames);
     }
 }

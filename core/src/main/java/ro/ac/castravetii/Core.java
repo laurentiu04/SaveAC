@@ -4,14 +4,19 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
 import static com.badlogic.gdx.Gdx.gl;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Core implements ApplicationListener {
+
+    BitmapFont font;
 
     @Override
     public void create() {
@@ -44,6 +49,7 @@ public class Core implements ApplicationListener {
         // Adaug si sistemul de miscare
         Services.engine.addSystem(new MovementSystem());
         Services.engine.addSystem(new PlayerInputSystem(0));
+        Services.engine.addSystem(new AnimationControlSystem());
 
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
@@ -51,6 +57,10 @@ public class Core implements ApplicationListener {
         Player.create();
         // Testez daca functioneaza singleton-ul clasei player
         Player.create();
+
+        font = new BitmapFont();
+        font.getData().setScale(1.2f);
+        font.setColor(Color.SLATE);
     }
 
     @Override
@@ -70,10 +80,12 @@ public class Core implements ApplicationListener {
         gl.glClearColor(0.396f, 0.333f, 0.380f, 1f);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Incep partea de desenare a frame-ului
-        // Intre begin() si end() se deseneaza toate elementele, altfel ele nu o sa apara pe ecran.
-
+        Services.batch.begin();
         Services.engine.update(Gdx.graphics.getDeltaTime());
+        String fpsText = "FPS: " + Gdx.graphics.getFramesPerSecond();
+        font.draw(Services.batch, fpsText, 10, 1070);
+        Services.batch.end();
+
     }
 
     @Override
@@ -90,6 +102,7 @@ public class Core implements ApplicationListener {
         public void dispose() {
         // Fac dispose la tot ce am creat, ii gen delete() din C
         Services.dispose();
+        font.dispose();
     }
 
 }

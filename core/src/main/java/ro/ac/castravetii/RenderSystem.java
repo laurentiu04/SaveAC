@@ -31,12 +31,8 @@ public class RenderSystem extends IteratingSystem {
      */
     @Override
     public void update(float delta) {
-        // Marchez inceperea batch-ului.
-        Services.batch.begin();
         // Desenez toate entitatile ce trebuie desenate.
         super.update(delta);
-        // Marchez sfarsitul batch-ului.
-        Services.batch.end();
     }
 
     /**
@@ -67,8 +63,8 @@ public class RenderSystem extends IteratingSystem {
         // Desenez entitatea cu datele din componenta TransformComponent si TextureComponent
         Services.batch.draw(
             region,                                                 // regiunea texturii
-            transform.position.x - region.getRegionWidth()/2.0f,    // pozitia pe axa X
-            transform.position.y - region.getRegionHeight()/2.0f,   // pozitia pe axa Y
+            Math.round(transform.position.x - region.getRegionWidth()/2.0f),    // pozitia pe axa X
+            Math.round(transform.position.y - region.getRegionHeight()/2.0f),   // pozitia pe axa Y
             region.getRegionWidth()/2.0f,                           // originea pe axa X (am pus sa fie la mijloc)
             region.getRegionHeight()/2.0f,                          // originea pe axa Y (am pus sa fie la mijloc)
             region.getRegionWidth(),                                // latimea (o obtin din latimea texturii)
