@@ -13,3 +13,5 @@ Echipa **Castraveții**:
 ## Platforme
 
 - `Desktop` Singura platformă disponibilă pentru acest proiect
+
+[Tello Board](https://trello.com/b/ajE40KFc/saveac)
