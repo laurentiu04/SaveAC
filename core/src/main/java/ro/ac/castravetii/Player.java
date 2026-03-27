@@ -46,7 +46,7 @@ public final class Player {
         playerEntity.add(transform);
 
         TextureComponent text = new TextureComponent();
-        text.region = Services.textureAtlas.findRegion("castravete");
+        text.region = Services.textureAtlas.findRegion("rosie");
         playerEntity.add(text);
 
         PlayerComponent p = new PlayerComponent();
@@ -62,8 +62,7 @@ public final class Player {
         AnimationComponent anim = new AnimationComponent();
         anim.movingAnim = Utils.createAnimation(64, 0.055f, "castravete-moving");
         anim.idleSprite = text.region;
-//        System.out.println(anim.movingAnim);
-        playerEntity.add(anim);
+//        playerEntity.add(anim);
 
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);

@@ -77,7 +77,7 @@ public class Core implements ApplicationListener {
     @Override
     public void render() {
         // Curat ecranul inainte sa desenez noul frame
-        gl.glClearColor(0.396f, 0.333f, 0.380f, 1f);
+        gl.glClearColor(0.696f, 0.733f, 0.780f, 1f);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Services.batch.begin();
