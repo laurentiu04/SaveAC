@@ -36,10 +36,7 @@ public final class Services {
      */
     public static AssetManager assetManager;
 
-    /**
-     * Stari pentru animatii.
-     */
-
+    public static float cameraZoom = 2f;
 
     /**
      * Functie pentru eliminarea resurselor create

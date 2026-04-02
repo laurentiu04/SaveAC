@@ -4,10 +4,9 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -17,6 +16,8 @@ import static com.badlogic.gdx.Gdx.gl;
 public class Core implements ApplicationListener {
 
     BitmapFont font;
+    Sprite mapSprite;
+    Texture mapTexture;
 
     @Override
     public void create() {
@@ -32,12 +33,15 @@ public class Core implements ApplicationListener {
 
         // Creez o camera pentru player cu dimensiunile ecranului
         Services.camera = new OrthographicCamera(width, height);
+        Services.camera.zoom = 1 / Services.cameraZoom;
+        Services.camera.translate(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
 
         // Fac update la camera (nu stiu de ce trebuie, dar fac).
         Services.camera.update();
 
         // Creez batch-ul pentru sprite-uri.
         Services.batch = new SpriteBatch();
+        Services.batch.setProjectionMatrix(Services.camera.combined);
 
         // Incarc textura de castravete in assetManager.
         Services.assetManager = new AssetManager();
@@ -61,6 +65,10 @@ public class Core implements ApplicationListener {
         font = new BitmapFont();
         font.getData().setScale(1.2f);
         font.setColor(Color.SLATE);
+
+        mapTexture = new Texture(Utils.getInternalPath("map.png"));
+        mapSprite = new Sprite(mapTexture);
+        mapSprite.setPosition(Gdx.graphics.getWidth()/2f - mapSprite.getWidth()/2f, Gdx.graphics.getHeight()/2f - mapSprite.getHeight()/2f);
     }
 
     @Override
@@ -76,15 +84,23 @@ public class Core implements ApplicationListener {
 
     @Override
     public void render() {
+
         // Curat ecranul inainte sa desenez noul frame
         gl.glClearColor(0.696f, 0.733f, 0.780f, 1f);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Services.batch.begin();
+        mapSprite.draw(Services.batch);
+
         Services.engine.update(Gdx.graphics.getDeltaTime());
+
         String fpsText = "FPS: " + Gdx.graphics.getFramesPerSecond();
         font.draw(Services.batch, fpsText, 10, 1070);
+
         Services.batch.end();
+
+        Player.snapCamera();
+        Services.batch.setProjectionMatrix(Services.camera.combined);
 
     }
 

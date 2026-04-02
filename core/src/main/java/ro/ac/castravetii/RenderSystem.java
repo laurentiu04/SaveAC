@@ -63,14 +63,14 @@ public class RenderSystem extends IteratingSystem {
         // Desenez entitatea cu datele din componenta TransformComponent si TextureComponent
         Services.batch.draw(
             region,                                                 // regiunea texturii
-            Math.round(transform.position.x - region.getRegionWidth()/2.0f),    // pozitia pe axa X
-            Math.round(transform.position.y - region.getRegionHeight()/2.0f),   // pozitia pe axa Y
+            transform.position.x - region.getRegionWidth()/2.0f,    // pozitia pe axa X
+            transform.position.y - region.getRegionHeight()/2.0f,   // pozitia pe axa Y
             region.getRegionWidth()/2.0f,                           // originea pe axa X (am pus sa fie la mijloc)
             region.getRegionHeight()/2.0f,                          // originea pe axa Y (am pus sa fie la mijloc)
             region.getRegionWidth(),                                // latimea (o obtin din latimea texturii)
             region.getRegionHeight(),                               // inaltimea (o obtin din inaltimea texturii
-            transform.scale.x * direction,                          // scalare pe axa X
-            transform.scale.y,                                      // scalare pe axa Y
+            1f * direction,
+            1f,// scalare pe axa Y
             transform.rotation                                      // rotatie
         );
     }
