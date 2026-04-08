@@ -1,5 +1,8 @@
 package ro.ac.castravetii;
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import ro.ac.castravetii.components.*;
 // TODO: @Andrei Creare Enemy
 
 import com.badlogic.ashley.core.Entity;
@@ -18,7 +21,10 @@ import javax.print.DocFlavor;
 
 
 public class Enemy {
+
     private static Enemy INSTANCE = null;
+
+    TransformComponent enemyTC;
 
     //Singleton design pattern : create an Enemy object
     public Enemy  getInstance (){
@@ -35,9 +41,14 @@ public class Enemy {
         //Creating an Enemy entity
         Entity entityEnemy = Services.engine.createEntity();
 
+        enemyTC = new TransformComponent();
+        enemyTC.position.x = 300;
+        enemyTC.position.y = 300;
+        entityEnemy.add(enemyTC);
+
         //Creating texture component for my Enemy object
         TextureComponent texture = new TextureComponent();
-        texture.region = Services.textureAtlas.findRegion("boss"); //TODO fa design la enemy si adauga l aici .png
+        texture.region = Services.textureAtlas.findRegion("Pepper.png"); //TODO fa design la enemy si adauga l aici .png
         entityEnemy.add(texture);
 
         //Creating a new EnemyComponent with 2 attributes health & damage that are initialized
@@ -63,5 +74,15 @@ public class Enemy {
         entityEnemy.add(animation);
 
         Services.engine.addEntity(entityEnemy);
+    }
+
+    public static void snapEnemyCamera() {
+        Vector2 camPosEnemy = new Vector2(Services.camera.position.x, Services.camera.position.y);
+        Vector3 enemyPos = Enemy.INSTANCE.enemyTC.position;
+
+        if (!camPosEnemy.epsilonEquals(new Vector2(enemyPos.x, enemyPos.y + enemyPos.z))) {
+            Services.camera.position.lerp(new Vector3(enemyPos.x, enemyPos.y + enemyPos.z + 32, 0), 6f * Gdx.graphics.getDeltaTime());
+            Services.camera.update();
+        }
     }
 }
