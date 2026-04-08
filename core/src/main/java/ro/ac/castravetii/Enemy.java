@@ -3,6 +3,8 @@ package ro.ac.castravetii;
 // TODO: @Andrei Creare Enemy
 
 import com.badlogic.ashley.core.Entity;
+import ro.ac.castravetii.components.EnemyComponent;
+import ro.ac.castravetii.components.TextureComponent;
 
 // am nevoie ca al meu Enemy:
 /*

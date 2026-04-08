@@ -1,9 +1,12 @@
-package ro.ac.castravetii;
+package ro.ac.castravetii.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import ro.ac.castravetii.components.AnimationComponent;
+import ro.ac.castravetii.components.MovementComponent;
+import ro.ac.castravetii.components.TextureComponent;
 
 public class AnimationControlSystem extends IteratingSystem {
     ComponentMapper<AnimationComponent> am = ComponentMapper.getFor(AnimationComponent.class);

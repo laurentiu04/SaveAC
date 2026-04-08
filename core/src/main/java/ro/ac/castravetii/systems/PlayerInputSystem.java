@@ -1,4 +1,4 @@
-package ro.ac.castravetii;
+package ro.ac.castravetii.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -6,10 +6,16 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import ro.ac.castravetii.Services;
+import ro.ac.castravetii.components.MovementComponent;
+import ro.ac.castravetii.components.PlayerComponent;
+import ro.ac.castravetii.components.TextureComponent;
+import ro.ac.castravetii.components.TransformComponent;
 
 public class PlayerInputSystem extends IteratingSystem {
     ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
-
+    ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
+    ComponentMapper<TextureComponent> txm = ComponentMapper.getFor(TextureComponent.class);
 
     public PlayerInputSystem(int priority) {
         super(Family.one(PlayerComponent.class, MovementComponent.class).get(), priority);
@@ -23,7 +29,6 @@ public class PlayerInputSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         MovementComponent moveComp = mm.get(entity); // Iau componenta pentru Movement
-
 
         // Vad daca am apasat pe una dintre tastele W, A, S, D
         boolean keyPressedX = Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D);
@@ -53,7 +58,7 @@ public class PlayerInputSystem extends IteratingSystem {
 
         // Jos este acelasi lucru, numai ca pentru axa verticala
 
-        if (keyPressedY) {
+        if (keyPressedY && !moveComp.isFalling) {
             if ( !Gdx.input.isKeyPressed(Input.Keys.W) || !Gdx.input.isKeyPressed(Input.Keys.S)) {
                 moveComp.directionY = Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : -1;
             }
@@ -68,5 +73,5 @@ public class PlayerInputSystem extends IteratingSystem {
             }
         }
 
-        }
     }
+}

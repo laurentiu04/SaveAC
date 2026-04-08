@@ -1,4 +1,4 @@
-package ro.ac.castravetii;
+package ro.ac.castravetii.components;
 
 import com.badlogic.ashley.core.Component;
 

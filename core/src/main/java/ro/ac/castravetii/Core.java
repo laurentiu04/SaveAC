@@ -9,6 +9,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import ro.ac.castravetii.systems.AnimationControlSystem;
+import ro.ac.castravetii.systems.HitboxSystem;
+import ro.ac.castravetii.systems.MovementSystem;
+import ro.ac.castravetii.systems.RenderSystem;
 
 import static com.badlogic.gdx.Gdx.gl;
 
@@ -34,7 +39,7 @@ public class Core implements ApplicationListener {
         // Creez o camera pentru player cu dimensiunile ecranului
         Services.camera = new OrthographicCamera(width, height);
         Services.camera.zoom = 1 / Services.cameraZoom;
-        Services.camera.translate(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
+//        Services.camera.translate(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
 
         // Fac update la camera (nu stiu de ce trebuie, dar fac).
         Services.camera.update();
@@ -42,6 +47,9 @@ public class Core implements ApplicationListener {
         // Creez batch-ul pentru sprite-uri.
         Services.batch = new SpriteBatch();
         Services.batch.setProjectionMatrix(Services.camera.combined);
+
+        Services.shapeRenderer = new ShapeRenderer();
+        Services.shapeRenderer.setProjectionMatrix(Services.camera.combined);
 
         // Incarc textura de castravete in assetManager.
         Services.assetManager = new AssetManager();
@@ -51,9 +59,9 @@ public class Core implements ApplicationListener {
         // Ii bag un sistem de randare care se ocupa cu randarea tuturor entitatilor
         Services.engine.addSystem(new RenderSystem());
         // Adaug si sistemul de miscare
-        Services.engine.addSystem(new MovementSystem());
-        Services.engine.addSystem(new PlayerInputSystem(0));
+        Services.engine.addSystem(new MovementSystem(2));
         Services.engine.addSystem(new AnimationControlSystem());
+        Services.engine.addSystem(new HitboxSystem());
 
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
@@ -66,9 +74,7 @@ public class Core implements ApplicationListener {
         font.getData().setScale(1.2f);
         font.setColor(Color.SLATE);
 
-        mapTexture = new Texture(Utils.getInternalPath("map.png"));
-        mapSprite = new Sprite(mapTexture);
-        mapSprite.setPosition(Gdx.graphics.getWidth()/2f - mapSprite.getWidth()/2f, Gdx.graphics.getHeight()/2f - mapSprite.getHeight()/2f);
+        MapGenerator.createMap();
     }
 
     @Override
@@ -90,14 +96,10 @@ public class Core implements ApplicationListener {
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Services.batch.begin();
-        mapSprite.draw(Services.batch);
+        MapGenerator.render();
+        Services.batch.end();
 
         Services.engine.update(Gdx.graphics.getDeltaTime());
-
-        String fpsText = "FPS: " + Gdx.graphics.getFramesPerSecond();
-        font.draw(Services.batch, fpsText, 10, 1070);
-
-        Services.batch.end();
 
         Player.snapCamera();
         Services.batch.setProjectionMatrix(Services.camera.combined);
@@ -119,6 +121,7 @@ public class Core implements ApplicationListener {
         // Fac dispose la tot ce am creat, ii gen delete() din C
         Services.dispose();
         font.dispose();
+        MapGenerator.disposeMap();
     }
 
 }

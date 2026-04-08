@@ -1,10 +1,9 @@
-package ro.ac.castravetii;
+package ro.ac.castravetii.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureComponent implements Component {
     public TextureRegion region;
-    public boolean flippedX = false;
+    public int layerIndex = 0;
 }

@@ -4,6 +4,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import ro.ac.castravetii.components.*;
+import ro.ac.castravetii.systems.PlayerInputSystem;
 
 /**
  * Container singleton pentru entitatea player
@@ -23,6 +25,7 @@ public final class Player {
     PlayerComponent playerComponent;
     MovementComponent movementComponent;
     AnimationComponent animationComponent;
+    ColliderComponent rectHitboxComponent;
 
     /**
      * Constructor ascuns
@@ -33,11 +36,8 @@ public final class Player {
 
         // Creez componente pentru player si le atasez la entitate.
         transformComponent = new TransformComponent();
-        transformComponent.position = new Vector2(
-            Services.camera.viewportWidth/2f,
-            Services.camera.viewportHeight/2f
-        );
-
+        transformComponent.position.x = 300;
+        transformComponent.position.y = 300;
         playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
@@ -58,6 +58,16 @@ public final class Player {
         animationComponent.movingAnim = Utils.createAnimation(64, 0.045f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);
+
+        rectHitboxComponent = new ColliderComponent();
+        rectHitboxComponent.height = 45f;
+        rectHitboxComponent.with = 20f;
+        rectHitboxComponent.offsetX = -rectHitboxComponent.with/2;
+        rectHitboxComponent.offsetY = 14f;
+        rectHitboxComponent.shape = ColliderShape.ELLIPSE;
+        playerEntity.add(rectHitboxComponent);
+
+        Services.engine.addSystem(new PlayerInputSystem(1));
 
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);
@@ -80,14 +90,11 @@ public final class Player {
 
     public static void snapCamera() {
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);
-        Vector2 playerPos = Player.INSTANCE.transformComponent.position;
+        Vector3 playerPos = Player.INSTANCE.transformComponent.position;
 
-        if (!camPos.epsilonEquals(playerPos)) {
-            Services.camera.position.lerp(new Vector3(playerPos.x, playerPos.y, 0), 6f * Gdx.graphics.getDeltaTime());
+        if (!camPos.epsilonEquals(new Vector2(playerPos.x, playerPos.y + playerPos.z))) {
+            Services.camera.position.lerp(new Vector3(playerPos.x, playerPos.y + playerPos.z + 32, 0), 6f * Gdx.graphics.getDeltaTime());
             Services.camera.update();
-
-            System.out.println("Player pos: " + playerPos);
-            System.out.println("Camera pos: " + camPos);
         }
     }
 }
