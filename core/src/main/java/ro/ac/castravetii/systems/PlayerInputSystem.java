@@ -18,7 +18,7 @@ public class PlayerInputSystem extends IteratingSystem {
     ComponentMapper<TextureComponent> txm = ComponentMapper.getFor(TextureComponent.class);
 
     public PlayerInputSystem(int priority) {
-        super(Family.one(PlayerComponent.class, MovementComponent.class).get(), priority);
+        super(Family.all(PlayerComponent.class, MovementComponent.class).get(), priority);
     }
 
     @Override

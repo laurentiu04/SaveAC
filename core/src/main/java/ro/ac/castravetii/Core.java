@@ -68,7 +68,9 @@ public class Core implements ApplicationListener {
         // Creez un player
         Player.create();
         // Testez daca functioneaza singleton-ul clasei player
-        Player.create();
+        Enemy enemy = Enemy.getInstance();
+
+
 
         font = new BitmapFont();
         font.getData().setScale(1.2f);

@@ -31,7 +31,7 @@ public class RenderSystem extends SortedIteratingSystem {
                     TransformComponent t1 = ComponentMapper.getFor(TransformComponent.class).get(o1);
                     TransformComponent t2 = ComponentMapper.getFor(TransformComponent.class).get(o2);
 
-                    return (int)(t1.position.y - t2.position.y);
+                    return (int)(t2.position.y - t1.position.y);
                 }
             }
         );

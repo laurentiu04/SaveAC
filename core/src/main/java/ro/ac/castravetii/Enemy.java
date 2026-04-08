@@ -27,11 +27,14 @@ public class Enemy {
     TransformComponent enemyTC;
 
     //Singleton design pattern : create an Enemy object
-    public Enemy  getInstance (){
+
+    public static Enemy getInstance (){
         //If enemy was not created then create an enemy
         if(INSTANCE == null) {
             INSTANCE = new Enemy();
         }
+
+
 
         return INSTANCE;
     }
@@ -42,13 +45,13 @@ public class Enemy {
         Entity entityEnemy = Services.engine.createEntity();
 
         enemyTC = new TransformComponent();
-        enemyTC.position.x = 300;
-        enemyTC.position.y = 300;
+        enemyTC.position.x = 400;
+        enemyTC.position.y = 400;
         entityEnemy.add(enemyTC);
 
         //Creating texture component for my Enemy object
         TextureComponent texture = new TextureComponent();
-        texture.region = Services.textureAtlas.findRegion("Pepper.png"); //TODO fa design la enemy si adauga l aici .png
+        texture.region = Services.textureAtlas.findRegion("Pepper"); //TODO fa design la enemy si adauga l aici .png
         entityEnemy.add(texture);
 
         //Creating a new EnemyComponent with 2 attributes health & damage that are initialized
@@ -67,11 +70,11 @@ public class Enemy {
         entityEnemy.add(movement);
 
         //Added new AnimationComponent for my Enemy : that AnimationComponent is responsible for visual effects of Enemy design
-        AnimationComponent animation = new AnimationComponent();
-        animation.movingAnim = Utils.createAnimation(64,0.045f, "nume_enemy_animatie"); // adaugi animatia la enemy si i modifici parametrii ;
-        // ATENTIE FRAMESIZE TREBUIE SA AIBA ACELEASI DIMENSIUNI CA DESIGN UL INITIAL PE CARE L FOLOSESTI IN texture.region
-        animation.idleSprite = texture.region;
-        entityEnemy.add(animation);
+//        AnimationComponent animation = new AnimationComponent();
+//        animation.movingAnim = Utils.createAnimation(64,0.045f, "nume_enemy_animatie"); // adaugi animatia la enemy si i modifici parametrii ;
+//        // ATENTIE FRAMESIZE TREBUIE SA AIBA ACELEASI DIMENSIUNI CA DESIGN UL INITIAL PE CARE L FOLOSESTI IN texture.region
+//        animation.idleSprite = texture.region;
+//        entityEnemy.add(animation);
 
         Services.engine.addEntity(entityEnemy);
     }
