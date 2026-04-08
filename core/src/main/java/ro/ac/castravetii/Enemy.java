@@ -4,6 +4,8 @@ package ro.ac.castravetii;
 
 import com.badlogic.ashley.core.Entity;
 
+import javax.print.DocFlavor;
+
 // am nevoie ca al meu Enemy:
 /*
     - sa fie creat (import design ul de l am facut pentru Enemy)
@@ -11,26 +13,53 @@ import com.badlogic.ashley.core.Entity;
     - sistem de orientare (este deja implementat MovementComponent \ System)
     - am nevoie de animatie
  */
+
+
 public class Enemy {
+    private static Enemy INSTANCE = null;
+
+    //Singleton design pattern : create an Enemy object
+    public Enemy  getInstance (){
+        //If enemy was not created then create an enemy
+        if(INSTANCE == null) {
+            INSTANCE = new Enemy();
+        }
+
+        return INSTANCE;
+    }
     // Private hidden constructor
-    private Enemy() {}
+    private Enemy() {
 
-    public static Entity create(){
+        //Creating an Enemy entity
+        Entity entityEnemy = Services.engine.createEntity();
 
-        //creez o entitate pentru enemy
-        Entity entity = Services.engine.createEntity();
-
-        //adaug o textura in entitatea mea enemy
+        //Creating texture component for my Enemy object
         TextureComponent texture = new TextureComponent();
-        texture.region = Services.textureAtlas.findRegion("castravetii");
-        entity.add(texture);
+        texture.region = Services.textureAtlas.findRegion("boss"); //TODO fa design la enemy si adauga l aici .png
+        entityEnemy.add(texture);
 
-        //componenta mea enemy care initializeaza campurile health si damage
+        //Creating a new EnemyComponent with 2 attributes health & damage that are initialized
         EnemyComponent enemyC = new EnemyComponent();
         enemyC.health = 100;
         enemyC.damage = 20;
-        entity.add(enemyC);
+        entityEnemy.add(enemyC);
 
-        return entity;
+        //MovementComponent for Enemy : The attributes are going to have smaller values because I want my Enemy to be slower than Player
+        //TODO pentru viitor pot implementa o functie care sa adapteze movement ul in timp real
+        //TODO astfel incat enemy sa poata "sa" primeasca un upgrade cand Player a primit si el upgrade
+        MovementComponent movement = new MovementComponent();
+        movement.max_vel = 100f;
+        movement.acceleration = movement.max_vel * 0.05f; //5 % from max_vel
+        movement.deceleration = movement.max_vel * 0.03f; //3 % from max_vel
+        entityEnemy.add(movement);
+
+        //Added new AnimationComponent for my Enemy : that AnimationComponent is responsible for visual effects of Enemy design
+        AnimationComponent animation = new AnimationComponent();
+        animation.movingAnim = Utils.createAnimation(64,0.045f, "nume_enemy_animatie"); // adaugi animatia la enemy si i modifici parametrii ;
+        // ATENTIE FRAMESIZE TREBUIE SA AIBA ACELEASI DIMENSIUNI CA DESIGN UL INITIAL PE CARE L FOLOSESTI IN texture.region
+        animation.idleSprite = texture.region;
+        entityEnemy.add(animation);
+
+        Services.engine.addEntity(entityEnemy);
     }
 }
