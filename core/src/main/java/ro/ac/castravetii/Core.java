@@ -6,14 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import ro.ac.castravetii.systems.AnimationControlSystem;
-import ro.ac.castravetii.systems.HitboxSystem;
-import ro.ac.castravetii.systems.MovementSystem;
-import ro.ac.castravetii.systems.RenderSystem;
+import ro.ac.castravetii.systems.*;
 
 import static com.badlogic.gdx.Gdx.gl;
 
@@ -21,8 +17,6 @@ import static com.badlogic.gdx.Gdx.gl;
 public class Core implements ApplicationListener {
 
     BitmapFont font;
-    Sprite mapSprite;
-    Texture mapTexture;
 
     @Override
     public void create() {
@@ -62,6 +56,7 @@ public class Core implements ApplicationListener {
         Services.engine.addSystem(new MovementSystem(2));
         Services.engine.addSystem(new AnimationControlSystem());
         Services.engine.addSystem(new HitboxSystem());
+        Services.engine.addSystem(new HealthbarSystem());
 
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
@@ -103,7 +98,7 @@ public class Core implements ApplicationListener {
 
         Player.snapCamera();
         Services.batch.setProjectionMatrix(Services.camera.combined);
-
+        Services.shapeRenderer.setProjectionMatrix(Services.camera.combined);
     }
 
     @Override
