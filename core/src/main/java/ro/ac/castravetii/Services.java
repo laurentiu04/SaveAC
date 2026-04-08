@@ -5,6 +5,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 /**
  * Clasa creata pentru toate variabilele ce ar trebui accesate global in proiect
@@ -37,6 +39,12 @@ public final class Services {
     public static AssetManager assetManager;
 
     public static float cameraZoom = 3f;
+    public static float gravity = 7.67f;
+
+    public static OrthogonalTiledMapRenderer tilemapRenderer;
+
+    // Acest ShapeRenderer este pentru desenarea hitbox-urilor.
+    public static ShapeRenderer shapeRenderer;
 
     /**
      * Functie pentru eliminarea resurselor create
@@ -46,5 +54,4 @@ public final class Services {
         if (textureAtlas != null) textureAtlas.dispose();
         if (assetManager != null) assetManager.dispose();
     }
-
 }

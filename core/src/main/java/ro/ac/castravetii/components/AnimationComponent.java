@@ -1,19 +1,8 @@
-package ro.ac.castravetii;
+package ro.ac.castravetii.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-/**
- * Stari posibile pentru o animatie
- */
-enum AnimState {
-    IDLE,
-    MOVING,
-    ATTACKING,
-    DYING,
-    TAKE_DAMAGE
-}
 
 /**
  * Componenta pentru a stoca animatiile unei entitati.
