@@ -4,8 +4,8 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import ro.ac.castravetii.Services;
@@ -35,8 +35,8 @@ public class HitboxSystem extends IteratingSystem {
             Vector2 newHitboxPos = new Vector2(position.x + collider.offsetX, position.y + position.z + collider.offsetY);
 
             if (collider.show) {
-                Services.shapeRenderer.setProjectionMatrix(Services.camera.combined);
                 Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                Services.shapeRenderer.setColor(Color.WHITE);
                 if (collider.shape == ColliderShape.BOX) {
                     Services.shapeRenderer.rect(newHitboxPos.x, newHitboxPos.y, collider.with, collider.height);
                 } else {

@@ -25,7 +25,8 @@ public final class Player {
     PlayerComponent playerComponent;
     MovementComponent movementComponent;
     AnimationComponent animationComponent;
-    ColliderComponent rectHitboxComponent;
+    ColliderComponent colliderComponent;
+    HealthComponent healthComponent;
 
     /**
      * Constructor ascuns
@@ -45,7 +46,6 @@ public final class Player {
         playerEntity.add(textureComponent);
 
         playerComponent = new PlayerComponent();
-        playerComponent.health = 250;
         playerEntity.add(playerComponent);
 
         movementComponent = new MovementComponent();
@@ -59,13 +59,18 @@ public final class Player {
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);
 
-        rectHitboxComponent = new ColliderComponent();
-        rectHitboxComponent.height = 45f;
-        rectHitboxComponent.with = 20f;
-        rectHitboxComponent.offsetX = -rectHitboxComponent.with/2;
-        rectHitboxComponent.offsetY = 14f;
-        rectHitboxComponent.shape = ColliderShape.ELLIPSE;
-        playerEntity.add(rectHitboxComponent);
+        colliderComponent = new ColliderComponent();
+        colliderComponent.height = 45f;
+        colliderComponent.with = 20f;
+        colliderComponent.offsetX = -colliderComponent.with/2;
+        colliderComponent.offsetY = 14f;
+        colliderComponent.shape = ColliderShape.ELLIPSE;
+//        colliderComponent.show = false;
+        playerEntity.add(colliderComponent);
+
+        healthComponent = new HealthComponent();
+//        healthComponent.showHealthbar = false;
+        playerEntity.add(healthComponent);
 
         Services.engine.addSystem(new PlayerInputSystem(1));
 
