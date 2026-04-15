@@ -14,7 +14,7 @@ public final class Player {
     /**
      * Variabila pentru a verifica daca a fost instantiata clasa player
      */
-    private static Player INSTANCE = null;
+    public static Player INSTANCE = null;
     /**
      * Variabila pentru componenta de transform. O declar aici ca sa o pot accesa din snapCamera();
      */
@@ -60,10 +60,10 @@ public final class Player {
         playerEntity.add(animationComponent);
 
         colliderComponent = new ColliderComponent();
-        colliderComponent.height = 45f;
-        colliderComponent.with = 20f;
+        colliderComponent.height = 43f;
+        colliderComponent.with = 18f;
         colliderComponent.offsetX = -colliderComponent.with/2;
-        colliderComponent.offsetY = 14f;
+        colliderComponent.offsetY = 15f;
         colliderComponent.shape = ColliderShape.ELLIPSE;
 //        colliderComponent.show = false;
         playerEntity.add(colliderComponent);
@@ -101,5 +101,21 @@ public final class Player {
             Services.camera.position.lerp(new Vector3(playerPos.x, playerPos.y + playerPos.z + 32, 0), 6f * Gdx.graphics.getDeltaTime());
             Services.camera.update();
         }
+    }
+
+    public int getHealth() {
+        return healthComponent.currentHealth;
+    }
+
+    public int getMaxHealth() {
+        return healthComponent.maxHealth;
+    }
+
+    public void takeDamage(int amount) {
+        healthComponent.currentHealth -= amount;
+    }
+
+    public void heal(int amount) {
+        healthComponent.currentHealth += amount;
     }
 }

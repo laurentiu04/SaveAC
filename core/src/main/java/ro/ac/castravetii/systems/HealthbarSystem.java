@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.HealthComponent;
+import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TransformComponent;
 
 
@@ -17,12 +18,7 @@ public class HealthbarSystem extends IteratingSystem {
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
 
     public HealthbarSystem() {
-        super(Family.all(HealthComponent.class).get());
-    }
-
-    @Override
-    public void update(float delta) {
-        super.update(delta);
+        super(Family.all(HealthComponent.class).exclude(PlayerComponent.class) .get());
     }
 
     @Override

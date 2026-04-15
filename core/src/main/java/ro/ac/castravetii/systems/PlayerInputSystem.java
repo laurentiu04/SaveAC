@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TextureComponent;
@@ -14,16 +13,9 @@ import ro.ac.castravetii.components.TransformComponent;
 
 public class PlayerInputSystem extends IteratingSystem {
     ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
-    ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
-    ComponentMapper<TextureComponent> txm = ComponentMapper.getFor(TextureComponent.class);
 
     public PlayerInputSystem(int priority) {
-        super(Family.one(PlayerComponent.class, MovementComponent.class).get(), priority);
-    }
-
-    @Override
-    public void update(float delta) {
-        super.update(delta);
+        super(Family.all(PlayerComponent.class, MovementComponent.class).get(), priority);
     }
 
     @Override

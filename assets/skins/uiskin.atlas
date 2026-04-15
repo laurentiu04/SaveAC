@@ -1,0 +1,23 @@
+
+uiskin.png
+size: 128, 128
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+healthbar_bg
+  rotate: false
+  xy: 1, 63
+  size: 96, 32
+  split: 4, 4, 12, 12
+  pad: 3, 3, 11, 10
+  orig: 96, 32
+  offset: 0, 0
+  index: -1
+healthbar_fill
+  rotate: false
+  xy: 1, 29
+  size: 91, 32
+  split: 3, 2, 13, 13
+  orig: 91, 32
+  offset: 0, 0
+  index: -1

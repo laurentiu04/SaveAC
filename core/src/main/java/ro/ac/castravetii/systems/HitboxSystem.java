@@ -22,11 +22,6 @@ public class HitboxSystem extends IteratingSystem {
     }
 
     @Override
-    public void update(float delta) {
-        super.update(delta);
-    }
-
-    @Override
     protected void processEntity(Entity entity, float deltaTime) {
         ColliderComponent collider = bcm.get(entity);
         Vector3 position = tm.get(entity).position;

@@ -1,58 +1,18 @@
 package ro.ac.castravetii;
 
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.Game;
+import ro.ac.castravetii.screens.GameScreen;
 import ro.ac.castravetii.systems.*;
 
-import static com.badlogic.gdx.Gdx.gl;
-
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Core implements ApplicationListener {
-
-    BitmapFont font;
+public class Core extends Game {
 
     @Override
     public void create() {
 
         // >>>>>>>>>>>>>>>>>>>>>> SETUP INITAL <<<<<<<<<<<<<<<<<<<<<<<< //
+        Services.init();
 
-        // Setez atlasul pentru texturi
-        Services.textureAtlas = new TextureAtlas("atlas/textures.atlas");
-
-        // Iau dimensiunile ecranului
-        float width = Gdx.graphics.getWidth();
-        float height = Gdx.graphics.getHeight();
-
-        // Creez o camera pentru player cu dimensiunile ecranului
-        Services.camera = new OrthographicCamera(width, height);
-        Services.camera.zoom = 1 / Services.cameraZoom;
-//        Services.camera.translate(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
-
-        // Fac update la camera (nu stiu de ce trebuie, dar fac).
-        Services.camera.update();
-
-        // Creez batch-ul pentru sprite-uri.
-        Services.batch = new SpriteBatch();
-        Services.batch.setProjectionMatrix(Services.camera.combined);
-
-        Services.shapeRenderer = new ShapeRenderer();
-        Services.shapeRenderer.setProjectionMatrix(Services.camera.combined);
-
-        // Incarc textura de castravete in assetManager.
-        Services.assetManager = new AssetManager();
-
-        // Creez engine-ul care o sa se ocupe de gestionarea sistemelor si al entitatilor
-        Services.engine = new PooledEngine();
-        // Ii bag un sistem de randare care se ocupa cu randarea tuturor entitatilor
-        Services.engine.addSystem(new RenderSystem());
-        // Adaug si sistemul de miscare
+        Services.engine.addSystem(new RenderSystem()); // Render system pentru entitati
         Services.engine.addSystem(new MovementSystem(2));
         Services.engine.addSystem(new AnimationControlSystem());
         Services.engine.addSystem(new HitboxSystem());
@@ -60,45 +20,16 @@ public class Core implements ApplicationListener {
 
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
-        // Creez un player
-        Player.create();
-        // Testez daca functioneaza singleton-ul clasei player
-        Player.create();
 
-        font = new BitmapFont();
-        font.getData().setScale(1.2f);
-        font.setColor(Color.SLATE);
 
-        MapGenerator.createMap();
-    }
+        this.setScreen(new GameScreen(this));
 
-    @Override
-    public void resize(int width, int height) {
-
-        // Cand se modifica dimensiunea ferestrei, modific si dimensiunea vederii camerei.
-        Services.camera.viewportWidth = width;
-        Services.camera.viewportHeight = height;
-
-        // Fac update la camera ca sa ia noile dimensiuni
-        Services.camera.update();
     }
 
     @Override
     public void render() {
 
-        // Curat ecranul inainte sa desenez noul frame
-        gl.glClearColor(0.696f, 0.733f, 0.780f, 1f);
-        gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        Services.batch.begin();
-        MapGenerator.render();
-        Services.batch.end();
-
-        Services.engine.update(Gdx.graphics.getDeltaTime());
-
-        Player.snapCamera();
-        Services.batch.setProjectionMatrix(Services.camera.combined);
-        Services.shapeRenderer.setProjectionMatrix(Services.camera.combined);
+        super.render();
     }
 
     @Override
@@ -114,9 +45,7 @@ public class Core implements ApplicationListener {
     @Override
         public void dispose() {
         // Fac dispose la tot ce am creat, ii gen delete() din C
-        Services.dispose();
-        font.dispose();
-        MapGenerator.disposeMap();
+        Services.font.dispose();
     }
 
 }
