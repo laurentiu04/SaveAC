@@ -14,7 +14,7 @@ public final class Player {
     /**
      * Variabila pentru a verifica daca a fost instantiata clasa player
      */
-    public static Player INSTANCE = null;
+    private static Player INSTANCE = null;
     /**
      * Variabila pentru componenta de transform. O declar aici ca sa o pot accesa din snapCamera();
      */
@@ -27,6 +27,10 @@ public final class Player {
     AnimationComponent animationComponent;
     ColliderComponent colliderComponent;
     HealthComponent healthComponent;
+
+    public XPSystem xpSystem;
+
+    StatsListener listener;
 
     /**
      * Constructor ascuns
@@ -75,24 +79,27 @@ public final class Player {
 
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);
+
+        xpSystem = new XPSystem();
     }
 
     /**
      * Metoda pentru crearea instantei singleton a clasei Player.
      */
     @SuppressWarnings("UnusedReturnValue")
-    public static void create() {
+    public static Player create() {
 
         // Daca a fost creat deja un player, intoarce null.
         if (INSTANCE != null) {
-            return;
+            return null;
         }
 
         // Marchez crearea player-ului.
         INSTANCE = new Player();
+        return INSTANCE;
     }
 
-    public static void snapCamera() {
+    public void snapCamera() {
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);
         Vector3 playerPos = Player.INSTANCE.transformComponent.position;
 
@@ -100,6 +107,13 @@ public final class Player {
             Services.camera.position.lerp(new Vector3(playerPos.x, playerPos.y + playerPos.z + 32, 0), 6f * Gdx.graphics.getDeltaTime());
             Services.camera.update();
         }
+    }
+
+    public void setListener(StatsListener listener) {
+        this.listener = listener;
+
+        listener.onHealthChange();
+        listener.onXpChange();
     }
 
     public int getHealth() {
@@ -110,11 +124,33 @@ public final class Player {
         return healthComponent.maxHealth;
     }
 
+    public void setMaxHealth(int amount) {
+        healthComponent.maxHealth = amount;
+        if (listener != null) {
+            listener.onHealthChange();
+        }
+    }
+
     public void takeDamage(int amount) {
+
         healthComponent.currentHealth -= amount;
+        if (listener != null) {
+            listener.onHealthChange();
+            System.out.println("Listener notified.");
+        }
     }
 
     public void heal(int amount) {
         healthComponent.currentHealth += amount;
+        if (listener != null) {
+            listener.onHealthChange();
+        }
+    }
+
+    public void gainXP(int amount) {
+        xpSystem.addXP(amount);
+        if (listener != null) {
+            listener.onXpChange();
+        }
     }
 }
