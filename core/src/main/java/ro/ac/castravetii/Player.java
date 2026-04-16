@@ -65,11 +65,10 @@ public final class Player {
         colliderComponent.offsetX = -colliderComponent.with/2;
         colliderComponent.offsetY = 15f;
         colliderComponent.shape = ColliderShape.ELLIPSE;
-//        colliderComponent.show = false;
         playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();
-//        healthComponent.showHealthbar = false;
+        healthComponent.currentHealth = 100;
         playerEntity.add(healthComponent);
 
         Services.engine.addSystem(new PlayerInputSystem(1));

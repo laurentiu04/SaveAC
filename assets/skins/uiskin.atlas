@@ -1,23 +1,40 @@
 
 uiskin.png
-size: 128, 128
+size: 256, 256
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
 healthbar_bg
   rotate: false
-  xy: 1, 63
-  size: 96, 32
-  split: 4, 4, 12, 12
-  pad: 3, 3, 11, 10
-  orig: 96, 32
+  xy: 1, 179
+  size: 128, 64
+  split: 13, 13, 25, 25
+  pad: 6, 8, 20, 18
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
+xpbar_bg.9
+  rotate: false
+  xy: 1, 179
+  size: 128, 64
+  split: 13, 13, 25, 25
+  pad: 6, 8, 20, 18
+  orig: 128, 64
   offset: 0, 0
   index: -1
 healthbar_fill
   rotate: false
-  xy: 1, 29
-  size: 91, 32
-  split: 3, 2, 13, 13
-  orig: 91, 32
+  xy: 131, 217
+  size: 114, 26
+  split: 5, 3, 3, 5
+  orig: 114, 26
+  offset: 0, 0
+  index: -1
+xpbar_fill
+  rotate: false
+  xy: 1, 127
+  size: 114, 50
+  split: 5, 3, 15, 17
+  orig: 114, 50
   offset: 0, 0
   index: -1

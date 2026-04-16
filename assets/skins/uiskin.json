@@ -1,50 +1,68 @@
 {
-  "com.badlogic.gdx.graphics.Color": {
-    "RGBA_0_0_0_255": {
-      "r": 0,
-      "g": 0,
-      "b": 0,
-      "a": 1
-    },
-    "RGBA_164_55_55_255": {
-      r: 0.6431373
-      g: 0.21568628
-      b: 0.21568628
-      a: 1
-    }
-  }
-  "com.ray3k.tenpatch.TenPatchDrawable": {
-    "healthbar_fill_10": {
-      "region": "healthbar_fill"
-      "horizontalStretchAreas": [
-        3,
-        88
-      ]
-      "verticalStretchAreas": [
-        13,
-        18
-      ]
-      "tiling": false
-      "minWidth": 91
-      "minHeight": 32
-      "rightWidth": 3
-      "leftWidth": 4
-      "bottomHeight": 14
-      "topHeight": 14
-      "offsetX": 0
-      "offsetY": 0
-      "offsetXspeed": 0
-      "offsetYspeed": 0
-      "frameDuration": 0.03
-      "regions": []
-      "playMode": 2
-      "crushMode": 0
-    }
-  }
-  "com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle": {
-    "default-horizontal": {
-      background: healthbar_bg
-      knobBefore: healthbar_fill_10
-    }
-  }
+"Color": {
+	"RGBA_0_0_0_255": {
+		"r": 0,
+		"g": 0,
+		"b": 0,
+		"a": 1
+	},
+	"RGBA_164_55_55_255": {
+		"r": 0.6431373,
+		"g": 0.21568628,
+		"b": 0.21568628,
+		"a": 1
+	}
+},
+"com.ray3k.tenpatch.TenPatchDrawable": {
+	"xpbar_fill_10": {
+		"region": "xpbar_fill",
+		"horizontalStretchAreas": [ 5, 110 ],
+		"verticalStretchAreas": [ 17, 34 ],
+		"tiling": false,
+		"minWidth": 114,
+		"minHeight": 50,
+		"rightWidth": 4,
+		"leftWidth": 6,
+		"bottomHeight": 18,
+		"topHeight": 16,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"healthbar_fill_10": {
+		"region": "healthbar_fill",
+		"horizontalStretchAreas": [ 5, 110 ],
+		"verticalStretchAreas": [ 5, 22 ],
+		"tiling": false,
+		"minWidth": 114,
+		"minHeight": 26,
+		"rightWidth": 4,
+		"leftWidth": 6,
+		"bottomHeight": 6,
+		"topHeight": 4,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	}
+},
+"ProgressBarStyle": {
+	"xpbar": {
+		"background": "xpbar_bg.9",
+		"knobBefore": "xpbar_fill_10"
+	},
+	"healthbar": {
+		"background": "healthbar_bg",
+		"knobBefore": "healthbar_fill_10"
+	}
+}
 }

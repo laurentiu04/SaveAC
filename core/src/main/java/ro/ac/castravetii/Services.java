@@ -52,7 +52,7 @@ public final class Services {
     public static ShapeRenderer shapeRenderer;
 
     public static BitmapFont font;
-    public static float uiScale = 2f;
+    public static float uiScale = 1f;
     public static Skin skin;
 
     /**
@@ -87,7 +87,7 @@ public final class Services {
         params.size = 16;
         params.shadowOffsetX = 1;
         params.shadowOffsetY = 1;
-        params.shadowColor = new Color(0, 0, 0, 0.7f); // black, semi-transparent
+        params.shadowColor = new Color(0, 0, 0, 0.9f); // black, semi-transparent
 
         font = generator.generateFont(params);
         font.setColor(Color.SLATE);
