@@ -13,6 +13,9 @@ public class GameScreen implements Screen {
     private final Game game;
     private HUD hud;
     private Player player;
+    private MapGenerator mapGen;
+    private final int MAP_WIDTH = 50;
+    private final int MAP_HEIGHT = 50;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -20,7 +23,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        MapGenerator.createMap();
+        mapGen = new MapGenerator();
+        mapGen.createMap(MAP_WIDTH, MAP_HEIGHT, 32);
 
         player = Player.create();
 
@@ -39,6 +43,8 @@ public class GameScreen implements Screen {
                 hud.updateHealthBar(player.getHealth(), player.getMaxHealth());
             }
         });
+
+        Services.setCameraLimits(MAP_WIDTH, MAP_HEIGHT);
     }
 
     @Override
@@ -49,7 +55,7 @@ public class GameScreen implements Screen {
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Services.batch.begin();
-        MapGenerator.render();
+        mapGen.render();
         Services.batch.end();
 
         Services.engine.update(Gdx.graphics.getDeltaTime());
@@ -62,7 +68,6 @@ public class GameScreen implements Screen {
 
         hud.render();
 
-        player.gainXP(20);
     }
 
     @Override
@@ -94,7 +99,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        MapGenerator.disposeMap();
+        mapGen.dispose();
         Services.dispose();
         hud.dispose();
     }

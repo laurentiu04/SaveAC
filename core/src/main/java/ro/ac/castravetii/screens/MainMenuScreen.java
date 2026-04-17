@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MainMenuScreen implements Screen {
 
+    // TODO: de facut meniu de inceput, frumos, cu butoane si toate cele
+
     private final Game game;
     private Stage stage;
 

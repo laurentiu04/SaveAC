@@ -45,7 +45,7 @@ public class Core extends Game {
     @Override
         public void dispose() {
         // Fac dispose la tot ce am creat, ii gen delete() din C
-        Services.font.dispose();
+        Services.font20.dispose();
     }
 
 }

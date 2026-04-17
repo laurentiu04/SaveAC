@@ -14,37 +14,37 @@
 	}
 },
 "com.ray3k.tenpatch.TenPatchDrawable": {
-	"xpbar_fill_10": {
-		"region": "xpbar_fill",
-		"horizontalStretchAreas": [ 5, 110 ],
-		"verticalStretchAreas": [ 17, 34 ],
-		"tiling": false,
-		"minWidth": 114,
-		"minHeight": 50,
-		"rightWidth": 4,
-		"leftWidth": 6,
-		"bottomHeight": 18,
-		"topHeight": 16,
-		"offsetX": 0,
-		"offsetY": 0,
-		"offsetXspeed": 0,
-		"offsetYspeed": 0,
-		"frameDuration": 0.03,
-		"regions": [],
-		"playMode": 2,
-		"crushMode": 0
-	},
 	"healthbar_fill_10": {
 		"region": "healthbar_fill",
 		"horizontalStretchAreas": [ 5, 110 ],
 		"verticalStretchAreas": [ 5, 22 ],
 		"tiling": false,
-		"minWidth": 114,
-		"minHeight": 26,
-		"rightWidth": 4,
+		"minWidth": 116,
+		"minHeight": 28,
+		"rightWidth": 6,
 		"leftWidth": 6,
 		"bottomHeight": 6,
-		"topHeight": 4,
+		"topHeight": 6,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 1
+	},
+	"xpbar_fill_10": {
+		"region": "xpbar_fill",
+		"horizontalStretchAreas": [ 5, 110 ],
+		"verticalStretchAreas": [ 5, 22 ],
+		"tiling": false,
+		"minWidth": 116,
+		"minHeight": 28,
+		"rightWidth": 6,
+		"leftWidth": 6,
+		"bottomHeight": 6,
+		"topHeight": 6,
 		"offsetX": 0,
 		"offsetY": 0,
 		"offsetXspeed": 0,
@@ -53,16 +53,60 @@
 		"regions": [],
 		"playMode": 2,
 		"crushMode": 0
+	},
+	"max_lvl_10": {
+		"region": "max_lvl",
+		"horizontalStretchAreas": [ 7, 108 ],
+		"verticalStretchAreas": [ 7, 20 ],
+		"tiling": false,
+		"minWidth": 116,
+		"minHeight": 28,
+		"rightWidth": 8,
+		"leftWidth": 8,
+		"bottomHeight": 8,
+		"topHeight": 8,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 0
+	},
+	"healthbar_bg_10": {
+		"region": "healthbar_bg",
+		"horizontalStretchAreas": [ 13, 114 ],
+		"verticalStretchAreas": [ 25, 38 ],
+		"tiling": false,
+		"minWidth": 128,
+		"minHeight": 64,
+		"rightWidth": 9,
+		"leftWidth": 7,
+		"bottomHeight": 13,
+		"topHeight": 14,
+		"offsetX": 0,
+		"offsetY": 0,
+		"offsetXspeed": 0,
+		"offsetYspeed": 0,
+		"frameDuration": 0.03,
+		"regions": [],
+		"playMode": 2,
+		"crushMode": 1
 	}
 },
 "ProgressBarStyle": {
+	"healthbar": {
+		"background": "healthbar_bg",
+		"knobBefore": "healthbar_fill_10"
+	},
 	"xpbar": {
 		"background": "xpbar_bg.9",
 		"knobBefore": "xpbar_fill_10"
 	},
-	"healthbar": {
-		"background": "healthbar_bg",
-		"knobBefore": "healthbar_fill_10"
+	"maxLVL": {
+		"background": "xpbar_bg.9",
+		"knobBefore": "max_lvl_10"
 	}
 }
 }

@@ -28,7 +28,11 @@ public final class Services {
      * Camera ortografica care o sa urmareasca player-ul
      */
     public static OrthographicCamera camera;
-    public static float cameraZoom = 3f;
+    public static float cameraZoom = 2f;
+    public static float minLimitX;
+    public static float maxLimitX;
+    public static float minLimitY;
+    public static float maxLimitY;
 
     /**
      * Lot-ul care va grupa toate sprite-urile inainte sa le deseneze
@@ -51,8 +55,8 @@ public final class Services {
     // Acest ShapeRenderer este pentru desenarea hitbox-urilor.
     public static ShapeRenderer shapeRenderer;
 
-    public static BitmapFont font;
-    public static float uiScale = 1f;
+    public static BitmapFont font20;
+    public static BitmapFont font15;
     public static Skin skin;
 
     /**
@@ -81,17 +85,19 @@ public final class Services {
         Services.shapeRenderer.setProjectionMatrix(Services.camera.combined);
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-            Gdx.files.internal("fonts/alphbeta.ttf")
+            Gdx.files.internal("fonts/MILLENNIA.ttf")
         );
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        params.size = 16;
-        params.shadowOffsetX = 1;
-        params.shadowOffsetY = 1;
+        params.size = 20;
+        params.shadowOffsetX = 2;
+        params.shadowOffsetY = 2;
         params.shadowColor = new Color(0, 0, 0, 0.9f); // black, semi-transparent
 
-        font = generator.generateFont(params);
-        font.setColor(Color.SLATE);
-        font.getRegion().getTexture().setFilter(
+        font20 = generator.generateFont(params);
+        params.size = 15;
+        font15 = generator.generateFont(params);
+        font20.setColor(Color.SLATE);
+        font20.getRegion().getTexture().setFilter(
             Texture.TextureFilter.Nearest,
             Texture.TextureFilter.Nearest
         );
@@ -105,6 +111,14 @@ public final class Services {
         skin = new Skin(Gdx.files.internal("skins/uiskin.json"), atlas);
     }
 
+    public static void setCameraLimits(int mapWidth, int mapHeight) {
+        maxLimitX = (mapWidth*32 - camera.viewportWidth / cameraZoom /2f) - 1;
+        minLimitX = camera.viewportWidth / cameraZoom /2;
+        maxLimitY = (mapHeight*32 - camera.viewportHeight / cameraZoom /2f) - 1;
+        minLimitY = camera.viewportHeight / cameraZoom /2;
+
+        System.out.println(minLimitX + " " + maxLimitX + " " + minLimitY + " " + maxLimitY);
+    }
 
     public static void dispose() {
         batch.dispose();
@@ -112,7 +126,7 @@ public final class Services {
         assetManager.dispose();
         skin.dispose();
         shapeRenderer.dispose();
-        font.dispose();
+        font20.dispose();
         tilemapRenderer.dispose();
     }
 }

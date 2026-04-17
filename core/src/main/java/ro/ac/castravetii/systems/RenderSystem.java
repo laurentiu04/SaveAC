@@ -25,14 +25,11 @@ public class RenderSystem extends SortedIteratingSystem {
     public RenderSystem() {
         super(
             Family.all(TextureComponent.class, TransformComponent.class).get(),
-            new Comparator<Entity>() {
-                @Override
-                public int compare(Entity o1, Entity o2) {
-                    TransformComponent t1 = ComponentMapper.getFor(TransformComponent.class).get(o1);
-                    TransformComponent t2 = ComponentMapper.getFor(TransformComponent.class).get(o2);
+            (o1, o2) -> {
+                TransformComponent t1 = ComponentMapper.getFor(TransformComponent.class).get(o1);
+                TransformComponent t2 = ComponentMapper.getFor(TransformComponent.class).get(o2);
 
-                    return (int)(t1.position.y - t2.position.y);
-                }
+                return (int)(t2.position.y - t1.position.y);
             }
         );
     }

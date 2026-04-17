@@ -4,37 +4,73 @@ size: 256, 256
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
-healthbar_bg
+health_stat
   rotate: false
-  xy: 1, 179
-  size: 128, 64
-  split: 13, 13, 25, 25
-  pad: 6, 8, 20, 18
-  orig: 128, 64
-  offset: 0, 0
-  index: -1
-xpbar_bg.9
-  rotate: false
-  xy: 1, 179
-  size: 128, 64
-  split: 13, 13, 25, 25
-  pad: 6, 8, 20, 18
-  orig: 128, 64
+  xy: 67, 48
+  size: 64, 71
+  orig: 64, 71
   offset: 0, 0
   index: -1
 healthbar_fill
   rotate: false
-  xy: 131, 217
-  size: 114, 26
-  split: 5, 3, 3, 5
-  orig: 114, 26
+  xy: 1, 151
+  size: 116, 28
+  split: 5, 5, 5, 5
+  orig: 116, 28
+  offset: 0, 0
+  index: -1
+max_lvl
+  rotate: false
+  xy: 1, 121
+  size: 116, 28
+  split: 7, 7, 7, 7
+  orig: 116, 28
+  offset: 0, 0
+  index: -1
+speed_stat
+  rotate: false
+  xy: 131, 144
+  size: 64, 71
+  orig: 64, 71
+  offset: 0, 0
+  index: -1
+strength_stat
+  rotate: false
+  xy: 1, 48
+  size: 64, 71
+  orig: 64, 71
+  offset: 0, 0
+  index: -1
+xp_stat
+  rotate: false
+  xy: 133, 71
+  size: 64, 71
+  orig: 64, 71
+  offset: 0, 0
+  index: -1
+xpbar_bg.9
+  rotate: false
+  xy: 1, 181
+  size: 128, 64
+  split: 13, 13, 25, 25
+  pad: 8, 8, 20, 20
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
+healthbar_bg
+  rotate: false
+  xy: 1, 181
+  size: 128, 64
+  split: 13, 13, 25, 25
+  pad: 6, 8, 13, 12
+  orig: 128, 64
   offset: 0, 0
   index: -1
 xpbar_fill
   rotate: false
-  xy: 1, 127
-  size: 114, 50
-  split: 5, 3, 15, 17
-  orig: 114, 50
+  xy: 131, 217
+  size: 116, 28
+  split: 5, 5, 5, 5
+  orig: 116, 28
   offset: 0, 0
   index: -1

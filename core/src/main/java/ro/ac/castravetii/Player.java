@@ -41,8 +41,8 @@ public final class Player {
 
         // Creez componente pentru player si le atasez la entitate.
         transformComponent = new TransformComponent();
-        transformComponent.position.x = 300;
-        transformComponent.position.y = 300;
+        transformComponent.position.x = 0;
+        transformComponent.position.y = 0;
         playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
@@ -53,13 +53,13 @@ public final class Player {
         playerEntity.add(playerComponent);
 
         movementComponent = new MovementComponent();
-        movementComponent.max_vel = 150f;
+        movementComponent.max_vel = 100f;
         movementComponent.acceleration = movementComponent.max_vel * 0.085f; // 8.5% din viteza maxima
         movementComponent.deceleration = movementComponent.max_vel * 0.05f; // 5% din viteza maxima
         playerEntity.add(movementComponent);
 
         animationComponent = new AnimationComponent();
-        animationComponent.movingAnim = Utils.createAnimation(64, 0.045f, "castravete-moving");
+        animationComponent.movingAnim = Utils.createAnimation(64, 0.040f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);
 
@@ -69,6 +69,8 @@ public final class Player {
         colliderComponent.offsetX = -colliderComponent.with/2;
         colliderComponent.offsetY = 15f;
         colliderComponent.shape = ColliderShape.ELLIPSE;
+        colliderComponent.type = CollisionType.PLAYER;
+        colliderComponent.show = false;
         playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();
@@ -96,15 +98,25 @@ public final class Player {
 
         // Marchez crearea player-ului.
         INSTANCE = new Player();
+
+        Services.camera.translate(INSTANCE.transformComponent.position.x, INSTANCE.transformComponent.position.y);
         return INSTANCE;
     }
 
     public void snapCamera() {
+
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);
         Vector3 playerPos = Player.INSTANCE.transformComponent.position;
 
-        if (!camPos.epsilonEquals(new Vector2(playerPos.x, playerPos.y + playerPos.z))) {
-            Services.camera.position.lerp(new Vector3(playerPos.x, playerPos.y + playerPos.z + 32, 0), 6f * Gdx.graphics.getDeltaTime());
+        Vector3 newCamPos = new Vector3(playerPos.x, playerPos.y + 32, 0);
+
+        if (playerPos.x > Services.maxLimitX) newCamPos.x = Services.maxLimitX;
+        else if (playerPos.x < Services.minLimitX) newCamPos.x = Services.minLimitX;
+        if (playerPos.y + 32 > Services.maxLimitY) newCamPos.y = Services.maxLimitY;
+        else if (playerPos.y + 32 < Services.minLimitY) newCamPos.y = Services.minLimitY;
+
+        if (!camPos.epsilonEquals(new Vector2(newCamPos.x, newCamPos.y))) {
+            Services.camera.position.lerp(newCamPos, 6f * Gdx.graphics.getDeltaTime());
             Services.camera.update();
         }
     }
@@ -136,7 +148,6 @@ public final class Player {
         healthComponent.currentHealth -= amount;
         if (listener != null) {
             listener.onHealthChange();
-            System.out.println("Listener notified.");
         }
     }
 

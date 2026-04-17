@@ -2,7 +2,7 @@ package ro.ac.castravetii;
 
 public class XPSystem {
     private int xp = 0;
-    private int level = 0;
+    private int level = 999;
     private final int maxLevel = 40;
     private int levelUpXP = 100;
 
@@ -12,15 +12,18 @@ public class XPSystem {
 
         xp += amount;
 
-        while (xp >= levelUpXP) {
+        while (xp >= levelUpXP && level < maxLevel) {
             levelUp();
         }
     }
 
     private void levelUp() {
         level++;
-        xp -= levelUpXP;
-        levelUpXP = 100 + (int)Math.pow(level + 1, 2);
+
+        if (level != maxLevel) {
+            xp -= levelUpXP;
+            levelUpXP = 100 + (int)Math.pow(level + 1, 2);
+        }
 
         /** TODO:
          * Sistem de upgrade pentru player (ceva pop-up cu 3 optiuni poate

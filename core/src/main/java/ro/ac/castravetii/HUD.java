@@ -3,56 +3,93 @@ package ro.ac.castravetii;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.tenpatch.TenPatchDrawable;
 
 public class HUD implements Disposable {
 
     public Stage stage;
-    private ProgressBar healthBar;
+    private Table table;
+    private Stack healthBar;
+    private ProgressBar healtbarTex;
     private Label healthBarLabel;
-    private ProgressBar xpBar;
+    private Stack xpBar;
+    private ProgressBar xpbarTex;
     private Label xpBarLabel;
+    private AttributeWidget strengthAttrib;
+    private AttributeWidget speedAttrib;
+    private AttributeWidget healthAttrib;
+    private AttributeWidget xpAttrib;
+
 
     public void init() {
-        stage = new Stage(new FitViewport(
-            Gdx.graphics.getWidth()/Services.uiScale,
-            Gdx.graphics.getHeight()/Services.uiScale
-        ));
+        stage = new Stage(new ScreenViewport());
 
         Gdx.input.setInputProcessor(stage);
 
-        healthBar = new ProgressBar(0, 100, 1, false, Services.skin, "healthbar");
-        healthBar.setSize(300, 32);
-        healthBar.setPosition(10, 50);
-        stage.addActor(healthBar);
+        table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+        table.pad(10);
 
-        Label.LabelStyle style = new Label.LabelStyle(Services.font, Color.WHITE);
+        healtbarTex = new ProgressBar(0, 100, 1, false, Services.skin, "healthbar") {
+            @Override
+            public float getPrefHeight() {
+                return 40;
+            }
+        };
+        Label.LabelStyle style = new Label.LabelStyle(Services.font20, Color.WHITE);
         healthBarLabel = new Label("", style);
-        healthBarLabel.setColor(Color.WHITE);
-        healthBarLabel.setFontScale(1.4f);
-        healthBarLabel.pack();
-        stage.addActor(healthBarLabel);
+        healthBarLabel.setAlignment(Align.center, Align.center);
+        healthBar = new Stack(healtbarTex, healthBarLabel);
 
-        xpBar = new ProgressBar(0, 100, 1, false, Services.skin, "xpbar");
-        xpBar.getStyle().background.setMinHeight(55);
-        xpBar.getStyle().knobBefore.setMinHeight(45);
-        xpBar.setSize(250, 32);
-        xpBar.setPosition(10, 10);
-        stage.addActor(xpBar);
+
+        xpbarTex = new ProgressBar(0, 100, 1, false, Services.skin, "xpbar") {
+            @Override
+            public float getPrefHeight() {
+                return 40;
+            }
+        };
         xpBarLabel = new Label("", style);
-        xpBarLabel.setFontScale(1f);
-        xpBarLabel.pack();
-        stage.addActor(xpBarLabel);
+        xpBarLabel.setAlignment(Align.center, Align.center);
+        xpBar = new Stack(xpbarTex, xpBarLabel);
+
+        strengthAttrib = new AttributeWidget(Services.skin.getDrawable("strength_stat"));
+        speedAttrib = new AttributeWidget(Services.skin.getDrawable("speed_stat"));
+        healthAttrib = new AttributeWidget(Services.skin.getDrawable("health_stat"));
+        xpAttrib = new AttributeWidget(Services.skin.getDrawable("xp_stat"));
+
+        table.add().expand().colspan(3);
+        table.row();
+
+        VerticalGroup leftGroup = new VerticalGroup();
+        leftGroup.space(5);
+        leftGroup.addActor(healthBar);
+        leftGroup.addActor(xpBar);
+        leftGroup.grow();
+        table.add(leftGroup).expandX().left().minWidth(300);
+
+        Table centerGroup = new Table();
+        table.add(centerGroup).spaceLeft(20).spaceRight(20).expandX().center().minWidth(centerGroup.getPrefWidth());
+
+        HorizontalGroup rightGroup = new HorizontalGroup();
+        rightGroup.addActor(healthAttrib);
+        rightGroup.addActor(strengthAttrib);
+        rightGroup.addActor(speedAttrib);
+        rightGroup.addActor(xpAttrib);
+        rightGroup.space(10);
+        rightGroup.align(Align.right);
+        table.add(rightGroup).expandX().right().minWidth(300);
+//        table.setDebug(true);
     }
 
     public void updateHealthBar(int health, int maxHealth) {
-        healthBar.setValue(health);
-        healthBar.setRange(0, maxHealth);
-        TenPatchDrawable tenPatchDrawable = (TenPatchDrawable) healthBar.getStyle().knobBefore;
+        healtbarTex.setValue(health);
+        healtbarTex.setRange(0, maxHealth);
+        TenPatchDrawable tenPatchDrawable = (TenPatchDrawable) healtbarTex.getStyle().knobBefore;
 
         float healthPercent = (float)health / maxHealth;
         if (healthPercent > 0.5f) {
@@ -64,23 +101,25 @@ public class HUD implements Disposable {
         healthBarLabel.setText(health + "/" + maxHealth);
         healthBarLabel.pack();
         healthBarLabel.setPosition(
-            healthBar.getX() + healthBar.getWidth() / 2f - healthBarLabel.getWidth()/2f,
-            healthBar.getY() + healthBar.getHeight()/2 - healthBarLabel.getHeight()/2f + 1);
-
-        System.out.println("Updated");
+            healtbarTex.getX() + healtbarTex.getWidth() / 2f - healthBarLabel.getWidth()/2f,
+            healtbarTex.getY() + healtbarTex.getHeight()/2 - healthBarLabel.getHeight()/2f + 1);
     }
 
     public void updateXPBar(int xp, int level, int levelUpXp) {
-        if (levelUpXp != xpBar.getMaxValue()) {
-            xpBar.setRange(0, levelUpXp);
+        if (levelUpXp != xpbarTex.getMaxValue()) {
+            xpbarTex.setRange(0, levelUpXp);
         }
 
-        xpBar.setValue(xp);
-        xpBarLabel.setText(" LVL " + level);
+        xpbarTex.setValue(xp);
+        xpBarLabel.setText("LVL " + level);
         xpBarLabel.pack();
         xpBarLabel.setPosition(
-            xpBar.getX() + xpBar.getWidth()/2f - xpBarLabel.getWidth()/2f,
-            xpBar.getY() + xpBar.getHeight()/2f - xpBarLabel.getHeight()/2f);
+            xpbarTex.getX() + xpbarTex.getWidth()/2f - xpBarLabel.getWidth()/2f,
+            xpbarTex.getY() + xpbarTex.getHeight()/2f - xpBarLabel.getHeight()/2f);
+
+        if (level == 40) {
+            xpbarTex.setStyle(Services.skin.get("maxLVL", ProgressBar.ProgressBarStyle.class));
+        }
     }
 
     public void render() {
