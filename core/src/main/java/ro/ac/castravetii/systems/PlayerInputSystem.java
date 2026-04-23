@@ -8,8 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.PlayerComponent;
-import ro.ac.castravetii.components.TextureComponent;
-import ro.ac.castravetii.components.TransformComponent;
 
 public class PlayerInputSystem extends IteratingSystem {
     ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
@@ -23,20 +21,29 @@ public class PlayerInputSystem extends IteratingSystem {
         MovementComponent moveComp = mm.get(entity); // Iau componenta pentru Movement
 
         // Vad daca am apasat pe una dintre tastele W, A, S, D
-        boolean keyPressedX = Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D);
-        boolean keyPressedY = Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S);
+        float inputX = (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0)
+            - (Gdx.input.isKeyPressed(Input.Keys.A) ? 1 : 0);
+        float inputY = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0)
+            - (Gdx.input.isKeyPressed(Input.Keys.S) ? 1 : 0);
 
-        if (keyPressedX) { // Acelerez
+        if (inputX != 0) {
+            moveComp.directionX = (int)inputX;
+        }
 
-            // Aflu daca am apasat pe A sau pe D si setez directia in functie de tasta apasata
-            // Daca ambele taste sunt apasate, trec peste setare si raman cu directia initiala
-            if ( !Gdx.input.isKeyPressed(Input.Keys.A) || !Gdx.input.isKeyPressed(Input.Keys.D)) {
-                moveComp.directionX = Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : -1;
-            }
+        float length = (float) Math.sqrt(inputX * inputX + inputY * inputY);
+        if (length > 0) {
+            inputX /= length;
+            inputY /= length;
+        }
+
+        if (inputX != 0) { // Acelerez
 
             // Adaug sau scad valoarea acceleratiei la viteza, in functie de directie
             // Folosesc clamp() ca sa nu depasesc viteza maxima a player-ului
-            moveComp.velX = Math.clamp(moveComp.velX + (moveComp.acceleration * moveComp.directionX), -moveComp.max_vel, moveComp.max_vel);
+            moveComp.velX = Math.clamp(
+                moveComp.velX + (moveComp.acceleration * inputX),
+                -moveComp.max_vel, moveComp.max_vel
+            );
 
         } else { // Decelerez
 
@@ -50,12 +57,15 @@ public class PlayerInputSystem extends IteratingSystem {
 
         // Jos este acelasi lucru, numai ca pentru axa verticala
 
-        if (keyPressedY && !moveComp.isFalling) {
+        if (inputY != 0) {
             if ( !Gdx.input.isKeyPressed(Input.Keys.W) || !Gdx.input.isKeyPressed(Input.Keys.S)) {
                 moveComp.directionY = Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : -1;
             }
 
-            moveComp.velY = Math.clamp(moveComp.velY + (moveComp.acceleration * moveComp.directionY), -moveComp.max_vel, moveComp.max_vel);
+            moveComp.velY = Math.clamp(
+                moveComp.velY + (moveComp.acceleration * inputY),
+                -moveComp.max_vel, moveComp.max_vel
+            );
 
         } else { // Altfel decelereaza
             if (moveComp.velY > 0) {

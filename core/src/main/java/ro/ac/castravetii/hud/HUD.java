@@ -1,4 +1,4 @@
-package ro.ac.castravetii;
+package ro.ac.castravetii.hud;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -8,24 +8,28 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.tenpatch.TenPatchDrawable;
+import ro.ac.castravetii.Services;
+import ro.ac.castravetii.screens.GameScreen;
 
 public class HUD implements Disposable {
 
-    public Stage stage;
-    private Table table;
-    private Stack healthBar;
-    private ProgressBar healtbarTex;
-    private Label healthBarLabel;
-    private Stack xpBar;
-    private ProgressBar xpbarTex;
-    private Label xpBarLabel;
-    private AttributeWidget strengthAttrib;
-    private AttributeWidget speedAttrib;
-    private AttributeWidget healthAttrib;
-    private AttributeWidget xpAttrib;
+    private final GameScreen screen;
+    public final Stage stage;
+    private final Table table;
 
+    private final Stack healthBar;
+    private final ProgressBar healtbarTex;
+    private final Label healthBarLabel;
 
-    public void init() {
+    private final Stack xpBar;
+    private final ProgressBar xpbarTex;
+    private final Label xpBarLabel;
+
+    private final StatDisplayManager statsManager;
+
+    public HUD(GameScreen screen) {
+
+        this.screen = screen;
         stage = new Stage(new ScreenViewport());
 
         Gdx.input.setInputProcessor(stage);
@@ -57,10 +61,7 @@ public class HUD implements Disposable {
         xpBarLabel.setAlignment(Align.center, Align.center);
         xpBar = new Stack(xpbarTex, xpBarLabel);
 
-        strengthAttrib = new AttributeWidget(Services.skin.getDrawable("strength_stat"));
-        speedAttrib = new AttributeWidget(Services.skin.getDrawable("speed_stat"));
-        healthAttrib = new AttributeWidget(Services.skin.getDrawable("health_stat"));
-        xpAttrib = new AttributeWidget(Services.skin.getDrawable("xp_stat"));
+        statsManager = new StatDisplayManager(screen.player);
 
         table.add().expand().colspan(3);
         table.row();
@@ -76,11 +77,7 @@ public class HUD implements Disposable {
         table.add(centerGroup).spaceLeft(20).spaceRight(20).expandX().center().minWidth(centerGroup.getPrefWidth());
 
         HorizontalGroup rightGroup = new HorizontalGroup();
-        rightGroup.addActor(healthAttrib);
-        rightGroup.addActor(strengthAttrib);
-        rightGroup.addActor(speedAttrib);
-        rightGroup.addActor(xpAttrib);
-        rightGroup.space(10);
+        rightGroup.addActor(statsManager);
         rightGroup.align(Align.right);
         table.add(rightGroup).expandX().right().minWidth(300);
 //        table.setDebug(true);

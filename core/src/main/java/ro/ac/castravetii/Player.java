@@ -23,12 +23,12 @@ public final class Player {
     TransformComponent transformComponent;
     TextureComponent textureComponent;
     PlayerComponent playerComponent;
+    PlayerStatsComponent statsComponent;
     MovementComponent movementComponent;
     AnimationComponent animationComponent;
     ColliderComponent colliderComponent;
     HealthComponent healthComponent;
-
-    public XPSystem xpSystem;
+    LevelComponent levelComponent;
 
     StatsListener listener;
 
@@ -39,27 +39,30 @@ public final class Player {
         // Creez o entitate pentru player.
         playerEntity = Services.engine.createEntity();
 
+        playerComponent = new PlayerComponent();
+        playerEntity.add(playerComponent);
+
+        statsComponent = new PlayerStatsComponent();
+        playerEntity.add(statsComponent);
+
         // Creez componente pentru player si le atasez la entitate.
         transformComponent = new TransformComponent();
-        transformComponent.position.x = 0;
-        transformComponent.position.y = 0;
+        transformComponent.position.x = Services.MAP_WIDTH*16;
+        transformComponent.position.y = Services.MAP_HEIGHT*16;
         playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
         textureComponent.region = Services.textureAtlas.findRegion("castravete");
         playerEntity.add(textureComponent);
 
-        playerComponent = new PlayerComponent();
-        playerEntity.add(playerComponent);
-
         movementComponent = new MovementComponent();
-        movementComponent.max_vel = 100f;
+        movementComponent.max_vel = statsComponent.maxVel;
         movementComponent.acceleration = movementComponent.max_vel * 0.085f; // 8.5% din viteza maxima
         movementComponent.deceleration = movementComponent.max_vel * 0.05f; // 5% din viteza maxima
         playerEntity.add(movementComponent);
 
         animationComponent = new AnimationComponent();
-        animationComponent.movingAnim = Utils.createAnimation(64, 0.040f, "castravete-moving");
+        animationComponent.movingAnim = Utils.createAnimation(64, 0.035f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);
 
@@ -74,15 +77,19 @@ public final class Player {
         playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();
-        healthComponent.currentHealth = 100;
+        healthComponent.maxHealth = statsComponent.maxHealth;
+        healthComponent.currentHealth = statsComponent.maxHealth;
         playerEntity.add(healthComponent);
+
+        levelComponent = new LevelComponent();
+        levelComponent.xpGain = statsComponent.xpGain;
+        playerEntity.add(levelComponent);
 
         Services.engine.addSystem(new PlayerInputSystem(1));
 
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);
 
-        xpSystem = new XPSystem();
     }
 
     /**
@@ -128,12 +135,12 @@ public final class Player {
         listener.onXpChange();
     }
 
-    public int getHealth() {
-        return healthComponent.currentHealth;
+    public HealthComponent getHealthComponent() {
+        return this.healthComponent;
     }
 
-    public int getMaxHealth() {
-        return healthComponent.maxHealth;
+    public PlayerStatsComponent getPlayerStats() {
+        return this.statsComponent;
     }
 
     public void setMaxHealth(int amount) {
@@ -159,9 +166,19 @@ public final class Player {
     }
 
     public void gainXP(int amount) {
-        xpSystem.addXP(amount);
+        levelComponent.xp += amount;
         if (listener != null) {
             listener.onXpChange();
         }
     }
+
+    public void levelUp() {
+
+    }
+
+    public LevelComponent getLevelComponent() {
+        return this.levelComponent;
+    }
+
+
 }
