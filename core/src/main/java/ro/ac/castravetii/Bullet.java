@@ -13,7 +13,7 @@ public class Bullet {
     int speed; // Viteza bullet
     Vector2 velocity; //
     Texture bullet_texture; // Textura bullet
-    Vector2 pos; // Pozitia bullet
+    Vector2 pos; // Pozitia bullet-ului
 
     boolean active; // Daca bullet-ul mai exista
 
