@@ -5,12 +5,15 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import ro.ac.castravetii.components.LevelComponent;
+import ro.ac.castravetii.events.GameEventQueue;
 
 public class LevelSystem extends IteratingSystem {
+    final GameEventQueue queue;
     ComponentMapper<LevelComponent> lm = ComponentMapper.getFor(LevelComponent.class);
 
-    public LevelSystem() {
+    public LevelSystem(GameEventQueue queue) {
         super(Family.all(LevelComponent.class).get());
+        this.queue = queue;
     }
 
     @Override

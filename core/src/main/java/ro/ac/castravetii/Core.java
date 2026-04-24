@@ -1,10 +1,13 @@
 package ro.ac.castravetii;
 
 import com.badlogic.gdx.Game;
+import ro.ac.castravetii.events.GameEventQueue;
 import ro.ac.castravetii.screens.GameScreen;
 import ro.ac.castravetii.systems.*;
 
 public class Core extends Game {
+
+    private GameEventQueue eventQueue;
 
     @Override
     public void create() {
@@ -17,7 +20,7 @@ public class Core extends Game {
         Services.engine.addSystem(new AnimationControlSystem());
         Services.engine.addSystem(new HitboxSystem());
         Services.engine.addSystem(new HealthbarSystem());
-        Services.engine.addSystem(new LevelSystem());
+        Services.engine.addSystem(new LevelSystem(eventQueue));
 
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 

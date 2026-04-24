@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
-import ro.ac.castravetii.events.GameEventQueue;
 import ro.ac.castravetii.hud.HUD;
 
 import static com.badlogic.gdx.Gdx.gl;
@@ -16,7 +15,6 @@ public class GameScreen implements Screen {
     private HUD hud;
     public Player player;
     private MapGenerator mapGen;
-    private GameEventQueue eventQueue;
 
     public GameScreen(Game game) {
         this.game = game;
