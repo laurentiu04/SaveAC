@@ -17,6 +17,7 @@ public class Core extends Game {
         Services.engine.addSystem(new AnimationControlSystem());
         Services.engine.addSystem(new HitboxSystem());
         Services.engine.addSystem(new HealthbarSystem());
+        Services.engine.addSystem(new LevelSystem());
 
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
