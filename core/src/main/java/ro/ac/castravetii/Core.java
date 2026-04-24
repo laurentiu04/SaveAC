@@ -9,7 +9,7 @@ public class Core extends Game {
     @Override
     public void create() {
 
-        // >>>>>>>>>>>>>>>>>>>>>> SETUP INITAL <<<<<<<<<<<<<<<<<<<<<<<< //
+        // ---------------- SETUP INITAL ---------------- //
         Services.init();
 
         Services.engine.addSystem(new RenderSystem()); // Render system pentru entitati
@@ -18,8 +18,8 @@ public class Core extends Game {
         Services.engine.addSystem(new HitboxSystem());
         Services.engine.addSystem(new HealthbarSystem());
         Services.engine.addSystem(new AISystem());
-
-        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
+        Services.engine.addSystem(new LevelSystem());
+        // ----------------------------------------------- //
 
 
 
