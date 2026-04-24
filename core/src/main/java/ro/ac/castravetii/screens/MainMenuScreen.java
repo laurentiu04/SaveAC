@@ -37,7 +37,6 @@ public class MainMenuScreen implements Screen {
         Table table = new Table(); // Table to center the elements
         table.setFillParent(true); // Filling full screen
         stage.addActor(table);
-
         Label titleLabel = new Label("SaveAC", skin); // Game name
         TextButton playButton = new TextButton("Joaca", skin); // Play button
         TextButton exitButton = new TextButton("Iesire", skin); // Exit button
