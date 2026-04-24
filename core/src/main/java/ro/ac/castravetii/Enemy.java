@@ -8,8 +8,7 @@ import ro.ac.castravetii.components.*;
 import com.badlogic.ashley.core.Entity;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.TextureComponent;
-
-import javax.print.DocFlavor;
+import ro.ac.castravetii.systems.EnemyAISystem;
 
 // am nevoie ca al meu Enemy:
 /*
@@ -74,6 +73,15 @@ public class Enemy {
         entityEnemy.add(animation);
 
         Services.engine.addEntity(entityEnemy);
+
+        AIComponent aiComp = new AIComponent();
+
+        aiComp.AI = new EnemyAISystem(
+            enemyTC,
+            Player.create().getTransformComponent(),
+            Services.mapGenerator.grid,
+            Services.mapGenerator.tileSize
+        );
     }
 
     public static void snapEnemyCamera() {

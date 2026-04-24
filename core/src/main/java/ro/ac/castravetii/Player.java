@@ -103,6 +103,16 @@ public final class Player {
         return INSTANCE;
     }
 
+
+    //modificari facute de ANDREI, ARE NEVOIE LA Enemy pentru ai
+    public static Player getInstance(){
+        return INSTANCE;
+    }
+
+    public TransformComponent  getTransformComponent(){
+        return transformComponent;
+    }
+
     public void snapCamera() {
 
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);

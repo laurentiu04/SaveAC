@@ -23,7 +23,14 @@ public class MapGenerator implements Disposable {
 
     TextureAtlas tileAtlas;
 
+    //Important pt AI meu
+    public int[][] grid;
+    public int tileSize;
+
     public void createMap(int mapWidth, int mapHeight, int tileSize) {
+
+        this.tileSize = tileSize;
+        grid = new int[mapWidth][mapHeight];
 
         Perlin perlin = new Perlin();
 
@@ -50,8 +57,11 @@ public class MapGenerator implements Disposable {
                 cell.setTile(tile);
                 baseLayer.setCell(x, y, cell);
 
-                ind = new Random().nextInt(1000);
+                ind = rnd.nextInt(1000);
                 if (ind % 44 == 0 && (ind | 1) > ind) {
+
+                    grid[x][y] = 1;
+
                      Entity rock = Services.engine.createEntity();
                      TransformComponent trans = new TransformComponent();
                      trans.position = new Vector3(tileSize*x + tileSize/2f, tileSize*y + tileSize/2f, 0);
@@ -60,6 +70,8 @@ public class MapGenerator implements Disposable {
                     text.region = tileAtlas.findRegion("rock" + (rnd.nextInt(2) + 1));
                     rock.add(text);
                     Services.engine.addEntity(rock);
+                }else{
+                    grid[x][y] = 0;
                 }
             }
         }

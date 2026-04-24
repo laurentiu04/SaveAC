@@ -59,6 +59,8 @@ public final class Services {
     public static BitmapFont font15;
     public static Skin skin;
 
+    public static MapGenerator mapGenerator;
+
     /**
      * Functie pentru eliminarea resurselor create
      */
