@@ -1,7 +1,7 @@
 package ro.ac.castravetii;
 
 import com.badlogic.gdx.Game;
-import ro.ac.castravetii.screens.GameScreen;
+import ro.ac.castravetii.screens.MainMenuScreen;
 import ro.ac.castravetii.systems.*;
 
 public class Core extends Game {
@@ -22,7 +22,7 @@ public class Core extends Game {
 
 
 
-        this.setScreen(new GameScreen(this));
+        this.setScreen(new MainMenuScreen(this));
 
     }
 
