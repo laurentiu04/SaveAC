@@ -1,7 +1,8 @@
 package ro.ac.castravetii;
 
-public interface StatsListener {
+public class StatsListener {
 
-    void onXpChange();
-    void onHealthChange();
+    public void onXpChange() {}
+    public void onLevelUp() {}
+    public void onHealthChange() {}
 }

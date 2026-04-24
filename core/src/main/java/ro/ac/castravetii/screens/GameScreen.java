@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
+import ro.ac.castravetii.events.GameEventQueue;
+import ro.ac.castravetii.hud.HUD;
 
 import static com.badlogic.gdx.Gdx.gl;
 
@@ -12,10 +14,9 @@ public class GameScreen implements Screen {
 
     private final Game game;
     private HUD hud;
-    private Player player;
+    public Player player;
     private MapGenerator mapGen;
-    private final int MAP_WIDTH = 50;
-    private final int MAP_HEIGHT = 50;
+    private GameEventQueue eventQueue;
 
     public GameScreen(Game game) {
         this.game = game;
@@ -24,27 +25,25 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         mapGen = new MapGenerator();
-        mapGen.createMap(MAP_WIDTH, MAP_HEIGHT, 32);
+        mapGen.createMap(Services.MAP_WIDTH, Services.MAP_HEIGHT, 32);
 
         player = Player.create();
 
-        hud = new HUD();
-
-        hud.init();
+        hud = new HUD(this);
 
         player.setListener(new StatsListener() {
             @Override
             public void onXpChange() {
-                hud.updateXPBar(player.xpSystem.getXP(), player.xpSystem.getLevel(), player.xpSystem.getLevelUpXP());
+                hud.updateXPBar(player.getLevelComponent().xp, player.getLevelComponent().level, player.getLevelComponent().levelUpTarget);
             }
 
             @Override
             public void onHealthChange() {
-                hud.updateHealthBar(player.getHealth(), player.getMaxHealth());
+                hud.updateHealthBar(player.getHealthComponent().currentHealth, player.getHealthComponent().maxHealth);
             }
         });
 
-        Services.setCameraLimits(MAP_WIDTH, MAP_HEIGHT);
+        Services.setCameraLimits(Services.MAP_WIDTH, Services.MAP_HEIGHT);
     }
 
     @Override
@@ -68,6 +67,7 @@ public class GameScreen implements Screen {
 
         hud.render();
 
+        player.gainXP(2);
     }
 
     @Override
