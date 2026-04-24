@@ -1,14 +1,10 @@
 package ro.ac.castravetii;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import ro.ac.castravetii.components.*;
 // TODO: @Andrei Creare Enemy
 
 import com.badlogic.ashley.core.Entity;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.TextureComponent;
-import ro.ac.castravetii.systems.EnemyAISystem;
 
 // am nevoie ca al meu Enemy:
 /*
@@ -26,7 +22,7 @@ public class Enemy {
     TransformComponent enemyTC;
 
     //Singleton design pattern : create an Enemy object
-    public Enemy  getInstance (){
+    public static Enemy  getInstance (){
         //If enemy was not created then create an enemy
         if(INSTANCE == null) {
             INSTANCE = new Enemy();
@@ -47,12 +43,13 @@ public class Enemy {
 
         //Creating texture component for my Enemy object
         TextureComponent texture = new TextureComponent();
-        texture.region = Services.textureAtlas.findRegion("Pepper.png"); //TODO fa design la enemy si adauga l aici .png
+        texture.region = Services.textureAtlas.findRegion("Pepper"); //TODO fa design la enemy si adauga l aici .png
         entityEnemy.add(texture);
 
         //Creating a new EnemyComponent with 2 attributes health & damage that are initialized
         EnemyComponent enemyC = new EnemyComponent();
-        enemyC.health = 100;
+        HealthComponent health = new HealthComponent();
+        health.maxHealth = 200;
         enemyC.damage = 20;
         entityEnemy.add(enemyC);
 
@@ -66,31 +63,13 @@ public class Enemy {
         entityEnemy.add(movement);
 
         //Added new AnimationComponent for my Enemy : that AnimationComponent is responsible for visual effects of Enemy design
-        AnimationComponent animation = new AnimationComponent();
-        animation.movingAnim = Utils.createAnimation(64,0.045f, "nume_enemy_animatie"); // adaugi animatia la enemy si i modifici parametrii ;
+//        AnimationComponent animation = new AnimationComponent();
+//        animation.movingAnim = Utils.createAnimation(64,0.045f, "nume_enemy_animatie"); // adaugi animatia la enemy si i modifici parametrii ;
         // ATENTIE FRAMESIZE TREBUIE SA AIBA ACELEASI DIMENSIUNI CA DESIGN UL INITIAL PE CARE L FOLOSESTI IN texture.region
-        animation.idleSprite = texture.region;
-        entityEnemy.add(animation);
+//        animation.idleSprite = texture.region;
+//        entityEnemy.add(animation);
 
         Services.engine.addEntity(entityEnemy);
 
-        AIComponent aiComp = new AIComponent();
-
-        aiComp.AI = new EnemyAISystem(
-            enemyTC,
-            Player.create().getTransformComponent(),
-            Services.mapGenerator.grid,
-            Services.mapGenerator.tileSize
-        );
-    }
-
-    public static void snapEnemyCamera() {
-        Vector2 camPosEnemy = new Vector2(Services.camera.position.x, Services.camera.position.y);
-        Vector3 enemyPos = Enemy.INSTANCE.enemyTC.position;
-
-        if (!camPosEnemy.epsilonEquals(new Vector2(enemyPos.x, enemyPos.y + enemyPos.z))) {
-            Services.camera.position.lerp(new Vector3(enemyPos.x, enemyPos.y + enemyPos.z + 32, 0), 6f * Gdx.graphics.getDeltaTime());
-            Services.camera.update();
-        }
     }
 }
