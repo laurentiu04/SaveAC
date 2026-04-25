@@ -10,22 +10,34 @@ import com.badlogic.gdx.utils.Align;
 import ro.ac.castravetii.Services;
 
 public class PointCounter extends Stack {
+    private final Image imageEmpty;
     private final Image image;
-    private final Label label;
+    private final Container<Label> label;
 
-    public PointCounter(Drawable drawable) {
-        image = new Image(drawable);
+    public PointCounter(Drawable emptyImage, Drawable image) {
+        this.image = new Image(image);
+        this.imageEmpty = new Image(emptyImage);
 
         Label.LabelStyle style = new Label.LabelStyle(Services.font20, Color.WHITE);
-        label = new Label("", style);
+        label = new Container<>(new Label("", style)).align(Align.center).padLeft(35).padBottom(4);
         label.pack();
-        label.setAlignment(Align.center);
+        label.align(Align.center);
 
-        this.add(image);
-        this.add(new Container<>(label).align(Align.center).padLeft(35).padBottom(4));
+        this.add(this.imageEmpty);
+        this.add(label);
     }
 
     public void update(int value) {
-        label.setText(value);
+        if (value > 0) {
+            this.clearChildren();
+            this.add(image);
+            this.add(label);
+        } else if (value == 0) {
+            this.clearChildren();
+            this.add(imageEmpty);
+            this.add(label);
+        }
+
+        label.getActor().setText(value);
     }
 }

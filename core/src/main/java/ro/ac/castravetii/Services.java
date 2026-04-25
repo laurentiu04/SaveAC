@@ -119,8 +119,6 @@ public final class Services {
         minLimitX = camera.viewportWidth / cameraZoom /2;
         maxLimitY = (mapHeight*32 - camera.viewportHeight / cameraZoom /2f) - 1;
         minLimitY = camera.viewportHeight / cameraZoom /2;
-
-        System.out.println(minLimitX + " " + maxLimitX + " " + minLimitY + " " + maxLimitY);
     }
 
     public static void dispose() {
