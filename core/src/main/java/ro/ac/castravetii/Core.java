@@ -10,9 +10,9 @@ public class Core extends Game {
     @Override
     public void create() {
 
-        GameEventQueue eventQueue = new GameEventQueue();
+        GameEventQueue queue = new GameEventQueue();
 
-        // >>>>>>>>>>>>>>>>>>>>>> SETUP INITAL <<<<<<<<<<<<<<<<<<<<<<<< //
+        // ---------------- SETUP INITAL ---------------- //
         Services.init();
 
         Services.engine.addSystem(new RenderSystem()); // Render system pentru entitati
@@ -20,11 +20,12 @@ public class Core extends Game {
         Services.engine.addSystem(new AnimationControlSystem());
         Services.engine.addSystem(new HitboxSystem());
         Services.engine.addSystem(new HealthbarSystem());
-        Services.engine.addSystem(new LevelSystem(eventQueue));
+        Services.engine.addSystem(new LevelSystem(queue));
+        // ----------------------------------------------- //
 
-        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
-        this.setScreen(new GameScreen(this, eventQueue));
+
+        this.setScreen(new GameScreen(this, queue));
 
     }
 

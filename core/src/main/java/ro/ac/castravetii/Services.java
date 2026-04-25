@@ -59,9 +59,10 @@ public final class Services {
     public static BitmapFont font15;
     public static Skin skin;
 
-    public static int MAP_WIDTH = 50;
-    public static int MAP_HEIGHT = 50;
+    public static MapGenerator mapGenerator;
 
+    public static int MAP_WIDTH = 50;
+    public static int MAP_HEIGHT =50;
     /**
      * Functie pentru eliminarea resurselor create
      */
