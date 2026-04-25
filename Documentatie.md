@@ -18,13 +18,12 @@ La acest motor adăugăm entitățile  `Entity` și sistemele de control `Entity
 
 Pentru a crea o entitate, putem folosi constructorul implicit
 ```java
-Entity entity;
-entity = new Entity();
+Entity entity = new Entity();
 ```
 Sau ne putem folosi de engine
 ```java
 Engine engine = new Engine();
-entity = engine.createEntity();
+Entity entity = engine.createEntity();
 ```
 
 **Însă**, în acest proiect folosim o clasă derivată din `Engine`, mai exact `PooledEngine`.
@@ -79,5 +78,29 @@ Un exemplu de sistem:
 - `Family.all().get()` gaseste toate entitățile cu componentele trecute in `all()`.\
     Se mai poate folosi și `one()` în loc de `all()`, diferența este că v-a lua toate entitățile care au cel puțin una\
     din componentele trecute.
+
+## GameEventQueue & GameEvent
+
+Am creat clasa `GameEventQueue` ca să putem avea clase independente una față de alta, dar să putem trata orice eveniment care apare.\
+Este o coadă în care adăugăm ce evenimente apar intr-un frame, pentru a fi tratate ulterior.
+
+Avem interfata `GameEvent` pe care o implementăm în funcție de nevoi.
+
+De exemplu, avem evenimentele pentru player `PlayerEvent`:
+- levelUp
+- damageTaken
+- addedPoint
+- etc.
+
+Pentru un bullet de exemplu, am avea nevoie de niște informații suplimentare, astfel putem să le\
+salvăm într-o variabilă din clasa `BulletEvent`:
+
+```java
+class BulletEvent implements GameEvent {
+    Entity hitEntity; // ce entitate a lovit
+}
+```
+
+Poate nu este cel mai bun exemplu, dar cred că se înțelege ideea.
 
 

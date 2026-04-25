@@ -7,10 +7,10 @@ import ro.ac.castravetii.systems.*;
 
 public class Core extends Game {
 
-    private GameEventQueue eventQueue;
-
     @Override
     public void create() {
+
+        GameEventQueue eventQueue = new GameEventQueue();
 
         // >>>>>>>>>>>>>>>>>>>>>> SETUP INITAL <<<<<<<<<<<<<<<<<<<<<<<< //
         Services.init();
@@ -24,9 +24,7 @@ public class Core extends Game {
 
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ //
 
-
-
-        this.setScreen(new GameScreen(this));
+        this.setScreen(new GameScreen(this, eventQueue));
 
     }
 

@@ -9,32 +9,27 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ray3k.tenpatch.TenPatchDrawable;
 import ro.ac.castravetii.Services;
-import ro.ac.castravetii.screens.GameScreen;
+import ro.ac.castravetii.components.PlayerStatsComponent;
 
 public class HUD implements Disposable {
 
-    private final GameScreen screen;
     public final Stage stage;
-    private final Table table;
 
-    private final Stack healthBar;
     private final ProgressBar healtbarTex;
     private final Label healthBarLabel;
 
-    private final Stack xpBar;
     private final ProgressBar xpbarTex;
     private final Label xpBarLabel;
 
     private final StatDisplayManager statsManager;
 
-    public HUD(GameScreen screen) {
+    public HUD() {
 
-        this.screen = screen;
         stage = new Stage(new ScreenViewport());
 
         Gdx.input.setInputProcessor(stage);
 
-        table = new Table();
+        Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
         table.pad(10);
@@ -48,7 +43,7 @@ public class HUD implements Disposable {
         Label.LabelStyle style = new Label.LabelStyle(Services.font20, Color.WHITE);
         healthBarLabel = new Label("", style);
         healthBarLabel.setAlignment(Align.center, Align.center);
-        healthBar = new Stack(healtbarTex, healthBarLabel);
+        Stack healthBar = new Stack(healtbarTex, healthBarLabel);
 
 
         xpbarTex = new ProgressBar(0, 100, 1, false, Services.skin, "xpbar") {
@@ -59,9 +54,9 @@ public class HUD implements Disposable {
         };
         xpBarLabel = new Label("", style);
         xpBarLabel.setAlignment(Align.center, Align.center);
-        xpBar = new Stack(xpbarTex, xpBarLabel);
+        Stack xpBar = new Stack(xpbarTex, xpBarLabel);
 
-        statsManager = new StatDisplayManager(screen.player);
+        statsManager = new StatDisplayManager();
 
         table.add().expand().colspan(3);
         table.row();
@@ -117,6 +112,10 @@ public class HUD implements Disposable {
         if (level == 40) {
             xpbarTex.setStyle(Services.skin.get("maxLVL", ProgressBar.ProgressBarStyle.class));
         }
+    }
+
+    public void updateStatsDisplay(PlayerStatsComponent stats) {
+        statsManager.update(stats);
     }
 
     public void render() {

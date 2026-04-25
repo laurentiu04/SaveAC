@@ -1,13 +1,10 @@
 package ro.ac.castravetii.hud;
 
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.PlayerStatsComponent;
 
 public class StatDisplayManager extends HorizontalGroup {
-
-    private final Player player;
 
     private final StatWidget strengthAttrib;
     private final StatWidget speedAttrib;
@@ -15,14 +12,13 @@ public class StatDisplayManager extends HorizontalGroup {
     private final StatWidget xpAttrib;
     private final PointCounter pointCounter;
 
-    public StatDisplayManager(Player player) {
-        this.player = player;
+    public StatDisplayManager() {
 
         strengthAttrib = new StatWidget(Services.skin.getDrawable("strength_stat"), Services.skin.getDrawable("key1"));
         speedAttrib = new StatWidget(Services.skin.getDrawable("speed_stat"), Services.skin.getDrawable("key2"));
         healthAttrib = new StatWidget(Services.skin.getDrawable("health_stat"), Services.skin.getDrawable("key3"));
         xpAttrib = new StatWidget(Services.skin.getDrawable("xp_stat"), Services.skin.getDrawable("key4"));
-        pointCounter = new PointCounter(Services.skin.getDrawable("point_counter"));
+        pointCounter = new PointCounter(Services.skin.getDrawable("point_counter"), Services.skin.getDrawable("point_counter_on"));
 
         this.addActor(pointCounter);
         this.addActor(strengthAttrib);
@@ -31,14 +27,9 @@ public class StatDisplayManager extends HorizontalGroup {
         this.addActor(xpAttrib);
 
         this.space(10);
-
-        update();
     }
 
-    public void update() {
-
-        PlayerStatsComponent stats = player.getPlayerStats();
-
+    public void update(PlayerStatsComponent stats) {
         pointCounter.update(stats.upgradePoints);
         strengthAttrib.update(stats.strengthLevel);
         speedAttrib.update(stats.speedLevel);

@@ -5,19 +5,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
+import ro.ac.castravetii.events.GameEventQueue;
 import ro.ac.castravetii.hud.HUD;
+import ro.ac.castravetii.systems.HUDSystem;
 
 import static com.badlogic.gdx.Gdx.gl;
 
 public class GameScreen implements Screen {
 
     private final Game game;
+    private final GameEventQueue queue;
     private HUD hud;
     public Player player;
     private MapGenerator mapGen;
 
-    public GameScreen(Game game) {
+    public GameScreen(Game game, GameEventQueue queue) {
         this.game = game;
+        this.queue = queue;
     }
 
     @Override
@@ -27,7 +31,8 @@ public class GameScreen implements Screen {
 
         player = Player.create();
 
-        hud = new HUD(this);
+        hud = new HUD();
+        Services.engine.addSystem(new HUDSystem(hud, queue));
 
         player.setListener(new StatsListener() {
             @Override
@@ -78,6 +83,8 @@ public class GameScreen implements Screen {
         Services.camera.update();
 
         hud.stage.getViewport().update(width, height, true);
+        Services.setCameraLimits(Services.MAP_WIDTH, Services.MAP_HEIGHT);
+
     }
 
     @Override
