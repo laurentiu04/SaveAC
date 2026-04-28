@@ -73,7 +73,7 @@ public class HUD implements Disposable {
         rightGroup.addActor(statsManager);
         rightGroup.align(Align.right);
         table.add(rightGroup).expandX().right().minWidth(300);
-        table.setDebug(true);
+//        table.setDebug(true);
     }
 
     public void updateHealthBar(int health, int maxHealth) {
