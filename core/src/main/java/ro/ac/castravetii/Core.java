@@ -21,6 +21,7 @@ public class Core extends Game {
         Services.engine.addSystem(new ColliderRenderSystem());
         Services.engine.addSystem(new HealthbarSystem());
         Services.engine.addSystem(new LevelSystem(queue));
+        Services.engine.addSystem(new EnemyPathfindingSystem());
         // ----------------------------------------------- //
 
 
