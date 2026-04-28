@@ -3,6 +3,8 @@ size:1024,128
 repeat:none
 Pepper
 bounds:2,2,32,32
+bullet
+bounds:904,84,16,16
 castravete
 bounds:772,36,64,64
 castravete-moving

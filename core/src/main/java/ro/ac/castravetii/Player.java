@@ -23,9 +23,14 @@ public final class Player {
     TransformComponent transformComponent;
     TextureComponent textureComponent;
     PlayerComponent playerComponent;
+    PlayerStatsComponent statsComponent;
     MovementComponent movementComponent;
     AnimationComponent animationComponent;
-    ColliderComponent rectHitboxComponent;
+    ColliderComponent colliderComponent;
+    HealthComponent healthComponent;
+    LevelComponent levelComponent;
+
+    StatsListener listener;
 
     /**
      * Constructor ascuns
@@ -34,67 +39,156 @@ public final class Player {
         // Creez o entitate pentru player.
         playerEntity = Services.engine.createEntity();
 
+        playerComponent = new PlayerComponent();
+        playerEntity.add(playerComponent);
+
+        statsComponent = new PlayerStatsComponent();
+        playerEntity.add(statsComponent);
+
         // Creez componente pentru player si le atasez la entitate.
         transformComponent = new TransformComponent();
-        transformComponent.position.x = 300;
-        transformComponent.position.y = 300;
+        transformComponent.position.x = Services.MAP_WIDTH*16;
+        transformComponent.position.y = Services.MAP_HEIGHT*16;
         playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
         textureComponent.region = Services.textureAtlas.findRegion("castravete");
         playerEntity.add(textureComponent);
 
-        playerComponent = new PlayerComponent();
-        playerComponent.health = 250;
-        playerEntity.add(playerComponent);
-
         movementComponent = new MovementComponent();
-        movementComponent.max_vel = 150f;
+        movementComponent.max_vel = statsComponent.maxVel;
         movementComponent.acceleration = movementComponent.max_vel * 0.085f; // 8.5% din viteza maxima
         movementComponent.deceleration = movementComponent.max_vel * 0.05f; // 5% din viteza maxima
         playerEntity.add(movementComponent);
 
         animationComponent = new AnimationComponent();
-        animationComponent.movingAnim = Utils.createAnimation(64, 0.045f, "castravete-moving");
+        animationComponent.movingAnim = Utils.createAnimation(64, 0.035f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);
 
-        rectHitboxComponent = new ColliderComponent();
-        rectHitboxComponent.height = 45f;
-        rectHitboxComponent.with = 20f;
-        rectHitboxComponent.offsetX = -rectHitboxComponent.with/2;
-        rectHitboxComponent.offsetY = 14f;
-        rectHitboxComponent.shape = ColliderShape.ELLIPSE;
-        playerEntity.add(rectHitboxComponent);
+        colliderComponent = new ColliderComponent();
+        colliderComponent.height = 43f;
+        colliderComponent.with = 18f;
+        colliderComponent.offsetX = -colliderComponent.with/2;
+        colliderComponent.offsetY = 15f;
+        colliderComponent.shape = ColliderShape.ELLIPSE;
+        colliderComponent.type = CollisionType.PLAYER;
+        colliderComponent.show = false;
+        playerEntity.add(colliderComponent);
+
+        healthComponent = new HealthComponent();
+        healthComponent.maxHealth = statsComponent.maxHealth;
+        healthComponent.currentHealth = statsComponent.maxHealth;
+        playerEntity.add(healthComponent);
+
+        levelComponent = new LevelComponent();
+        levelComponent.xpGain = statsComponent.xpGain;
+        playerEntity.add(levelComponent);
 
         Services.engine.addSystem(new PlayerInputSystem(1));
 
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);
+
     }
 
     /**
      * Metoda pentru crearea instantei singleton a clasei Player.
      */
     @SuppressWarnings("UnusedReturnValue")
-    public static void create() {
+    public static Player create() {
 
         // Daca a fost creat deja un player, intoarce null.
         if (INSTANCE != null) {
-            return;
+            return null;
         }
 
         // Marchez crearea player-ului.
         INSTANCE = new Player();
+
+        Services.camera.translate(INSTANCE.transformComponent.position.x, INSTANCE.transformComponent.position.y);
+        return INSTANCE;
     }
 
-    public static void snapCamera() {
+
+    //modificari facute de ANDREI, ARE NEVOIE LA Enemy pentru ai
+    public static Player getInstance(){
+        return INSTANCE;
+    }
+
+    public TransformComponent  getTransformComponent(){
+        return transformComponent;
+    }
+
+    public void snapCamera() {
+
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);
         Vector3 playerPos = Player.INSTANCE.transformComponent.position;
 
-        if (!camPos.epsilonEquals(new Vector2(playerPos.x, playerPos.y + playerPos.z))) {
-            Services.camera.position.lerp(new Vector3(playerPos.x, playerPos.y + playerPos.z + 32, 0), 6f * Gdx.graphics.getDeltaTime());
+        Vector3 newCamPos = new Vector3(playerPos.x, playerPos.y + 32, 0);
+
+        if (playerPos.x > Services.maxLimitX) newCamPos.x = Services.maxLimitX;
+        else if (playerPos.x < Services.minLimitX) newCamPos.x = Services.minLimitX;
+        if (playerPos.y + 32 > Services.maxLimitY) newCamPos.y = Services.maxLimitY;
+        else if (playerPos.y + 32 < Services.minLimitY) newCamPos.y = Services.minLimitY;
+
+        if (!camPos.epsilonEquals(new Vector2(newCamPos.x, newCamPos.y))) {
+            Services.camera.position.lerp(newCamPos, 6f * Gdx.graphics.getDeltaTime());
             Services.camera.update();
         }
     }
+
+    public void setListener(StatsListener listener) {
+        this.listener = listener;
+
+        listener.onHealthChange();
+        listener.onXpChange();
+    }
+
+    public HealthComponent getHealthComponent() {
+        return this.healthComponent;
+    }
+
+    public PlayerStatsComponent getPlayerStats() {
+        return this.statsComponent;
+    }
+
+    public void setMaxHealth(int amount) {
+        healthComponent.maxHealth = amount;
+        if (listener != null) {
+            listener.onHealthChange();
+        }
+    }
+
+    public void takeDamage(int amount) {
+
+        healthComponent.currentHealth -= amount;
+        if (listener != null) {
+            listener.onHealthChange();
+        }
+    }
+
+    public void heal(int amount) {
+        healthComponent.currentHealth += amount;
+        if (listener != null) {
+            listener.onHealthChange();
+        }
+    }
+
+    public void gainXP(int amount) {
+        levelComponent.xp += amount;
+        if (listener != null) {
+            listener.onXpChange();
+        }
+    }
+
+    public void levelUp() {
+
+    }
+
+    public LevelComponent getLevelComponent() {
+        return this.levelComponent;
+    }
+
+
 }

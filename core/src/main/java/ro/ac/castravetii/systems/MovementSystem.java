@@ -28,11 +28,6 @@ public class MovementSystem extends IteratingSystem {
     }
 
     @Override
-    public void update(float delta) {
-        super.update(delta);
-    }
-
-    @Override
     protected void processEntity(Entity entity, float deltaTime) {
 
         TransformComponent transform = tm.get(entity);

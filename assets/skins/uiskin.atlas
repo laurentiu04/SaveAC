@@ -1,0 +1,154 @@
+
+uiskin.png
+size: 512, 512
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+Logo
+  rotate: false
+  xy: 1, 339
+  size: 235, 56
+  orig: 235, 56
+  offset: 0, 0
+  index: -1
+health_stat
+  rotate: false
+  xy: 309, 373
+  size: 64, 80
+  orig: 64, 80
+  offset: 0, 0
+  index: -1
+healthbar_bg
+  rotate: false
+  xy: 1, 455
+  size: 256, 56
+  split: 10, 10, 10, 15
+  pad: 9, 9, 9, 14
+  orig: 256, 56
+  offset: 0, 0
+  index: -1
+xpbar_bg
+  rotate: false
+  xy: 1, 455
+  size: 256, 56
+  split: 10, 10, 10, 15
+  pad: 9, 9, 9, 14
+  orig: 256, 56
+  offset: 0, 0
+  index: -1
+healthbar_fill
+  rotate: false
+  xy: 1, 397
+  size: 240, 56
+  split: 4, 4, 12, 17
+  pad: 0, 0, 0, 0
+  orig: 240, 56
+  offset: 0, 0
+  index: -1
+key1
+  rotate: false
+  xy: 119, 53
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: -1
+key2
+  rotate: false
+  xy: 375, 425
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: -1
+key3
+  rotate: false
+  xy: 131, 99
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: -1
+key4
+  rotate: false
+  xy: 375, 395
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: -1
+max_lvl
+  rotate: false
+  xy: 1, 53
+  size: 116, 28
+  split: 7, 7, 7, 7
+  orig: 116, 28
+  offset: 0, 0
+  index: -1
+playButtonDown
+  rotate: false
+  xy: 131, 211
+  size: 128, 126
+  split: 15, 15, 14, 14
+  pad: 14, 14, 13, 13
+  orig: 128, 126
+  offset: 0, 0
+  index: -1
+playButtonHover
+  rotate: false
+  xy: 1, 211
+  size: 128, 126
+  split: 15, 15, 9, 19
+  pad: 14, 14, 8, 18
+  orig: 128, 126
+  offset: 0, 0
+  index: -1
+playButtonUp
+  rotate: false
+  xy: 1, 83
+  size: 128, 126
+  split: 15, 15, 9, 19
+  pad: 14, 14, 8, 18
+  orig: 128, 126
+  offset: 0, 0
+  index: -1
+point_counter
+  rotate: false
+  xy: 1, 1
+  size: 80, 50
+  orig: 80, 50
+  offset: 0, 0
+  index: -1
+point_counter_on
+  rotate: false
+  xy: 83, 1
+  size: 80, 50
+  orig: 80, 50
+  offset: 0, 0
+  index: -1
+speed_stat
+  rotate: false
+  xy: 243, 373
+  size: 64, 80
+  orig: 64, 80
+  offset: 0, 0
+  index: -1
+strength_stat
+  rotate: false
+  xy: 197, 129
+  size: 64, 80
+  orig: 64, 80
+  offset: 0, 0
+  index: -1
+xp_stat
+  rotate: false
+  xy: 131, 129
+  size: 64, 80
+  orig: 64, 80
+  offset: 0, 0
+  index: -1
+xpbar_fill
+  rotate: false
+  xy: 259, 455
+  size: 240, 56
+  split: 4, 4, 12, 17
+  pad: 119, 114, 28, 27
+  orig: 240, 56
+  offset: 0, 0
+  index: -1

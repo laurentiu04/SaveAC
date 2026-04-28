@@ -17,10 +17,6 @@ public class AnimationControlSystem extends IteratingSystem {
         super(Family.all(AnimationComponent.class, TextureComponent.class ,MovementComponent.class).get());
     }
 
-    @Override
-    public void update(float delta) {
-        super.update(delta);
-    }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
