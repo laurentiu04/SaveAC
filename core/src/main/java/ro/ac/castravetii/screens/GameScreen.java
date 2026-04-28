@@ -6,8 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
 import ro.ac.castravetii.events.GameEventQueue;
+import ro.ac.castravetii.events.PlayerDamageEvent;
 import ro.ac.castravetii.hud.HUD;
-import ro.ac.castravetii.systems.HUDSystem;
+import ro.ac.castravetii.systems.*;
 
 import static com.badlogic.gdx.Gdx.gl;
 
@@ -30,25 +31,22 @@ public class GameScreen implements Screen {
         mapGen = new MapGenerator();
         mapGen.createMap(Services.MAP_WIDTH, Services.MAP_HEIGHT, 32);
 
-        player = Player.create();
+        player = Player.create(queue);
         enemy = Enemy.getInstance();
 
         hud = new HUD();
-        Services.engine.addSystem(new HUDSystem(hud, queue));
-
-        player.setListener(new StatsListener() {
-            @Override
-            public void onXpChange() {
-                hud.updateXPBar(player.getLevelComponent().xp, player.getLevelComponent().level, player.getLevelComponent().levelUpTarget);
-            }
-
-            @Override
-            public void onHealthChange() {
-                hud.updateHealthBar(player.getHealthComponent().currentHealth, player.getHealthComponent().maxHealth);
-            }
-        });
 
         Services.setCameraLimits(Services.MAP_WIDTH, Services.MAP_HEIGHT);
+
+        Services.engine.addSystem(new PlayerSystem(queue, player));
+        Services.engine.addSystem(new HUDSystem(hud, queue, 10));
+        Services.engine.addSystem(new RenderSystem());
+        Services.engine.addSystem(new MovementSystem(2));
+        Services.engine.addSystem(new AnimationControlSystem());
+        Services.engine.addSystem(new ColliderRenderSystem());
+        Services.engine.addSystem(new HealthbarSystem());
+        Services.engine.addSystem(new LevelSystem(queue));
+
     }
 
     @Override
@@ -62,6 +60,8 @@ public class GameScreen implements Screen {
         mapGen.render();
         Services.batch.end();
 
+        queue.add(new PlayerDamageEvent(1));
+
         Services.engine.update(Gdx.graphics.getDeltaTime());
 
         player.snapCamera();
@@ -72,7 +72,7 @@ public class GameScreen implements Screen {
 
         hud.render();
 
-        player.gainXP(2);
+        queue.clear();
     }
 
     @Override

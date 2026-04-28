@@ -3,7 +3,6 @@ package ro.ac.castravetii;
 import com.badlogic.gdx.Game;
 import ro.ac.castravetii.events.GameEventQueue;
 import ro.ac.castravetii.screens.MainMenuScreen;
-import ro.ac.castravetii.systems.*;
 
 public class Core extends Game {
 
@@ -12,17 +11,7 @@ public class Core extends Game {
 
         GameEventQueue queue = new GameEventQueue();
 
-        // ---------------- SETUP INITAL ---------------- //
         Services.init();
-
-        Services.engine.addSystem(new RenderSystem()); // Render system pentru entitati
-        Services.engine.addSystem(new MovementSystem(2));
-        Services.engine.addSystem(new AnimationControlSystem());
-        Services.engine.addSystem(new ColliderRenderSystem());
-        Services.engine.addSystem(new HealthbarSystem());
-        Services.engine.addSystem(new LevelSystem(queue));
-        // ----------------------------------------------- //
-
 
         this.setScreen(new MainMenuScreen(this, queue));
 

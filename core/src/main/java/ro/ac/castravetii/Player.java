@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import ro.ac.castravetii.components.*;
+import ro.ac.castravetii.events.*;
 import ro.ac.castravetii.systems.PlayerInputSystem;
 
 /**
@@ -15,9 +16,6 @@ public final class Player {
      * Variabila pentru a verifica daca a fost instantiata clasa player
      */
     private static Player INSTANCE = null;
-    /**
-     * Variabila pentru componenta de transform. O declar aici ca sa o pot accesa din snapCamera();
-     */
 
     Entity playerEntity;
     TransformComponent transformComponent;
@@ -30,12 +28,14 @@ public final class Player {
     HealthComponent healthComponent;
     LevelComponent levelComponent;
 
-    StatsListener listener;
+    GameEventQueue queue;
 
     /**
      * Constructor ascuns
      */
-    private Player() {
+    private Player(GameEventQueue queue) {
+        this.queue = queue;
+
         // Creez o entitate pentru player.
         playerEntity = Services.engine.createEntity();
 
@@ -96,7 +96,7 @@ public final class Player {
      * Metoda pentru crearea instantei singleton a clasei Player.
      */
     @SuppressWarnings("UnusedReturnValue")
-    public static Player create() {
+    public static Player create(GameEventQueue queue) {
 
         // Daca a fost creat deja un player, intoarce null.
         if (INSTANCE != null) {
@@ -104,12 +104,11 @@ public final class Player {
         }
 
         // Marchez crearea player-ului.
-        INSTANCE = new Player();
+        INSTANCE = new Player(queue);
 
         Services.camera.translate(INSTANCE.transformComponent.position.x, INSTANCE.transformComponent.position.y);
         return INSTANCE;
     }
-
 
     //modificari facute de ANDREI, ARE NEVOIE LA Enemy pentru ai
     public static Player getInstance(){
@@ -138,13 +137,6 @@ public final class Player {
         }
     }
 
-    public void setListener(StatsListener listener) {
-        this.listener = listener;
-
-        listener.onHealthChange();
-        listener.onXpChange();
-    }
-
     public HealthComponent getHealthComponent() {
         return this.healthComponent;
     }
@@ -155,35 +147,15 @@ public final class Player {
 
     public void setMaxHealth(int amount) {
         healthComponent.maxHealth = amount;
-        if (listener != null) {
-            listener.onHealthChange();
-        }
     }
 
     public void takeDamage(int amount) {
-
         healthComponent.currentHealth -= amount;
-        if (listener != null) {
-            listener.onHealthChange();
-        }
     }
 
     public void heal(int amount) {
         healthComponent.currentHealth += amount;
-        if (listener != null) {
-            listener.onHealthChange();
-        }
-    }
-
-    public void gainXP(int amount) {
-        levelComponent.xp += amount;
-        if (listener != null) {
-            listener.onXpChange();
-        }
-    }
-
-    public void levelUp() {
-
+        queue.add(new PlayerHealEvent(30));
     }
 
     public LevelComponent getLevelComponent() {
