@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.ray3k.stripe.FreeTypeSkin;
 
 /**
  * Clasa creata pentru toate variabilele ce ar trebui accesate global in proiect
@@ -58,8 +59,6 @@ public final class Services {
     public static BitmapFont font20;
     public static BitmapFont font15;
     public static Skin skin;
-
-    public static MapGenerator mapGenerator;
 
     public static int MAP_WIDTH = 50;
     public static int MAP_HEIGHT =50;
@@ -112,7 +111,7 @@ public final class Services {
             Texture.TextureFilter.Nearest
         );
 
-        skin = new Skin(Gdx.files.internal("skins/uiskin.json"), atlas);
+        skin = new FreeTypeSkin(Gdx.files.internal("skins/uiskin.json"), atlas);
     }
 
     public static void setCameraLimits(int mapWidth, int mapHeight) {

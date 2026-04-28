@@ -36,6 +36,8 @@ public class PlayerInputSystem extends IteratingSystem {
             inputY /= length;
         }
 
+        System.out.println(inputX + " " + inputY);
+
         if (inputX != 0) { // Acelerez
 
             // Adaug sau scad valoarea acceleratiei la viteza, in functie de directie

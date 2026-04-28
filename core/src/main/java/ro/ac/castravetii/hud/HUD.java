@@ -34,25 +34,24 @@ public class HUD implements Disposable {
         stage.addActor(table);
         table.pad(10);
 
-        healtbarTex = new ProgressBar(0, 100, 1, false, Services.skin, "healthbar") {
-            @Override
-            public float getPrefHeight() {
-                return 40;
-            }
-        };
-        Label.LabelStyle style = new Label.LabelStyle(Services.font20, Color.WHITE);
-        healthBarLabel = new Label("", style);
+        healtbarTex = new ProgressBar(0, 100, 1, false, Services.skin, "healthbar");
+        ProgressBar.ProgressBarStyle style = healtbarTex.getStyle();
+        style.background.setMinHeight(50);
+        style.knobBefore.setMinHeight(50);
+
+        healtbarTex.pack();
+        healthBarLabel = new Label("", Services.skin, "healthbar");
         healthBarLabel.setAlignment(Align.center, Align.center);
-        Stack healthBar = new Stack(healtbarTex, healthBarLabel);
+        Stack healthBar = new Stack();
+        healthBar.add(healtbarTex);
+        healthBar.add(new Container<>(healthBarLabel).padBottom(4));
 
 
-        xpbarTex = new ProgressBar(0, 100, 1, false, Services.skin, "xpbar") {
-            @Override
-            public float getPrefHeight() {
-                return 40;
-            }
-        };
-        xpBarLabel = new Label("", style);
+        xpbarTex = new ProgressBar(0, 100, 1, false, Services.skin, "xpbar");
+        style = xpbarTex.getStyle();
+        style.background.setMinHeight(50);
+        style.knobBefore.setMinHeight(50);
+        xpBarLabel = new Label("", Services.skin, "healthbar");
         xpBarLabel.setAlignment(Align.center, Align.center);
         Stack xpBar = new Stack(xpbarTex, xpBarLabel);
 
@@ -62,20 +61,19 @@ public class HUD implements Disposable {
         table.row();
 
         VerticalGroup leftGroup = new VerticalGroup();
-        leftGroup.space(5);
-        leftGroup.addActor(healthBar);
-        leftGroup.addActor(xpBar);
-        leftGroup.grow();
+        leftGroup.space(25);
+        leftGroup.addActor(new Container<>(healthBar).width(300).padBottom(-20));
+        leftGroup.addActor(new Container<>(xpBar).width(300));
         table.add(leftGroup).expandX().left().minWidth(300);
 
         Table centerGroup = new Table();
-        table.add(centerGroup).spaceLeft(20).spaceRight(20).expandX().center().minWidth(centerGroup.getPrefWidth());
+        table.add(centerGroup).space(20).expandX().center().minWidth(centerGroup.getPrefWidth());
 
         HorizontalGroup rightGroup = new HorizontalGroup();
         rightGroup.addActor(statsManager);
         rightGroup.align(Align.right);
         table.add(rightGroup).expandX().right().minWidth(300);
-//        table.setDebug(true);
+        table.setDebug(true);
     }
 
     public void updateHealthBar(int health, int maxHealth) {

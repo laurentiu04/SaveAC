@@ -13,11 +13,11 @@ import ro.ac.castravetii.components.ColliderComponent;
 import ro.ac.castravetii.components.ColliderShape;
 import ro.ac.castravetii.components.TransformComponent;
 
-public class HitboxSystem extends IteratingSystem {
+public class ColliderRenderSystem extends IteratingSystem {
     ComponentMapper<ColliderComponent> bcm = ComponentMapper.getFor(ColliderComponent.class);
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
 
-    public HitboxSystem() {
+    public ColliderRenderSystem() {
         super(Family.all(TransformComponent.class).get());
     }
 
@@ -27,6 +27,7 @@ public class HitboxSystem extends IteratingSystem {
         Vector3 position = tm.get(entity).position;
 
         if (collider != null) {
+
             Vector2 newHitboxPos = new Vector2(position.x + collider.offsetX, position.y + position.z + collider.offsetY);
 
             if (collider.show) {
@@ -40,5 +41,6 @@ public class HitboxSystem extends IteratingSystem {
                 Services.shapeRenderer.end();
             }
         }
+
     }
 }

@@ -2,27 +2,21 @@ package ro.ac.castravetii.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import ro.ac.castravetii.Services;
 import ro.ac.castravetii.events.GameEventQueue;
 
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen extends ScreenAdapter {
 
     private final Game game;
     private Stage stage;
-    private Skin skin; // Adăugat pentru design-ul butoanelor
     private final GameEventQueue queue;
 
     public MainMenuScreen(Game game, GameEventQueue queue) {
@@ -32,17 +26,17 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f));
+        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
-        createBasicSkin();
 
         Table table = new Table(); // Table to center the elements
         table.setFillParent(true); // Filling full screen
         stage.addActor(table);
-        Label titleLabel = new Label("SaveAC", skin); // Game name
-        TextButton playButton = new TextButton("Joaca", skin); // Play button
-        TextButton exitButton = new TextButton("Iesire", skin); // Exit button
+        Image titleImage = new Image(Services.skin.getDrawable("Logo")); // Game name
+        TextButton playButton = new TextButton("PLAY", Services.skin); // Play button
+        playButton.setSize(170, 70);
+        TextButton exitButton = new TextButton("QUIT", Services.skin); // Exit button
+        exitButton.setSize(170, 70);
 
         playButton.addListener(new ChangeListener() {
             @Override
@@ -59,35 +53,18 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        titleImage.pack();
 
-        table.add(titleLabel).padBottom(30).row(); // Adding title
-        table.add(playButton).width(150).height(40).padBottom(10).row(); // Adding play button
-        table.add(exitButton).width(150).height(40); // Adding exit button
-    }
-
-    private void createBasicSkin() {
-        skin = new Skin();
-
-        BitmapFont font = new BitmapFont();
-        skin.add("default", font);
-
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888); // Creating a pixmap
-        pixmap.setColor(Color.WHITE); // Set to white
-        pixmap.fill(); // filling pixmap with white
-        skin.add("background", new Texture(pixmap)); // background has white color
-
-        // Label style
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font;
-        labelStyle.fontColor = Color.BLACK;
-        skin.add("default", labelStyle);
-
-        // Buttons style
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("background", Color.DARK_GRAY);
-        textButtonStyle.down = skin.newDrawable("background", Color.LIGHT_GRAY);
-        textButtonStyle.font = font;
-        skin.add("default", textButtonStyle);
+        table.pad(50);
+        table.add(titleImage).width(titleImage.getImageWidth()*2).height(titleImage.getImageHeight()*2).space(50).grow().top().left().row(); // Adding title
+        VerticalGroup buttons = new VerticalGroup();
+        buttons.space(10);
+//        buttons.setFillParent(true);
+        buttons.align(Align.right | Align.center);
+        buttons.addActor(new Container<>(playButton).width(170).height(70)); // Adding play button
+        buttons.addActor(new Container<>(exitButton).width(170).height(70));// Adding exit button
+        table.add(buttons).left();
+//        stage.setDebugAll(true);
     }
 
     @Override
@@ -107,17 +84,7 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void pause() { }
-
-    @Override
-    public void resume() { }
-
-    @Override
-    public void hide() { }
-
-    @Override
     public void dispose() {
         stage.dispose();
-        if (skin != null) skin.dispose(); // Cleaning memory
     }
 }
