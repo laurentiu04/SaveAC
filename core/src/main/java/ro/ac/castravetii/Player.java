@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import ro.ac.castravetii.components.*;
 import ro.ac.castravetii.events.*;
-import ro.ac.castravetii.systems.PlayerInputSystem;
 
 /**
  * Container singleton pentru entitatea player
@@ -56,9 +55,7 @@ public final class Player {
         playerEntity.add(textureComponent);
 
         movementComponent = new MovementComponent();
-        movementComponent.max_vel = statsComponent.maxVel;
-        movementComponent.acceleration = movementComponent.max_vel * 0.085f; // 8.5% din viteza maxima
-        movementComponent.deceleration = movementComponent.max_vel * 0.05f; // 5% din viteza maxima
+        movementComponent.speed = 100f;
         playerEntity.add(movementComponent);
 
         animationComponent = new AnimationComponent();
@@ -84,8 +81,6 @@ public final class Player {
         levelComponent = new LevelComponent();
         levelComponent.xpGain = statsComponent.xpGain;
         playerEntity.add(levelComponent);
-
-        Services.engine.addSystem(new PlayerInputSystem(1));
 
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);
@@ -122,7 +117,7 @@ public final class Player {
     public void snapCamera() {
 
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);
-        Vector3 playerPos = Player.INSTANCE.transformComponent.position;
+        Vector2 playerPos = Player.INSTANCE.transformComponent.position;
 
         Vector3 newCamPos = new Vector3(playerPos.x, playerPos.y + 32, 0);
 
@@ -145,21 +140,12 @@ public final class Player {
         return this.statsComponent;
     }
 
-    public void setMaxHealth(int amount) {
-        healthComponent.maxHealth = amount;
-    }
-
-    public void takeDamage(int amount) {
-        healthComponent.currentHealth -= amount;
-    }
-
-    public void heal(int amount) {
-        healthComponent.currentHealth += amount;
-        queue.add(new PlayerHealEvent(30));
-    }
-
     public LevelComponent getLevelComponent() {
         return this.levelComponent;
+    }
+
+    public MovementComponent getMovementComponent() {
+        return movementComponent;
     }
 
 

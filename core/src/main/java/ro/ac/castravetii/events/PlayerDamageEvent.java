@@ -1,4 +1,4 @@
 package ro.ac.castravetii.events;
 
-public record PlayerDamageEvent(int i) implements GameEvent {
+public record PlayerDamageEvent(int damage) implements GameEvent {
 }

@@ -6,7 +6,7 @@ public class PlayerStatsComponent implements Component {
     public int maxHealth = 100;
     public int healthLevel = 1;
 
-    public float maxVel = 100f;
+    public float speedBoost = 0f;
     public int speedLevel = 1;
 
     public int damage = 10;
