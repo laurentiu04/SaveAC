@@ -34,8 +34,13 @@ public class AnimationControlSystem extends IteratingSystem {
 
             case MOVING -> {
 
-                // fac viteza animatiei proportionala cat de cat cu viteza entitatii
-                animComp.elapsedAnimTime += ((moveComp.max_vel * 0.00008f) * (Math.max(Math.abs(moveComp.velX), Math.abs(moveComp.velY))/moveComp.max_vel)) * deltaTime * 50f;
+                /* fac viteza animatiei proportionala cat de cat cu viteza entitatii
+                    Pentru o viteza mai mare a entitatii, durata frame-ului scade incat sa
+                    treaca mai rapid de la frame la frame
+                 */
+
+                float speedFactor = moveComp.speed/150f;
+                animComp.elapsedAnimTime += deltaTime * speedFactor;
                 textComp.region = animComp.movingAnim.getKeyFrame(animComp.elapsedAnimTime, true);
             }
         }

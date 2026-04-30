@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
 import ro.ac.castravetii.events.GameEventQueue;
 import ro.ac.castravetii.events.PlayerDamageEvent;
+import ro.ac.castravetii.events.PlayerXPGainEvent;
 import ro.ac.castravetii.hud.HUD;
 import ro.ac.castravetii.systems.*;
 
@@ -38,14 +39,16 @@ public class GameScreen implements Screen {
 
         Services.setCameraLimits(Services.MAP_WIDTH, Services.MAP_HEIGHT);
 
-        Services.engine.addSystem(new PlayerSystem(queue, player));
+        Services.engine.addSystem(new PlayerSystem(queue));
+        Services.engine.addSystem(new PlayerInputSystem(1));
+        Services.engine.addSystem(new HealthbarSystem());
+        Services.engine.addSystem(new LevelSystem(queue));
         Services.engine.addSystem(new HUDSystem(hud, queue, 10));
         Services.engine.addSystem(new RenderSystem());
         Services.engine.addSystem(new MovementSystem(2));
         Services.engine.addSystem(new AnimationControlSystem());
         Services.engine.addSystem(new ColliderRenderSystem());
-        Services.engine.addSystem(new HealthbarSystem());
-        Services.engine.addSystem(new LevelSystem(queue));
+        Services.engine.addSystem(new EnemyPathfindingSystem());
 
     }
 
@@ -60,7 +63,7 @@ public class GameScreen implements Screen {
         mapGen.render();
         Services.batch.end();
 
-        queue.add(new PlayerDamageEvent(1));
+        queue.add(new PlayerXPGainEvent(1));
 
         Services.engine.update(Gdx.graphics.getDeltaTime());
 

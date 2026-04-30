@@ -8,15 +8,11 @@ import com.badlogic.gdx.utils.Pool;
  * @author Laurentiu
  */
 public class MovementComponent implements Component, Pool.Poolable {
-    public float max_vel = 200f;
-    public float velX = 0f;
-    public float velY = 0f;
-    public float velZ = 0f;
-    public boolean isFalling = false;
-    public float acceleration = 25f;
-    public float deceleration = 20f;
-    public int directionX = 1;
-    public int directionY = 1;
+    public float moveX = 0f;
+    public float moveY = 0f;
+    public float speed = 150f;
+    public float inputX = 0f;
+    public float inputY = 0f;
 
     @Override
     public void reset() {
