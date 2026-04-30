@@ -21,6 +21,11 @@ public class Enemy {
 
     TransformComponent enemyTC;
 
+    /* TODO:
+        Andrei, sterge partea de singleton pentru ca o sa fie mai multi inamici!
+        Pentru fiecare tip nou de inamic va trebui sa extinzi clasa asta si sa schimbi datele din componente!
+    */
+
     //Singleton design pattern : create an Enemy object
     public static Enemy  getInstance (){
         //If enemy was not created then create an enemy
@@ -57,9 +62,7 @@ public class Enemy {
         //TODO pentru viitor pot implementa o functie care sa adapteze movement ul in timp real
         //TODO astfel incat enemy sa poata "sa" primeasca un upgrade cand Player a primit si el upgrade
         MovementComponent movement = new MovementComponent();
-        movement.max_vel = 100f;
-        movement.acceleration = movement.max_vel * 0.05f; //5 % from max_vel
-        movement.deceleration = movement.max_vel * 0.03f; //3 % from max_vel
+        movement.speed = 50f;
         entityEnemy.add(movement);
 
         //Added new AnimationComponent for my Enemy : that AnimationComponent is responsible for visual effects of Enemy design
