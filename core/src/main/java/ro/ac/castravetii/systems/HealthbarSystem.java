@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.components.PlayerComponent;
@@ -23,7 +23,7 @@ public class HealthbarSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        Vector3 pos = tm.get(entity).position;
+        Vector2 pos = tm.get(entity).position;
         HealthComponent health = hm.get(entity);
         int healthbarWidth = 30;
 

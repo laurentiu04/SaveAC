@@ -1,8 +1,6 @@
 package ro.ac.castravetii.systems;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.*;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.components.LevelComponent;
@@ -12,6 +10,10 @@ import ro.ac.castravetii.events.*;
 import ro.ac.castravetii.hud.HUD;
 
 public class HUDSystem extends EntitySystem {
+
+    ComponentMapper<LevelComponent> lvl = ComponentMapper.getFor(LevelComponent.class);
+    ComponentMapper<HealthComponent> health = ComponentMapper.getFor(HealthComponent.class);
+    ComponentMapper<PlayerStatsComponent> stats = ComponentMapper.getFor(PlayerStatsComponent.class);
 
     private final HUD hud;
     private final GameEventQueue queue;
@@ -35,8 +37,9 @@ public class HUDSystem extends EntitySystem {
 
         for (GameEvent event : queue.getEventsOfType(UpdateHUDEvent.class)) {
             switch (event){
-                case UpdateHUDEvent.stats -> hud.getStatsManager().update(player.getComponent(PlayerStatsComponent.class));
-                case UpdateHUDEvent.healthBar -> hud.getHealthBar().update(player.getComponent(HealthComponent.class));
+                case UpdateHUDEvent.stats -> hud.getStatsManager().update(stats.get(player));
+                case UpdateHUDEvent.healthBar -> hud.getHealthBar().update(health.get(player));
+                case UpdateHUDEvent.levelBar -> hud.getLevelBar().update(lvl.get(player));
                 default -> throw new IllegalStateException("Unexpected value: " + event);
             }
 
