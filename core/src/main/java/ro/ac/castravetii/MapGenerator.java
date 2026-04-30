@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import org.spongepowered.noise.module.source.Perlin;
 import ro.ac.castravetii.components.TextureComponent;
@@ -55,7 +55,7 @@ public class MapGenerator implements Disposable {
 
                      Entity rock = Services.engine.createEntity();
                      TransformComponent trans = new TransformComponent();
-                     trans.position = new Vector3(tileSize*x + tileSize/2f, tileSize*y + tileSize/2f, 0);
+                     trans.position = new Vector2(tileSize*x + tileSize/2f, tileSize*y + tileSize/2f);
                      rock.add(trans);
                     TextureComponent text = new TextureComponent();
                     text.region = tileAtlas.findRegion("rock" + (rnd.nextInt(2) + 1));

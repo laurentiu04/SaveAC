@@ -10,8 +10,6 @@ import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.TextureComponent;
 import ro.ac.castravetii.components.TransformComponent;
 
-import java.util.Comparator;
-
 /**
  * Sistem de randare a tuturor entitatilor de au componenta de tip TextureComponent
  * @author Laurentiu
@@ -47,14 +45,14 @@ public class RenderSystem extends SortedIteratingSystem {
 
         int direction = 1;
         if (mm.has(entity)) {
-            direction = mm.get(entity).directionX;
+            direction = mm.get(entity).inputX >= 0 ? 1 : -1;
         }
 
         Services.batch.begin();
         Services.batch.draw(
             region,
             transform.position.x - region.getRegionWidth()/2.0f,
-            transform.position.y + transform.position.z,
+            transform.position.y,
             region.getRegionWidth()/2f,
             0,
             region.getRegionWidth(),

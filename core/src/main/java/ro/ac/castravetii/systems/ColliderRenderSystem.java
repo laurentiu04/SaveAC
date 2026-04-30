@@ -7,7 +7,6 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.ColliderComponent;
 import ro.ac.castravetii.components.ColliderShape;
@@ -24,11 +23,11 @@ public class ColliderRenderSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         ColliderComponent collider = bcm.get(entity);
-        Vector3 position = tm.get(entity).position;
+        Vector2 position = tm.get(entity).position;
 
         if (collider != null) {
 
-            Vector2 newHitboxPos = new Vector2(position.x + collider.offsetX, position.y + position.z + collider.offsetY);
+            Vector2 newHitboxPos = new Vector2(position.x + collider.offsetX, position.y + collider.offsetY);
 
             if (collider.show) {
                 Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
