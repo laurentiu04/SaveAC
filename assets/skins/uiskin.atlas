@@ -41,7 +41,7 @@ healthbar_fill
   xy: 1, 397
   size: 240, 56
   split: 4, 4, 12, 17
-  pad: 0, 0, 0, 0
+  pad: 119, 114, 28, 27
   orig: 240, 56
   offset: 0, 0
   index: -1

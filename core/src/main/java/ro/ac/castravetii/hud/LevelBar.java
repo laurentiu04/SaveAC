@@ -14,22 +14,21 @@ public class LevelBar extends Stack {
 
     public LevelBar() {
         bar =  new ProgressBar(0, 100, 1, false, Services.skin, "xpbar");
+        ProgressBar.ProgressBarStyle style = bar.getStyle();
+        style.background.setMinHeight(44);
+        style.knobBefore.setMinHeight(44);
 
-        label = new Label("", Services.skin, "healthbar");
+        label = new Label("", Services.skin, "levelBar");
         label.setAlignment(Align.center, Align.center);
         this.add(bar);
-        this.add(new Container<>(label).padBottom(4));
+        this.add(new Container<>(label).padBottom(7f));
     }
 
     public void update(LevelComponent component) {
         bar.setRange(0, component.levelUpTarget);
-
         bar.setValue(component.xp);
         label.setText("LVL " + component.level);
         label.pack();
-        label.setPosition(
-            bar.getX() + bar.getWidth()/2f - label.getWidth()/2f,
-            bar.getY() + bar.getHeight()/2f - label.getHeight()/2f);
 
         if (component.level == 40) {
             bar.setStyle(Services.skin.get("maxLVL", ProgressBar.ProgressBarStyle.class));

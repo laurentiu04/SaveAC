@@ -35,8 +35,8 @@ public class HUD implements Disposable {
         table.row();
 
         VerticalGroup leftGroup = new VerticalGroup();
-        leftGroup.space(25);
-        leftGroup.addActor(new Container<>(healthBar).width(300).padBottom(-20));
+        leftGroup.space(5);
+        leftGroup.addActor(new Container<>(healthBar).width(300));
         leftGroup.addActor(new Container<>(levelBar).width(300));
         table.add(leftGroup).expandX().left().minWidth(300);
 

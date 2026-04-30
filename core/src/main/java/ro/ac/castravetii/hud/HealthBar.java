@@ -24,7 +24,7 @@ public class HealthBar extends Stack {
         label = new Label("", Services.skin, "healthbar");
         label.setAlignment(Align.center, Align.center);
         this.add(bar);
-        this.add(new Container<>(label).padBottom(4));
+        this.add(new Container<>(label).padBottom(7));
 
         barFill =  (TenPatchDrawable) bar.getStyle().knobBefore;
     }
@@ -41,10 +41,5 @@ public class HealthBar extends Stack {
         else {
             barFill.setColor(Color.YELLOW.cpy().lerp(Color.RED, 1 - healthPercent/0.5f));
         }
-
-        label.pack();
-        label.setPosition(
-            bar.getX() + bar.getWidth() / 2f - bar.getWidth()/2f,
-            bar.getY() + bar.getHeight()/2 - bar.getHeight()/2f + 1);
     }
 }

@@ -1,0 +1,71 @@
+package ro.ac.castravetii.systems;
+
+import com.badlogic.ashley.core.*;
+import ro.ac.castravetii.Player;
+import ro.ac.castravetii.components.HealthComponent;
+import ro.ac.castravetii.components.LevelComponent;
+import ro.ac.castravetii.components.PlayerStatsComponent;
+import ro.ac.castravetii.events.*;
+
+import java.util.ArrayDeque;
+
+/**
+ * Acest sistem se va ocupa cu modiicarea stat-urilor player-ului
+ * HealthComponent, StatsComponent, LevelComponent
+ */
+public class PlayerStatsSystem extends EntitySystem {
+
+    private final HealthComponent health;
+    private final LevelComponent levelComp;
+    private final PlayerStatsComponent stats;
+    private final GameEventQueue queue;
+
+    public PlayerStatsSystem(GameEventQueue queue){
+        this.queue = queue;
+
+        health = Player.getInstance().getHealthComponent();
+        levelComp = Player.getInstance().getLevelComponent();
+        stats = Player.getInstance().getPlayerStats();
+    }
+
+    @Override
+    public void update(float delta) {
+        ArrayDeque<GameEvent> events = queue.getEventsOfType(PlayerDamageEvent.class, PlayerXPGainEvent.class);
+
+        if (!events.isEmpty()) {
+            for (GameEvent event : events ){
+
+                switch (event) {
+                    case PlayerDamageEvent e -> {
+                        health.currentHealth -= e.damage();
+
+                        if (health.currentHealth <= 0) {
+                            health.currentHealth = 0;
+                            queue.add(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
+                        }
+
+                        queue.add(UpdateHUDEvent.healthBar);
+                    }
+
+                    case PlayerXPGainEvent e -> {
+                        levelComp.xp += e.xp();
+
+                        // Fac level up cat timp am xp-ul necesar si nu am ajuns la nivelul maxim
+                        while (levelComp.xp >= levelComp.levelUpTarget && levelComp.level < levelComp.maxLevel) {
+                            levelComp.xp -= levelComp.levelUpTarget; // Scad din xp-ul curent valoarea pentru level up
+                            levelComp.level++;
+                            stats.upgradePoints++;
+                            levelComp.levelUpTarget = levelComp.levelWeight + (int)Math.pow(levelComp.level, 2); // setez un nou target pentru level up
+                        }
+                        queue.add(UpdateHUDEvent.levelBar);
+                        queue.add(UpdateHUDEvent.stats);
+                    }
+
+                    default -> throw new IllegalStateException("Unexpected value: " + event);
+                }
+
+                queue.remove(event);
+            }
+        }
+    }
+}

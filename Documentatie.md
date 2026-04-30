@@ -103,4 +103,8 @@ class BulletEvent implements GameEvent {
 
 Poate nu este cel mai bun exemplu, dar cred că se înțelege ideea.
 
+Pentru a adăuga un event in coadă, folosim `queue.add(GameEvent event)`. De exemplu, pentru a adăuga că player-ul a luat damageâ
+putem scrie `queue.add(new PlayerDamageEvent(10))`.\
+Pentru enum nu trebuie specificat keyword-ul `new`. De exemplu: `queue.add(UpdateHUDEvent.healthBar)`;
+
 
