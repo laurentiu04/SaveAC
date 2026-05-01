@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
 
         Services.setCameraLimits(Services.MAP_WIDTH, Services.MAP_HEIGHT);
 
-        Services.engine.addSystem(new PlayerSystem(queue));
+        Services.engine.addSystem(new PlayerStatsSystem(queue));
         Services.engine.addSystem(new PlayerInputSystem(1));
         Services.engine.addSystem(new HealthbarSystem());
         Services.engine.addSystem(new HUDSystem(hud, queue, 10));
