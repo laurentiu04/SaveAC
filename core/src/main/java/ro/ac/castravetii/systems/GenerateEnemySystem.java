@@ -39,7 +39,7 @@ public class GenerateEnemySystem extends EntitySystem {
                 return;
             }
 
-            TransformComponent tc = enemy.entityEnemy.getComponent(TransformComponent.class);
+            TransformComponent tc = enemy.getTransformComponent();
             tc.position.x = x;
             tc.position.y = y;
 

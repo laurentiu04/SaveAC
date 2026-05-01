@@ -8,12 +8,13 @@ import ro.ac.castravetii.components.TextureComponent;
 
 public class Enemy {
 
-    public TransformComponent enemyTC;
-    public Entity entityEnemy;
-    public TextureComponent texture;
-    public EnemyComponent enemyC;
-    public HealthComponent health;
-    public MovementComponent movement;
+    protected TransformComponent enemyTC;
+    protected Entity entityEnemy;
+    protected TextureComponent texture;
+    protected EnemyComponent enemyC;
+    protected HealthComponent health;
+    protected MovementComponent movement;
+    protected AnimationComponent animation;
 
     public Enemy() {
 
@@ -42,13 +43,16 @@ public class Enemy {
         entityEnemy.add(movement);
 
         //Added new AnimationComponent for my Enemy : that AnimationComponent is responsible for visual effects of Enemy design
-//        AnimationComponent animation = new AnimationComponent();
-//        animation.movingAnim = Utils.createAnimation(64,0.045f, "nume_enemy_animatie"); // adaugi animatia la enemy si i modifici parametrii ;
+        animation = new AnimationComponent();
         // ATENTIE FRAMESIZE TREBUIE SA AIBA ACELEASI DIMENSIUNI CA DESIGN UL INITIAL PE CARE L FOLOSESTI IN texture.region
-//        animation.idleSprite = texture.region;
-//        entityEnemy.add(animation);
+        animation.idleSprite = texture.region;
+        entityEnemy.add(animation);
 
         Services.engine.addEntity(entityEnemy);
 
+    }
+
+    public TransformComponent getTransformComponent() {
+        return enemyTC;
     }
 }
