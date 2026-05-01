@@ -6,11 +6,10 @@ import com.badlogic.gdx.utils.Pool;
 
 public class TextureComponent implements Component, Pool.Poolable {
     public TextureRegion region;
-    public int layerIndex = 0;
+    public boolean flipped = false;
 
     @Override
     public void reset() {
         region = null;
-        layerIndex = 0;
     }
 }

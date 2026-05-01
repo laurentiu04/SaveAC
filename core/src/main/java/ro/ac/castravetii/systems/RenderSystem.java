@@ -40,12 +40,13 @@ public class RenderSystem extends SortedIteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TextureRegion region = txm.get(entity).region;
+        TextureComponent texture = txm.get(entity);
+        TextureRegion region = texture.region;
         TransformComponent transform = tm.get(entity);
+        MovementComponent move = mm.get(entity);
 
-        int direction = 1;
-        if (mm.has(entity)) {
-            direction = mm.get(entity).moveX >= 0 ? 1 : -1;
+        if (move != null && move.moveX != 0) {
+            texture.flipped = !(mm.get(entity).moveX > 0);
         }
 
         Services.batch.begin();
@@ -57,7 +58,7 @@ public class RenderSystem extends SortedIteratingSystem {
             0,
             region.getRegionWidth(),
             region.getRegionHeight(),
-            1f * direction,
+            texture.flipped ? -1f : 1f,
             1f,
             transform.rotation
         );
