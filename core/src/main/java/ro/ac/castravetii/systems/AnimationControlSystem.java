@@ -33,13 +33,17 @@ public class AnimationControlSystem extends IteratingSystem {
             }
 
             case MOVING -> {
+                // Daca nu a fost atribuita nici o regiune pentru animatie, ne intoarcem;
+                if (animComp.movingAnim == null) {
+                    return;
+                }
 
                 /* fac viteza animatiei proportionala cat de cat cu viteza entitatii
                     Pentru o viteza mai mare a entitatii, durata frame-ului scade incat sa
                     treaca mai rapid de la frame la frame
                  */
 
-                float speedFactor = moveComp.speed/150f;
+                float speedFactor = moveComp.speed/animComp.animationDuration;
                 animComp.elapsedAnimTime += deltaTime * speedFactor;
                 textComp.region = animComp.movingAnim.getKeyFrame(animComp.elapsedAnimTime, true);
             }

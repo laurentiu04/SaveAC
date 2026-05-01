@@ -18,7 +18,6 @@ public class GameScreen implements Screen {
     private final GameEventQueue queue;
     private HUD hud;
     public Player player;
-    public Enemy enemy;
     private MapGenerator mapGen;
 
     public GameScreen(Game game, GameEventQueue queue) {
@@ -32,7 +31,6 @@ public class GameScreen implements Screen {
         mapGen.createMap(Services.MAP_WIDTH, Services.MAP_HEIGHT, 32);
 
         player = Player.create(queue);
-        enemy = new Enemy();
 
         hud = new HUD();
 

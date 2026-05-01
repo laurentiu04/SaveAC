@@ -45,7 +45,7 @@ public class RenderSystem extends SortedIteratingSystem {
 
         int direction = 1;
         if (mm.has(entity)) {
-            direction = mm.get(entity).inputX >= 0 ? 1 : -1;
+            direction = mm.get(entity).moveX >= 0 ? 1 : -1;
         }
 
         Services.batch.begin();
