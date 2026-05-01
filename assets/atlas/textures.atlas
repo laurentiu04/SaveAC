@@ -1,6 +1,8 @@
 textures.png
 size:1024,128
 repeat:none
+BellPepper
+bounds:904,70,48,48
 Pepper
 bounds:388,20,32,32
 Pepper-moving
@@ -12,6 +14,6 @@ bounds:772,54,64,64
 castravete-moving
 bounds:2,54,768,64
 pistoleta
-bounds:904,102,16,16
+bounds:954,102,16,16
 rosie
 bounds:838,54,64,64

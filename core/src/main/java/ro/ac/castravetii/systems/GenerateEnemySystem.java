@@ -17,7 +17,7 @@ public class GenerateEnemySystem extends EntitySystem {
     public void update(float deltaTime){
         counter += deltaTime;
 
-        int maxPerWave = 10;
+        int maxPerWave = 5;
 
         //every 3 seconds enemies appear.
         float spawnInterval = 3f;

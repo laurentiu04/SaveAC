@@ -27,7 +27,6 @@ public class Enemy {
 
         //Creating texture component for my Enemy object
         texture = new TextureComponent();
-        texture.region = Services.textureAtlas.findRegion("Pepper");
         entityEnemy.add(texture);
 
         //Creating a new EnemyComponent with 2 attributes health & damage that are initialized
@@ -45,7 +44,6 @@ public class Enemy {
         //Added new AnimationComponent for my Enemy : that AnimationComponent is responsible for visual effects of Enemy design
         animation = new AnimationComponent();
         // ATENTIE FRAMESIZE TREBUIE SA AIBA ACELEASI DIMENSIUNI CA DESIGN UL INITIAL PE CARE L FOLOSESTI IN texture.region
-        animation.idleSprite = texture.region;
         entityEnemy.add(animation);
 
         Services.engine.addEntity(entityEnemy);
