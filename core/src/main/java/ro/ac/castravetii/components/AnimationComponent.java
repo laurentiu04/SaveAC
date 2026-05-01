@@ -15,6 +15,7 @@ public class AnimationComponent implements Component, Pool.Poolable {
     // Variabila pentru a stoca cat timp a trecut de cand a inceput animatia
     // pentru a calcula ce frame din animatie trebuie afisat.
     public float elapsedAnimTime = 0f;
+    public float animationDuration = 150f;
     // Textura pentru starea IDLE
     public TextureRegion idleSprite;
     // Animatia pentru starea MOVING

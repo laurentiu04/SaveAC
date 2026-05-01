@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
 import ro.ac.castravetii.events.GameEventQueue;
-import ro.ac.castravetii.events.PlayerDamageEvent;
 import ro.ac.castravetii.events.PlayerXPGainEvent;
 import ro.ac.castravetii.hud.HUD;
 import ro.ac.castravetii.systems.*;
@@ -19,7 +18,6 @@ public class GameScreen implements Screen {
     private final GameEventQueue queue;
     private HUD hud;
     public Player player;
-    public Enemy enemy;
     private MapGenerator mapGen;
 
     public GameScreen(Game game, GameEventQueue queue) {
@@ -33,7 +31,6 @@ public class GameScreen implements Screen {
         mapGen.createMap(Services.MAP_WIDTH, Services.MAP_HEIGHT, 32);
 
         player = Player.create(queue);
-        enemy = Enemy.getInstance();
 
         hud = new HUD();
 
@@ -49,6 +46,7 @@ public class GameScreen implements Screen {
         Services.engine.addSystem(new AnimationControlSystem());
         Services.engine.addSystem(new ColliderRenderSystem());
         Services.engine.addSystem(new EnemyPathfindingSystem());
+        Services.engine.addSystem(new GenerateEnemySystem());
 
     }
 
