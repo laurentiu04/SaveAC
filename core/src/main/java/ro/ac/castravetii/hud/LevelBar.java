@@ -28,10 +28,5 @@ public class LevelBar extends Stack {
         bar.setRange(0, component.levelUpTarget);
         bar.setValue(component.xp);
         label.setText("LVL " + component.level);
-        label.pack();
-
-        if (component.level == 40) {
-            bar.setStyle(Services.skin.get("maxLVL", ProgressBar.ProgressBarStyle.class));
-        }
     }
 }

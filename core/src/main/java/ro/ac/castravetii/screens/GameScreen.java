@@ -19,6 +19,7 @@ public class GameScreen implements Screen {
     private HUD hud;
     public Player player;
     private MapGenerator mapGen;
+    public float time = 0;
 
     public GameScreen(Game game, GameEventQueue queue) {
         this.game = game;
@@ -60,7 +61,11 @@ public class GameScreen implements Screen {
         mapGen.render();
         Services.batch.end();
 
-        queue.add(new PlayerXPGainEvent(1));
+        time += delta;
+        if (time >= 2f) {
+            time = 0;
+            queue.add(new PlayerXPGainEvent(100));
+        }
 
         Services.engine.update(Gdx.graphics.getDeltaTime());
 

@@ -4,17 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.MovementComponent;
-import ro.ac.castravetii.components.PlayerStatsComponent;
 
 public class PlayerInputSystem extends EntitySystem {
     private final MovementComponent moveComp;
-    private final PlayerStatsComponent stats;
 
     public PlayerInputSystem(int priority) {
         super(priority);
 
         moveComp = Player.getInstance().getMovementComponent();
-        stats = Player.getInstance().getPlayerStats();
     }
 
     @Override
@@ -32,7 +29,7 @@ public class PlayerInputSystem extends EntitySystem {
             moveComp.inputY /= length;
         }
 
-        moveComp.moveX = (moveComp.speed + stats.speedBoost) * moveComp.inputX;
-        moveComp.moveY = (moveComp.speed + stats.speedBoost) * moveComp.inputY;
+        moveComp.moveX = moveComp.speed * moveComp.inputX;
+        moveComp.moveY = moveComp.speed * moveComp.inputY;
     }
 }

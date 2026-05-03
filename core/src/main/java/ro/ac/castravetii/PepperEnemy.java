@@ -4,7 +4,6 @@ public class PepperEnemy extends Enemy{
     public PepperEnemy(){
         super();
         texture.region = Services.textureAtlas.findRegion("Pepper");
-        System.out.println(texture.region);
         animation.movingAnim = Utils.createAnimation(32, 0.05f, "Pepper-moving");
         animation.idleSprite = texture.region;
         animation.animationDuration = 50f;

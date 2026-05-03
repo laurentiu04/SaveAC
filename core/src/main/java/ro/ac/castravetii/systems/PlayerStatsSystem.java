@@ -1,9 +1,12 @@
 package ro.ac.castravetii.systems;
 
 import com.badlogic.ashley.core.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.components.LevelComponent;
+import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.PlayerStatsComponent;
 import ro.ac.castravetii.events.*;
 
@@ -11,36 +14,39 @@ import java.util.ArrayDeque;
 
 /**
  * Acest sistem se va ocupa cu modiicarea stat-urilor player-ului
- * HealthComponent, StatsComponent, LevelComponent
+ * maxHealth, speed, damage, xpGain.
  */
 public class PlayerStatsSystem extends EntitySystem {
 
-    private final HealthComponent health;
-    private final LevelComponent levelComp;
-    private final PlayerStatsComponent stats;
+    private final HealthComponent healthC;
+    private final LevelComponent levelC;
+    private final PlayerStatsComponent statsC;
+    private final MovementComponent movementC;
     private final GameEventQueue queue;
 
     public PlayerStatsSystem(GameEventQueue queue){
         this.queue = queue;
 
-        health = Player.getInstance().getHealthComponent();
-        levelComp = Player.getInstance().getLevelComponent();
-        stats = Player.getInstance().getPlayerStats();
+        healthC = Player.getInstance().getHealthComponent();
+        levelC = Player.getInstance().getLevelComponent();
+        statsC = Player.getInstance().getPlayerStats();
+        movementC = Player.getInstance().getMovementComponent();
     }
 
     @Override
     public void update(float delta) {
         ArrayDeque<GameEvent> events = queue.getEventsOfType(PlayerDamageEvent.class, PlayerXPGainEvent.class);
 
+        // Tratez evenimentele legate de player daca exista
         if (!events.isEmpty()) {
             for (GameEvent event : events ){
 
                 switch (event) {
                     case PlayerDamageEvent e -> {
-                        health.currentHealth -= e.damage();
+                        healthC.currentHealth -= e.damage();
 
-                        if (health.currentHealth <= 0) {
-                            health.currentHealth = 0;
+                        if (healthC.currentHealth <= 0) {
+                            healthC.currentHealth = 0;
                             queue.add(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }
 
@@ -48,14 +54,14 @@ public class PlayerStatsSystem extends EntitySystem {
                     }
 
                     case PlayerXPGainEvent e -> {
-                        levelComp.xp += e.xp();
+                        levelC.xp += (int) (e.xp() * levelC.xpGain);
 
                         // Fac level up cat timp am xp-ul necesar si nu am ajuns la nivelul maxim
-                        while (levelComp.xp >= levelComp.levelUpTarget && levelComp.level < levelComp.maxLevel) {
-                            levelComp.xp -= levelComp.levelUpTarget; // Scad din xp-ul curent valoarea pentru level up
-                            levelComp.level++;
-                            stats.upgradePoints++;
-                            levelComp.levelUpTarget = levelComp.levelWeight + (int)Math.pow(levelComp.level, 2); // setez un nou target pentru level up
+                        while (levelC.xp >= levelC.levelUpTarget && levelC.level < levelC.maxLevel) {
+                            levelC.xp -= levelC.levelUpTarget; // Scad din xp-ul curent valoarea pentru level up
+                            levelC.level++;
+                            statsC.upgradePoints++;
+                            levelC.levelUpTarget = levelC.levelWeight + (int)Math.pow(levelC.level, 2); // setez un nou target pentru level up
                         }
                         queue.add(UpdateHUDEvent.levelBar);
                         queue.add(UpdateHUDEvent.stats);
@@ -66,6 +72,34 @@ public class PlayerStatsSystem extends EntitySystem {
 
                 queue.remove(event);
             }
+        }
+
+        if (statsC.upgradePoints > 0) {
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+                statsC.strengthLevel++;
+                // TODO: creste damage-ul la arma
+            } else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+                statsC.speedLevel++;
+                movementC.speed += 8;
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+                statsC.healthLevel++;
+                healthC.maxHealth += 20;
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
+                statsC.xpGainLevel++;
+                levelC.xpGain += 1.0f;
+            }
+
+            // 8, 9, 10, 11 sunt valorile int pentru numerele 1, 2, 3, 4 de pe tastatura
+            for (int key : new int[]{8, 9, 10, 11}) {
+                if (Gdx.input.isKeyJustPressed(key)) {
+                    statsC.upgradePoints--;
+                    queue.add(UpdateHUDEvent.stats);
+                    queue.add(UpdateHUDEvent.healthBar);
+                    break;
+                }
+            }
+
         }
     }
 }
