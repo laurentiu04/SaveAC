@@ -1,8 +1,10 @@
 package ro.ac.castravetii.events;
 
 import com.badlogic.ashley.core.Entity;
+import ro.ac.castravetii.Enemy;
+import ro.ac.castravetii.Player;
 
-public class EnemyDamageEvent  {
+public class EnemyDamageEvent implements GameEvent {
     public Entity target;
     public int amount;
     public Entity source;
