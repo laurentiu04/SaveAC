@@ -4,21 +4,25 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Game;
+import ro.ac.castravetii.Enemy;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.TransformComponent;
+import ro.ac.castravetii.events.GameEventQueue;
 
 public class EnemyPathfindingSystem extends IteratingSystem {
 
     private final ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
-
+    private final GameEventQueue queue;
     //Run the system for ONLY the entities that have TransformComponent - NO, RUN ONLY FOR ENEMY !!!
 
     //implementeaza GameEventQueue vezi alte exemple
-    public EnemyPathfindingSystem(){
+    public EnemyPathfindingSystem(GameEventQueue queue){
         super(Family.all(TransformComponent.class, EnemyComponent.class).get());
+        this.queue = queue;
     }
 
 
