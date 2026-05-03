@@ -15,6 +15,8 @@ public class EnemyPathfindingSystem extends IteratingSystem {
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
 
     //Run the system for ONLY the entities that have TransformComponent - NO, RUN ONLY FOR ENEMY !!!
+
+    //implementeaza GameEventQueue vezi alte exemple
     public EnemyPathfindingSystem(){
         super(Family.all(TransformComponent.class, EnemyComponent.class).get());
     }
