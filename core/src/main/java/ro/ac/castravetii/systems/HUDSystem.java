@@ -36,6 +36,7 @@ public class HUDSystem extends EntitySystem {
     @Override
     public void update(float delta) {
 
+        // Fac update la hud
         for (GameEvent event : queue.getEventsOfType(UpdateHUDEvent.class)) {
             switch (event){
                 case UpdateHUDEvent.stats -> hud.getStatsManager().update(statsComp);

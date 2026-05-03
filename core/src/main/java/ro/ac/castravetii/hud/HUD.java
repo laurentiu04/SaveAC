@@ -6,12 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import ro.ac.castravetii.Services;
 
 public class HUD implements Disposable {
 
     public final Stage stage;
     private final LevelBar levelBar;
     private final HealthBar healthBar;
+    private final Label fpsDisplay;
 
     private final StatDisplayManager statsManager;
 
@@ -31,7 +33,9 @@ public class HUD implements Disposable {
 
         statsManager = new StatDisplayManager();
 
-        table.add().expand().colspan(3);
+        fpsDisplay = new Label("", Services.skin, "levelBar");
+
+        table.add(fpsDisplay).left().top().expand().colspan(3);
         table.row();
 
         VerticalGroup leftGroup = new VerticalGroup();
@@ -62,7 +66,12 @@ public class HUD implements Disposable {
         return statsManager;
     }
 
+    public void updateFPS() {
+        fpsDisplay.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
+    }
+
     public void render() {
+        this.updateFPS();
         stage.draw();
     }
 

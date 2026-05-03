@@ -74,12 +74,9 @@ public final class Player {
         playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();
-        healthComponent.maxHealth = statsComponent.maxHealth;
-        healthComponent.currentHealth = statsComponent.maxHealth;
         playerEntity.add(healthComponent);
 
         levelComponent = new LevelComponent();
-        levelComponent.xpGain = statsComponent.xpGain;
         playerEntity.add(levelComponent);
 
         // Adaug entitatea la engine.
