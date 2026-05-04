@@ -6,6 +6,8 @@ import ro.ac.castravetii.events.EnemyDamageEvent;
 import ro.ac.castravetii.events.GameEvent;
 import ro.ac.castravetii.events.GameEventQueue;
 
+import java.util.ArrayDeque;
+
 public class EnemyDamageSystem extends EntitySystem {
     private final GameEventQueue queue;
 
@@ -15,29 +17,18 @@ public class EnemyDamageSystem extends EntitySystem {
 
     public void update(float deltaTime){
 
-        GameEvent event;
-        HealthComponent health;
+        ArrayDeque<GameEvent> events = queue.getEventsOfType(EnemyDamageEvent.class);
 
-        java.util.Queue<GameEvent> temp = new java.util.LinkedList<>();
-        int size = queue.size();
+        for(GameEvent event : events){
+            if(event instanceof EnemyDamageEvent dmg){
+                HealthComponent health = dmg.target.getComponent(HealthComponent.class);
 
-        for(int i = 0; i< size; i++) {
-            event = queue.poll();
-
-            if (event instanceof EnemyDamageEvent dmg) {
-
-                health = dmg.target.getComponent(HealthComponent.class);
-
-                if (health != null) {
+                if(health != null){
                     health.currentHealth -= dmg.amount;
                 }
-            } else {
-                temp.add(event);
             }
-        }
 
-        while (!temp.isEmpty()){
-            queue.add(temp.poll());
+            queue.remove(event);
         }
     }
 

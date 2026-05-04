@@ -4,8 +4,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Game;
-import ro.ac.castravetii.Enemy;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.MovementComponent;
@@ -13,20 +11,18 @@ import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TransformComponent;
 import ro.ac.castravetii.events.EnemyDamageEvent;
 import ro.ac.castravetii.events.GameEventQueue;
+import ro.ac.castravetii.events.UpdateHUDEvent;
 
 public class EnemyPathfindingSystem extends IteratingSystem {
 
     private final ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
-    private final ComponentMapper<PlayerComponent> pm = ComponentMapper.getFor((PlayerComponent.class));
     private final ComponentMapper<EnemyComponent> em = ComponentMapper.getFor(EnemyComponent.class);
     private final GameEventQueue queue;
-    public boolean hasHit = false;
     //Run the system for ONLY the entities that have TransformComponent - NO, RUN ONLY FOR ENEMY !!!
 
-    //implementeaza GameEventQueue vezi alte exemple
     public EnemyPathfindingSystem(GameEventQueue queue){
-        super(Family.all(TransformComponent.class, EnemyComponent.class).get());
+        super(Family.all(EnemyComponent.class).get());
         this.queue = queue;
     }
 
@@ -37,8 +33,7 @@ public class EnemyPathfindingSystem extends IteratingSystem {
         TransformComponent player = Player.getInstance().getTransformComponent();
         MovementComponent move = mm.get(entity);
 
-
-        //How can I access player & enemy only the reference to them ? Solution:
+        //How can I access player entity ? Solution:
         Entity playerEntity = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
 
         float dx = player.position.x - enemy.position.x;
@@ -50,6 +45,7 @@ public class EnemyPathfindingSystem extends IteratingSystem {
         float stopRange = 20f;
 
         EnemyComponent ec = em.get(entity);
+        ec.attackTimer += deltaTime;
 
         if(distance > stopRange){
             move.moveX = (dx/distance) * move.speed;
@@ -60,11 +56,12 @@ public class EnemyPathfindingSystem extends IteratingSystem {
             move.moveX = 0;
             move.moveY = 0;
 
-            //SUNTEM PE APROAPE PROBLEMA E CA MIE MI NU INAMICUL IMI DA DAMAGE... VEZI POATE SE INTERCALEAZA CU SISTEMUL DE LEVEL UP
-            if(!ec.hasHit) {
-                queue.add(new EnemyDamageEvent(playerEntity, 10, entity));
+            //modify the attack time : >= increment the value -> slower attack / decrement the value -> faster attack - "3f" THE VALUE
+            if(ec.attackTimer >= 3f) {
+                queue.add(new EnemyDamageEvent(playerEntity, ec.damage, entity));
+                queue.add(UpdateHUDEvent.healthBar);
 
-                ec.hasHit = true;
+                ec.attackTimer = 0f;
             }
         }
     }
