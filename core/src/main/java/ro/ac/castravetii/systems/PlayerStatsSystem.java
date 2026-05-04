@@ -35,7 +35,7 @@ public class PlayerStatsSystem extends EntitySystem {
 
     @Override
     public void update(float delta) {
-        ArrayDeque<GameEvent> events = queue.getEventsOfType(PlayerDamageEvent.class, PlayerXPGainEvent.class);
+        ArrayDeque<GameEvent> events = queue.getEvents(PlayerDamageEvent.class, PlayerXPGainEvent.class);
 
         // Tratez evenimentele legate de player daca exista
         if (!events.isEmpty()) {
@@ -47,10 +47,10 @@ public class PlayerStatsSystem extends EntitySystem {
 
                         if (healthC.currentHealth <= 0) {
                             healthC.currentHealth = 0;
-                            queue.add(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
+                            queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }
 
-                        queue.add(UpdateHUDEvent.healthBar);
+                        queue.post(UpdateHUDEvent.healthBar);
                     }
 
                     case PlayerXPGainEvent e -> {
@@ -63,13 +63,14 @@ public class PlayerStatsSystem extends EntitySystem {
                             statsC.upgradePoints++;
                             levelC.levelUpTarget = levelC.levelWeight + (int)Math.pow(levelC.level, 2); // setez un nou target pentru level up
                         }
-                        queue.add(UpdateHUDEvent.levelBar);
-                        queue.add(UpdateHUDEvent.stats);
+                        queue.post(UpdateHUDEvent.levelBar);
+                        queue.post(UpdateHUDEvent.stats);
                     }
 
                     default -> throw new IllegalStateException("Unexpected value: " + event);
                 }
 
+                //noinspection SuspiciousMethodCalls
                 queue.remove(event);
             }
         }
@@ -94,8 +95,8 @@ public class PlayerStatsSystem extends EntitySystem {
             for (int key : new int[]{8, 9, 10, 11}) {
                 if (Gdx.input.isKeyJustPressed(key)) {
                     statsC.upgradePoints--;
-                    queue.add(UpdateHUDEvent.stats);
-                    queue.add(UpdateHUDEvent.healthBar);
+                    queue.post(UpdateHUDEvent.stats);
+                    queue.post(UpdateHUDEvent.healthBar);
                     break;
                 }
             }

@@ -37,7 +37,7 @@ public class HUDSystem extends EntitySystem {
     public void update(float delta) {
 
         // Fac update la hud
-        for (GameEvent event : queue.getEventsOfType(UpdateHUDEvent.class)) {
+        for (GameEvent event : queue.getEvents(UpdateHUDEvent.class)) {
             switch (event){
                 case UpdateHUDEvent.stats -> hud.getStatsManager().update(statsComp);
                 case UpdateHUDEvent.healthBar -> hud.getHealthBar().update(healthComp);
@@ -45,6 +45,7 @@ public class HUDSystem extends EntitySystem {
                 default -> throw new IllegalStateException("Unexpected value: " + event);
             }
 
+            //noinspection SuspiciousMethodCalls
             queue.remove(event);
         }
     }

@@ -64,7 +64,7 @@ public class GameScreen implements Screen {
         time += delta;
         if (time >= 2f) {
             time = 0;
-            queue.add(new PlayerXPGainEvent(10));
+            queue.post(new PlayerXPGainEvent(10));
         }
 
         Services.engine.update(Gdx.graphics.getDeltaTime());
@@ -77,7 +77,7 @@ public class GameScreen implements Screen {
 
         hud.render();
 
-        queue.clear();
+        queue.clearAll();
     }
 
     @Override
