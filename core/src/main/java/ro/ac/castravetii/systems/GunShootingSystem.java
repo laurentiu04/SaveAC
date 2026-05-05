@@ -13,13 +13,12 @@ import ro.ac.castravetii.components.TransformComponent;
 
 public class GunShootingSystem extends EntitySystem {
 
-    private final Gun gun;
     private final TransformComponent transformC;
     private final TextureComponent textureC;
 
     public GunShootingSystem() {
         super(10);
-        this.gun = Player.getInstance().getGun();
+        Gun gun = Player.getInstance().getGun();
         transformC = gun.getTransformComponent();
         textureC = gun.getTextureComponent();
     }
@@ -39,7 +38,7 @@ public class GunShootingSystem extends EntitySystem {
 
         // Compute gun tip AFTER rotation is set, just for rendering
         float gunOffsetX = 13f;
-        float gunOffsetY = 2f;
+    float gunOffsetY = textureC.flippedY ? -2f : 2f;
         float rad = (float) Math.toRadians(transformC.rotation);
         float rotatedOffsetX = gunOffsetX * (float) Math.cos(rad) - gunOffsetY * (float) Math.sin(rad);
         float rotatedOffsetY = gunOffsetX * (float) Math.sin(rad) + gunOffsetY * (float) Math.cos(rad);

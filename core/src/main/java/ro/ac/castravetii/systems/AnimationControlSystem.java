@@ -44,8 +44,16 @@ public class AnimationControlSystem extends IteratingSystem {
                  */
 
                 float speedFactor = moveComp.speed/animComp.animationDuration;
-                animComp.elapsedAnimTime += deltaTime * speedFactor;
-                textComp.region = animComp.movingAnim.getKeyFrame(animComp.elapsedAnimTime, true);
+                if(animComp.elapsedAnimTime < animComp.movingAnim.getAnimationDuration()) {
+                    animComp.elapsedAnimTime += deltaTime * speedFactor;
+                } else {
+                    animComp.elapsedAnimTime = 0;
+                }
+
+                if ((moveComp.moveX > 0 && !textComp.flippedX) || (moveComp.moveX < 0 && textComp.flippedX))
+                    textComp.region = animComp.movingAnim.getKeyFrame(animComp.elapsedAnimTime, true);
+                else
+                    textComp.region = animComp.movingAnim.getKeyFrame(animComp.movingAnim.getAnimationDuration() - animComp.elapsedAnimTime, true);
             }
         }
     }
