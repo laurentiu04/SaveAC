@@ -24,7 +24,8 @@ public class PlayerStatsSystem extends EntitySystem {
     private final MovementComponent movementC;
     private final GameEventQueue queue;
 
-    public PlayerStatsSystem(GameEventQueue queue){
+    public PlayerStatsSystem(GameEventQueue queue, int priority){
+        super(priority);
         this.queue = queue;
 
         healthC = Player.getInstance().getHealthComponent();
@@ -35,7 +36,7 @@ public class PlayerStatsSystem extends EntitySystem {
 
     @Override
     public void update(float delta) {
-        ArrayDeque<GameEvent> events = queue.getEvents(PlayerDamageEvent.class, PlayerXPGainEvent.class);
+        ArrayDeque<GameEvent> events = queue.getEvents(PlayerDamageEvent.class, PlayerXPGainEvent.class, PlayerEvent.class);
 
         // Tratez evenimentele legate de player daca exista
         if (!events.isEmpty()) {
@@ -47,6 +48,9 @@ public class PlayerStatsSystem extends EntitySystem {
 
                         if (healthC.currentHealth <= 0) {
                             healthC.currentHealth = 0;
+
+                            Gdx.app.exit();
+
                             queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }
 

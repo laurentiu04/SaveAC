@@ -7,7 +7,6 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.MovementComponent;
-import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TransformComponent;
 import ro.ac.castravetii.events.EnemyDamageEvent;
 import ro.ac.castravetii.events.GameEventQueue;
@@ -34,7 +33,8 @@ public class EnemyPathfindingSystem extends IteratingSystem {
         MovementComponent move = mm.get(entity);
 
         //How can I access player entity ? Solution:
-        Entity playerEntity = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
+        Entity playerEntity = Player.getInstance().getEntity();
+
 
         float dx = player.position.x - enemy.position.x;
         float dy = player.position.y - enemy.position.y;
@@ -58,8 +58,8 @@ public class EnemyPathfindingSystem extends IteratingSystem {
 
             //modify the attack time : >= increment the value -> slower attack / decrement the value -> faster attack - "3f" THE VALUE
             if(ec.attackTimer >= 3f) {
-                queue.add(new EnemyDamageEvent(playerEntity, ec.damage, entity));
-                queue.add(UpdateHUDEvent.healthBar);
+                queue.post(new EnemyDamageEvent(playerEntity, ec.damage, entity));
+                queue.post(UpdateHUDEvent.healthBar);
 
                 ec.attackTimer = 0f;
             }

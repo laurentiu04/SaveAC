@@ -145,5 +145,7 @@ public final class Player {
         return movementComponent;
     }
 
+    public Entity getEntity() {return playerEntity;}
+
 
 }
