@@ -10,7 +10,7 @@ import ro.ac.castravetii.events.*;
 /**
  * Container singleton pentru entitatea player
  */
-public final class Player {
+public final class  Player {
     /**
      * Variabila pentru a verifica daca a fost instantiata clasa player
      */
@@ -152,5 +152,9 @@ public final class Player {
 
     public TextureComponent getTextureComponent() {
         return textureComponent;
+    }
+
+    public Entity getEntity() {
+        return playerEntity;
     }
 }
