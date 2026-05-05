@@ -16,18 +16,19 @@ public final class Player {
      */
     private static Player INSTANCE = null;
 
-    Entity playerEntity;
-    TransformComponent transformComponent;
-    TextureComponent textureComponent;
-    PlayerComponent playerComponent;
-    PlayerStatsComponent statsComponent;
-    MovementComponent movementComponent;
-    AnimationComponent animationComponent;
-    ColliderComponent colliderComponent;
-    HealthComponent healthComponent;
-    LevelComponent levelComponent;
+    private final Entity playerEntity;
+    private final TransformComponent transformComponent;
+    private final TextureComponent textureComponent;
+    private final PlayerComponent playerComponent;
+    private final PlayerStatsComponent statsComponent;
+    private final MovementComponent movementComponent;
+    private final AnimationComponent animationComponent;
+    private final ColliderComponent colliderComponent;
+    private final HealthComponent healthComponent;
+    private final LevelComponent levelComponent;
+    private final Gun gun;
 
-    GameEventQueue queue;
+    private final GameEventQueue queue;
 
     /**
      * Constructor ascuns
@@ -48,6 +49,7 @@ public final class Player {
         transformComponent = new TransformComponent();
         transformComponent.position.x = Services.MAP_WIDTH*16;
         transformComponent.position.y = Services.MAP_HEIGHT*16;
+        transformComponent.origin.x = 0.5f;
         playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
@@ -79,9 +81,10 @@ public final class Player {
         levelComponent = new LevelComponent();
         playerEntity.add(levelComponent);
 
+        gun = new Gun();
+
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);
-
     }
 
     /**
@@ -145,5 +148,9 @@ public final class Player {
         return movementComponent;
     }
 
+    public Gun getGun() { return gun; }
 
+    public TextureComponent getTextureComponent() {
+        return textureComponent;
+    }
 }

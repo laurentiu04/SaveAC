@@ -5,10 +5,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
-import ro.ac.castravetii.components.MovementComponent;
-import ro.ac.castravetii.components.TextureComponent;
-import ro.ac.castravetii.components.TransformComponent;
+import ro.ac.castravetii.components.*;
 
 /**
  * Sistem de randare a tuturor entitatilor de au componenta de tip TextureComponent
@@ -20,15 +19,17 @@ public class RenderSystem extends SortedIteratingSystem {
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
     ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
 
-    public RenderSystem() {
+    public RenderSystem(int priority) {
         super(
             Family.all(TextureComponent.class, TransformComponent.class).get(),
             (o1, o2) -> {
                 TransformComponent t1 = ComponentMapper.getFor(TransformComponent.class).get(o1);
                 TransformComponent t2 = ComponentMapper.getFor(TransformComponent.class).get(o2);
+                TextureComponent tx1 = ComponentMapper.getFor(TextureComponent.class).get(o1);
+                TextureComponent tx2 = ComponentMapper.getFor(TextureComponent.class).get(o2);
 
-                return (int)(t2.position.y - t1.position.y);
-            }
+                return (int)(t2.position.y * tx1.layer - t1.position.y * tx2.layer);
+            }, priority
         );
     }
 
@@ -45,8 +46,13 @@ public class RenderSystem extends SortedIteratingSystem {
         TransformComponent transform = tm.get(entity);
         MovementComponent move = mm.get(entity);
 
-        if (move != null && move.moveX != 0) {
-            texture.flipped = !(mm.get(entity).moveX > 0);
+        if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null) {
+            texture.flippedX = !(mm.get(entity).moveX > 0);
+        }
+
+        if (entity.getComponent(GunComponent.class) != null) {
+            //noinspection SuspiciousNameCombination
+            texture.flippedY = Player.getInstance().getTextureComponent().flippedX;
         }
 
         Services.batch.begin();
@@ -54,12 +60,12 @@ public class RenderSystem extends SortedIteratingSystem {
             region,
             transform.position.x - region.getRegionWidth()/2.0f,
             transform.position.y,
-            region.getRegionWidth()/2f,
-            0,
+            region.getRegionWidth()*transform.origin.x,
+            region.getRegionWidth()*transform.origin.y,
             region.getRegionWidth(),
             region.getRegionHeight(),
-            texture.flipped ? -1f : 1f,
-            1f,
+            texture.flippedX ? -1f : 1f,
+            texture.flippedY ? -1f : 1f,
             transform.rotation
         );
         Services.batch.end();

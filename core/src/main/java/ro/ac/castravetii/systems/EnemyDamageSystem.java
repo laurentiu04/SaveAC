@@ -17,7 +17,7 @@ public class EnemyDamageSystem extends EntitySystem {
 
     public void update(float deltaTime){
 
-        ArrayDeque<GameEvent> events = queue.getEventsOfType(EnemyDamageEvent.class);
+        ArrayDeque<GameEvent> events = queue.getEvents(EnemyDamageEvent.class);
 
         for(GameEvent event : events){
             if(event instanceof EnemyDamageEvent dmg){

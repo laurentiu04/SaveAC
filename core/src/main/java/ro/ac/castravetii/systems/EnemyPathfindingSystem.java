@@ -58,8 +58,8 @@ public class EnemyPathfindingSystem extends IteratingSystem {
 
             //modify the attack time : >= increment the value -> slower attack / decrement the value -> faster attack - "3f" THE VALUE
             if(ec.attackTimer >= 3f) {
-                queue.add(new EnemyDamageEvent(playerEntity, ec.damage, entity));
-                queue.add(UpdateHUDEvent.healthBar);
+                queue.post(new EnemyDamageEvent(playerEntity, ec.damage, entity));
+                queue.post(UpdateHUDEvent.healthBar);
 
                 ec.attackTimer = 0f;
             }
