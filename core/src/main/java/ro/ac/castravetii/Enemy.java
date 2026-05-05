@@ -23,6 +23,7 @@ public class Enemy {
 
         //Creating a new TransformComponent for later to be used in generating random positions for my Enemies.
         enemyTC = new TransformComponent();
+        enemyTC.origin.x = 0.5f;
         entityEnemy.add(enemyTC);
 
         //Creating texture component for my Enemy object
