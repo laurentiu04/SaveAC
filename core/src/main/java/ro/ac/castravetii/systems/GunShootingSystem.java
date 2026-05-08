@@ -45,6 +45,10 @@ public class GunShootingSystem extends EntitySystem {
         float gunTipX = pivotX + rotatedOffsetX;
         float gunTipY = pivotY + rotatedOffsetY;
 
+        if (Gdx.input.isButtonJustPressed(com.badlogic.gdx.Input.Buttons.LEFT)) {
+            spawnBullet(gunTipX, gunTipY, transformC.rotation);
+        }
+
         Player.getInstance().getTextureComponent().flippedX = transformC.rotation >= 90 || transformC.rotation <= -90;
 
         Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -55,5 +59,32 @@ public class GunShootingSystem extends EntitySystem {
         Services.shapeRenderer.line(gunTipX - s, gunTipY, gunTipX + s, gunTipY);
         Services.shapeRenderer.line(gunTipX, gunTipY - s, gunTipX, gunTipY + s);
         Services.shapeRenderer.end();
+    }
+
+    private void spawnBullet(float x, float y, float angle) {
+        com.badlogic.ashley.core.Entity bullet = new com.badlogic.ashley.core.Entity();
+
+        // poziția de start
+        ro.ac.castravetii.components.TransformComponent bt = new ro.ac.castravetii.components.TransformComponent();
+        bt.position.set(x, y);
+        bt.rotation = angle;
+
+        // logica de miscare
+        ro.ac.castravetii.components.BulletComponent bc = new ro.ac.castravetii.components.BulletComponent();
+        bc.speed = 400f; // Pixeli pe secunda
+        float radians = (float) Math.toRadians(angle);
+        bc.velocity.x = (float) Math.cos(radians) * bc.speed;
+        bc.velocity.y = (float) Math.sin(radians) * bc.speed;
+
+        // dimensiune hitbox
+        bc.hitbox.setSize(4, 4);
+        TextureComponent tex = new TextureComponent();
+        // bullet.add(new TextureComponent(Services.assets.getBulletTexture()));
+        tex.region = textureC.region;
+        bullet.add(bt);
+        bullet.add(bc);
+        bullet.add(tex);
+
+        getEngine().addEntity(bullet);
     }
 }
