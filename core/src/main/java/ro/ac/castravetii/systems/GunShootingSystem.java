@@ -72,6 +72,9 @@ public class GunShootingSystem extends EntitySystem {
         // logica de miscare
         ro.ac.castravetii.components.BulletComponent bc = new ro.ac.castravetii.components.BulletComponent();
         bc.speed = 400f; // Pixeli pe secunda
+
+        bc.damage = 40;
+
         float radians = (float) Math.toRadians(angle);
         bc.velocity.x = (float) Math.cos(radians) * bc.speed;
         bc.velocity.y = (float) Math.sin(radians) * bc.speed;
