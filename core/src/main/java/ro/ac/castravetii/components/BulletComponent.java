@@ -23,6 +23,9 @@ public class BulletComponent implements Component {
     // Statusul glonțului
     public boolean active = true;
 
+    // damage
+    public int damage = 200;
+
     // Constructor gol (recomandat pentru Ashley)
     public BulletComponent() {}
 }
