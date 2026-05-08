@@ -21,14 +21,13 @@ public class GunRenderSystem extends EntitySystem {
         textureC = gun.getTextureComponent();
 
         playerTransformC = Player.getInstance().getTransformComponent();
-        transformC.origin.y = 0.5f;
     }
 
     @Override
     public void update(float delta) {
         transformC.position = new Vector2(
-        playerTransformC.position.x + (textureC.flippedY ? 11 : 5),
-            playerTransformC.position.y + 24
+        playerTransformC.position.x - (textureC.flippedY ? -4 : 4),
+            playerTransformC.position.y
         );
     }
 }

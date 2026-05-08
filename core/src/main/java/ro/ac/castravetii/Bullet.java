@@ -1,68 +1,41 @@
 package ro.ac.castravetii;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.ashley.core.Entity;
+import ro.ac.castravetii.components.*;
 
-public class Bullet {
-    Rectangle hitbox; // Hitbox-ul bullet-ului
-    float angle; // Directia bullet-ului
-    float time; // Cat timp exista bullet-ul
-    int speed; // Viteza bullet
-    Vector2 velocity; //
-    Texture bullet_texture; // Textura bullet
-    Vector2 pos; // Pozitia bullet-ului
+public class Bullet extends Entity{
 
-    boolean active; // Daca bullet-ul mai exista
+    public Bullet() {
+        Services.engine.addEntity(this);
 
-    public Bullet(int x, int y, float angle) {
-        this.angle = angle;
-        this.time = 2f;
-        this.speed = 400;
-        this.active = true;
-        this.pos = new Vector2(x, y);
-        this.hitbox = new Rectangle(x, y, 10, 10);
-        this.bullet_texture = new Texture("badlogic.jpg");
+        TextureComponent textureC = Services.engine.createComponent(TextureComponent.class);
+        textureC.region = Services.textureAtlas.findRegion("bullet");
+        this.add(textureC);
 
-        this.velocity = new Vector2(
-            MathUtils.cos(angle) * speed,
-            MathUtils.sin(angle) * speed
-        );
-    }
+        PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);
+        collider.vertices = new float[]{
+            0, 0,
+            7, 0,
+            7, 3,
+            0, 3,
+            0, 0
+        };
+        collider.polygon.setOrigin(-4, 1.5f);
+        collider.offset.set(4, -1.5f);
 
-    public void update(float delta) {
-        if (!active) return;
+        collider.show = true;
+        this.add(collider);
 
-        // Miscare bullet
-        pos.x += velocity.x * delta;
-        pos.y += velocity.y * delta;
+        BulletComponent bulletC = Services.engine.createComponent(BulletComponent.class);
+        this.add(bulletC);
 
-        // Hotbox-ul sa fie dupa bullet
-        hitbox.setPosition(pos.x, pos.y);
+        TransformComponent transformC = Services.engine.createComponent(TransformComponent.class);
+        transformC.origin.set(0f, 0.5f);
+        this.add(transformC);
 
-        // Numarare timp existenta
-        time -= delta;
-        if (time <= 0) {
-            active = false;
-        }
-    }
+        MovementComponent movementC = Services.engine.createComponent(MovementComponent.class);
+        movementC.speed = 400f;
 
-    public void render(SpriteBatch batch) {
-        if (!active) return;
-        batch.draw(bullet_texture, pos.x, pos.y, 10, 10);
-    }
-
-    public void dispose() {
-        bullet_texture.dispose();
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public Rectangle getHitbox() {
-        return hitbox;
+        this.add(movementC);
     }
 }

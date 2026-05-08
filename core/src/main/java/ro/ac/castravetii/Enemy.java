@@ -46,14 +46,6 @@ public class Enemy {
         animation = new AnimationComponent();
         entityEnemy.add(animation);
 
-        // collider pentru detectia coliziunilor cu gloantele
-        ColliderComponent collider = new ColliderComponent();
-        collider.with = 28;
-        collider.height = 28;
-        collider.offsetX = -12;
-        collider.offsetY = 5;
-        entityEnemy.add(collider); // adaugam collider-ul inainte de a adauga entitatea in engine
-
         // adaugare entitate finalizata in engine
         Services.engine.addEntity(entityEnemy);
     }

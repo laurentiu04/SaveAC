@@ -23,7 +23,7 @@ public final class  Player {
     private final PlayerStatsComponent statsComponent;
     private final MovementComponent movementComponent;
     private final AnimationComponent animationComponent;
-    private final ColliderComponent colliderComponent;
+    private final EllipseColliderComponent colliderComponent;
     private final HealthComponent healthComponent;
     private final LevelComponent levelComponent;
     private final Gun gun;
@@ -49,7 +49,8 @@ public final class  Player {
         transformComponent = new TransformComponent();
         transformComponent.position.x = Services.MAP_WIDTH*16;
         transformComponent.position.y = Services.MAP_HEIGHT*16;
-        transformComponent.origin.x = 0.5f;
+        transformComponent.origin.x = 0.52f;
+        transformComponent.origin.y = 0.5f;
         playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
@@ -65,14 +66,12 @@ public final class  Player {
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);
 
-        colliderComponent = new ColliderComponent();
-        colliderComponent.height = 43f;
-        colliderComponent.with = 18f;
-        colliderComponent.offsetX = -colliderComponent.with/2;
-        colliderComponent.offsetY = 15f;
-        colliderComponent.shape = ColliderShape.ELLIPSE;
-        colliderComponent.type = CollisionType.PLAYER;
-        colliderComponent.show = false;
+        colliderComponent = new EllipseColliderComponent();
+        colliderComponent.height = 44f;
+        colliderComponent.width = 18f;
+        colliderComponent.offset.x = -colliderComponent.width/2;
+        colliderComponent.offset.y = -20f;
+        colliderComponent.show = true;
         playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();
@@ -119,12 +118,12 @@ public final class  Player {
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);
         Vector2 playerPos = Player.INSTANCE.transformComponent.position;
 
-        Vector3 newCamPos = new Vector3(playerPos.x, playerPos.y + 32, 0);
+        Vector3 newCamPos = new Vector3(playerPos.x, playerPos.y, 0);
 
         if (playerPos.x > Services.maxLimitX) newCamPos.x = Services.maxLimitX;
         else if (playerPos.x < Services.minLimitX) newCamPos.x = Services.minLimitX;
-        if (playerPos.y + 32 > Services.maxLimitY) newCamPos.y = Services.maxLimitY;
-        else if (playerPos.y + 32 < Services.minLimitY) newCamPos.y = Services.minLimitY;
+        if (playerPos.y > Services.maxLimitY) newCamPos.y = Services.maxLimitY;
+        else if (playerPos.y < Services.minLimitY) newCamPos.y = Services.minLimitY;
 
         if (!camPos.epsilonEquals(new Vector2(newCamPos.x, newCamPos.y))) {
             Services.camera.position.lerp(newCamPos, 6f * Gdx.graphics.getDeltaTime());

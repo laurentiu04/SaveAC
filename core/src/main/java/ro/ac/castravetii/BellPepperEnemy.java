@@ -1,5 +1,7 @@
 package ro.ac.castravetii;
 
+import ro.ac.castravetii.components.PolygonColliderComponent;
+
 public class BellPepperEnemy extends Enemy{
 
     public BellPepperEnemy(){
@@ -12,5 +14,21 @@ public class BellPepperEnemy extends Enemy{
         health.maxHealth = 200;
         enemyC.damage = 45;
         movement.speed = 60f;
+
+        PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);
+        collider.vertices = new float[]{
+            3,  0,   // bottom-left
+            19, 0,   // bottom-right
+            22, 3,   // right-bottom
+            22, 19,  // right-top
+            19, 22,  // top-right
+            3,  22,  // top-left
+            0,  19,  // left-top
+            0,  3,   // left-bottom
+        };
+        collider.polygon.setOrigin(11, 11);
+        collider.offset.set(-12, 10);
+        collider.show = true;
+        entityEnemy.add(collider);
     }
 }
