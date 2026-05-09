@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
         mapGen = new MapGenerator();
         mapGen.createMap(Services.MAP_WIDTH, Services.MAP_HEIGHT, 32);
 
-        player = Player.create(queue);
+        player = Player.create();
 
         hud = new HUD();
 
