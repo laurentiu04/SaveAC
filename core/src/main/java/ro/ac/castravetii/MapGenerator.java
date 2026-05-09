@@ -56,8 +56,9 @@ public class MapGenerator implements Disposable {
                      Entity rock = Services.engine.createEntity();
                      TransformComponent trans = new TransformComponent();
                      trans.position = new Vector2(tileSize*x + tileSize/2f, tileSize*y + tileSize/2f);
+                     trans.origin.set(0.5f, 0.4f);
                      rock.add(trans);
-                    TextureComponent text = new TextureComponent();
+                     TextureComponent text = new TextureComponent();
                     text.region = tileAtlas.findRegion("rock" + (rnd.nextInt(2) + 1));
                     rock.add(text);
                     Services.engine.addEntity(rock);

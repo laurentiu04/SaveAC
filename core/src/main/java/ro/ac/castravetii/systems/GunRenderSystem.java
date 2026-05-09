@@ -27,7 +27,7 @@ public class GunRenderSystem extends EntitySystem {
     public void update(float delta) {
         transformC.position = new Vector2(
         playerTransformC.position.x - (textureC.flippedY ? -4 : 4),
-            playerTransformC.position.y
+            playerTransformC.position.y + 20
         );
     }
 }

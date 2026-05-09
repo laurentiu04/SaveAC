@@ -84,12 +84,12 @@ public class RenderSystem extends SortedIteratingSystem {
         Services.batch.end();
 
         // DEBUG - Arata originea fiecarui obiect
-//        Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        Services.shapeRenderer.setColor(Color.BLACK);
-//        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 2);
-//        Services.shapeRenderer.setColor(Color.ORANGE);
-//        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 1);
-//        Services.shapeRenderer.end();
+        Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        Services.shapeRenderer.setColor(Color.BLACK);
+        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 2);
+        Services.shapeRenderer.setColor(Color.ORANGE);
+        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 1);
+        Services.shapeRenderer.end();
     }
 }
 

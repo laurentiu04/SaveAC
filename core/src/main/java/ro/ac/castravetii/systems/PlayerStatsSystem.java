@@ -88,7 +88,7 @@ public class PlayerStatsSystem extends EntitySystem {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
                 statsC.strengthLevel++;
-                gun.getGunComponent().damage += 10;
+                gun.getGunComponent().damage += (int) (gun.getGunComponent().damage * 0.1);
             } else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
                 statsC.speedLevel++;
                 movementC.speed += 8;

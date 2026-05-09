@@ -46,8 +46,7 @@ public final class  Player {
         transformComponent = new TransformComponent();
         transformComponent.position.x = Services.MAP_WIDTH*16;
         transformComponent.position.y = Services.MAP_HEIGHT*16;
-        transformComponent.origin.x = 0.52f;
-        transformComponent.origin.y = 0.5f;
+        transformComponent.origin.set(0.52f, 0.20f);
         playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
@@ -114,16 +113,15 @@ public final class  Player {
 
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);
         Vector2 playerPos = Player.INSTANCE.transformComponent.position;
+        Vector3 tagetPos = new Vector3(playerPos.x, playerPos.y + textureComponent.region.getRegionHeight()*transformComponent.origin.y, 0f);
 
-        Vector3 newCamPos = new Vector3(playerPos.x, playerPos.y, 0);
+        if (playerPos.x > Services.maxLimitX) tagetPos.x = Services.maxLimitX;
+        else if (playerPos.x < Services.minLimitX) tagetPos.x = Services.minLimitX;
+        if (playerPos.y > Services.maxLimitY) tagetPos.y = Services.maxLimitY;
+        else if (playerPos.y < Services.minLimitY) tagetPos.y = Services.minLimitY;
 
-        if (playerPos.x > Services.maxLimitX) newCamPos.x = Services.maxLimitX;
-        else if (playerPos.x < Services.minLimitX) newCamPos.x = Services.minLimitX;
-        if (playerPos.y > Services.maxLimitY) newCamPos.y = Services.maxLimitY;
-        else if (playerPos.y < Services.minLimitY) newCamPos.y = Services.minLimitY;
-
-        if (!camPos.epsilonEquals(new Vector2(newCamPos.x, newCamPos.y))) {
-            Services.camera.position.lerp(newCamPos, 6f * Gdx.graphics.getDeltaTime());
+        if (!camPos.epsilonEquals(new Vector2(tagetPos.x, tagetPos.y))) {
+            Services.camera.position.lerp(tagetPos, 6f * Gdx.graphics.getDeltaTime());
             Services.camera.update();
         }
     }

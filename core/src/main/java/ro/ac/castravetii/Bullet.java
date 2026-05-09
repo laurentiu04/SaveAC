@@ -34,7 +34,7 @@ public class Bullet extends Entity{
         this.add(transformC);
 
         MovementComponent movementC = Services.engine.createComponent(MovementComponent.class);
-        movementC.speed = 400f;
+        movementC.speed = 800f;
 
         this.add(movementC);
     }
