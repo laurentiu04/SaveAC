@@ -9,12 +9,17 @@ public class PepperEnemy extends Enemy{
     public PepperEnemy(){
         super();
         texture.region = Services.textureAtlas.findRegion("Pepper");
+
         animation.movingAnim = Utils.createAnimation(32, 0.05f, "Pepper-moving");
+        enemyTC.origin.set(0.5f, 0.20f);
         animation.idleSprite = texture.region;
         animation.animationDuration = 50f;
+
         health.maxHealth = 50;
         health.currentHealth = 50;
+
         enemyC.damage = 10;
+
         movement.speed = 50f;
 
         collider = Services.engine.createComponent(PolygonColliderComponent.class);
@@ -31,7 +36,6 @@ public class PepperEnemy extends Enemy{
             10,  0,   // body bottom-left
             16,  0,   // body bottom-right
         };
-
         collider.offset.set(-12f, 8f);
         collider.polygon.setOrigin(12f, 16f);
 //        collider.show = true;
