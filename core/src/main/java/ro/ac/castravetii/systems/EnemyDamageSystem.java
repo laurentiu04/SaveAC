@@ -1,8 +1,8 @@
 package ro.ac.castravetii.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.events.EnemyDamageEvent;
 import ro.ac.castravetii.events.GameEvent;
@@ -13,6 +13,7 @@ import java.util.ArrayDeque;
 public class EnemyDamageSystem extends EntitySystem {
     private final GameEventQueue queue;
     private final ComponentMapper<HealthComponent> hm = ComponentMapper.getFor(HealthComponent.class);
+    private final ComponentMapper<EnemyComponent> em = ComponentMapper.getFor(EnemyComponent.class);
 
     public EnemyDamageSystem(GameEventQueue queue, int priority){
         super(priority);
@@ -24,7 +25,7 @@ public class EnemyDamageSystem extends EntitySystem {
         // preluare lista evenimente damage
         ArrayDeque<GameEvent> events = queue.getEvents(EnemyDamageEvent.class);
 
-        if (events == null || events.isEmpty()) return;
+        if (events.isEmpty()) return;
 
         for(GameEvent event : events){
             if(event instanceof EnemyDamageEvent dmg){
@@ -37,12 +38,14 @@ public class EnemyDamageSystem extends EntitySystem {
 
                     // eliminare daca viata e zero
                     if(health.currentHealth <= 0){
-                        queue.post(new ro.ac.castravetii.events.PlayerXPGainEvent(30));
+                        // Edit: Valoarea de xp este luata din componenta enemy
+                        queue.post(new ro.ac.castravetii.events.PlayerXPGainEvent(em.get(dmg.target).xpValue));
                         getEngine().removeEntity(dmg.target);
                     }
                 }
             }
             // eliminare eveniment din coada dupa procesare
+            //noinspection SuspiciousMethodCalls
             queue.remove(event);
         }
     }

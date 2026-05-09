@@ -3,6 +3,7 @@ package ro.ac.castravetii.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import ro.ac.castravetii.Gun;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.components.LevelComponent;
@@ -23,15 +24,19 @@ public class PlayerStatsSystem extends EntitySystem {
     private final PlayerStatsComponent statsC;
     private final MovementComponent movementC;
     private final GameEventQueue queue;
+    private final Gun gun;
 
     public PlayerStatsSystem(GameEventQueue queue, int priority){
         super(priority);
         this.queue = queue;
 
-        healthC = Player.getInstance().getHealthComponent();
-        levelC = Player.getInstance().getLevelComponent();
-        statsC = Player.getInstance().getPlayerStats();
-        movementC = Player.getInstance().getMovementComponent();
+        Player player = Player.getInstance();
+
+        healthC = player.getHealthComponent();
+        levelC = player.getLevelComponent();
+        statsC = player.getPlayerStats();
+        movementC = player.getMovementComponent();
+        gun = player.getGun();
     }
 
     @Override
@@ -83,7 +88,7 @@ public class PlayerStatsSystem extends EntitySystem {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
                 statsC.strengthLevel++;
-                // TODO: creste damage-ul la arma
+                gun.getGunComponent().damage += 10;
             } else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
                 statsC.speedLevel++;
                 movementC.speed += 8;

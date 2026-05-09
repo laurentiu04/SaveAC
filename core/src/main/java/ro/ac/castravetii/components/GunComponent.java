@@ -6,4 +6,5 @@ public class GunComponent implements Component {
     public float shotDelay = 0.5f;
     public float sinceLastShot = 0f;
     public boolean canShoot = true;
+    public int damage = 10;
 }

@@ -63,10 +63,10 @@ public class GunShootingSystem extends EntitySystem {
         Player.getInstance().getTextureComponent().flippedX = transformC.rotation >= 90 || transformC.rotation < -90;
 
         // DEBUG
-        Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        Services.shapeRenderer.setColor(Color.RED);
-        Services.shapeRenderer.line(gunTipX, gunTipY, mouseWorld.x, mouseWorld.y);
-        Services.shapeRenderer.end();
+//        Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        Services.shapeRenderer.setColor(Color.RED);
+//        Services.shapeRenderer.line(gunTipX, gunTipY, mouseWorld.x, mouseWorld.y);
+//        Services.shapeRenderer.end();
     }
 
     private void spawnBullet(float x, float y, float angle) {
@@ -78,7 +78,6 @@ public class GunShootingSystem extends EntitySystem {
         bullet.getComponent(TextureComponent.class).flippedY = angle >= 90 || angle < -90;
 
         BulletComponent bulletC = bullet.getComponent(BulletComponent.class);
-        bulletC.damage = 40;
 
         MovementComponent movementC = bullet.getComponent(MovementComponent.class);
         float radians = (float) Math.toRadians(angle);

@@ -11,8 +11,9 @@ public class BellPepperEnemy extends Enemy{
         animation.movingAnim = Utils.createAnimation(48, 0.05f, "BellPepper-moving");
         animation.idleSprite = texture.region;
         animation.animationDuration = 50f;
-        health.maxHealth = 200;
-        enemyC.damage = 45;
+        health.maxHealth = 80;
+        health.currentHealth = 80;
+        enemyC.damage = 20;
         movement.speed = 60f;
 
         PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);
@@ -28,7 +29,7 @@ public class BellPepperEnemy extends Enemy{
         };
         collider.polygon.setOrigin(11, 11);
         collider.offset.set(-12, 10);
-        collider.show = true;
+//        collider.show = true;
         entityEnemy.add(collider);
     }
 }

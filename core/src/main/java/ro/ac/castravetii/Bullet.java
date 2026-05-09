@@ -22,8 +22,8 @@ public class Bullet extends Entity{
         };
         collider.polygon.setOrigin(-4, 1.5f);
         collider.offset.set(4, -1.5f);
+//        collider.show = true;
 
-        collider.show = true;
         this.add(collider);
 
         BulletComponent bulletC = Services.engine.createComponent(BulletComponent.class);

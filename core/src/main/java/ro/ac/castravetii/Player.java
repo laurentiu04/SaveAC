@@ -28,13 +28,10 @@ public final class  Player {
     private final LevelComponent levelComponent;
     private final Gun gun;
 
-    private final GameEventQueue queue;
-
     /**
      * Constructor ascuns
      */
-    private Player(GameEventQueue queue) {
-        this.queue = queue;
+    private Player() {
 
         // Creez o entitate pentru player.
         playerEntity = Services.engine.createEntity();
@@ -71,7 +68,7 @@ public final class  Player {
         colliderComponent.width = 18f;
         colliderComponent.offset.x = -colliderComponent.width/2;
         colliderComponent.offset.y = -20f;
-        colliderComponent.show = true;
+//        colliderComponent.show = true;
         playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();
@@ -90,7 +87,7 @@ public final class  Player {
      * Metoda pentru crearea instantei singleton a clasei Player.
      */
     @SuppressWarnings("UnusedReturnValue")
-    public static Player create(GameEventQueue queue) {
+    public static Player create() {
 
         // Daca a fost creat deja un player, intoarce null.
         if (INSTANCE != null) {
@@ -98,7 +95,7 @@ public final class  Player {
         }
 
         // Marchez crearea player-ului.
-        INSTANCE = new Player(queue);
+        INSTANCE = new Player();
 
         Services.camera.translate(INSTANCE.transformComponent.position.x, INSTANCE.transformComponent.position.y);
         return INSTANCE;
