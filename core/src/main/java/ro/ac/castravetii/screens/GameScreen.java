@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 
         Services.engine.addSystem(new RenderSystem(8));
 
-        Services.engine.addSystem(new PlayerStatsSystem(queue,1));
+        Services.engine.addSystem(new PlayerStatsSystem(queue,2));
         Services.engine.addSystem(new PlayerInputSystem(1));
         Services.engine.addSystem(new GunRenderSystem(1));
         Services.engine.addSystem(new GunShootingSystem());
@@ -50,7 +50,7 @@ public class GameScreen implements Screen {
         Services.engine.addSystem(new ColliderRenderSystem(9));
         Services.engine.addSystem(new EnemyPathfindingSystem(queue));
         Services.engine.addSystem(new EnemyWaveSystem());
-        Services.engine.addSystem(new EnemyDamageSystem(queue,2));
+        Services.engine.addSystem(new EnemyDamageSystem(queue,1));
 
     }
 

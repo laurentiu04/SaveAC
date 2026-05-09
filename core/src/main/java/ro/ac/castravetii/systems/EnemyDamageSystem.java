@@ -7,6 +7,7 @@ import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.events.AttackEvent;
 import ro.ac.castravetii.events.GameEvent;
 import ro.ac.castravetii.events.GameEventQueue;
+import ro.ac.castravetii.events.PlayerXPGainEvent;
 
 import java.util.ArrayDeque;
 
@@ -30,7 +31,7 @@ public class EnemyDamageSystem extends EntitySystem {
         for(GameEvent event : events){
             AttackEvent attackEvent = (AttackEvent) event;
             if (attackEvent.target().getComponent(EnemyComponent.class) == null) {
-                return;
+                continue;
             }
                 // accesare componenta sanatate de pe tinta
                 HealthComponent health = hm.get(attackEvent.target());
@@ -40,15 +41,14 @@ public class EnemyDamageSystem extends EntitySystem {
                     health.currentHealth -= attackEvent.damage();
 
                     // eliminare daca viata e zero
-                    if(health.currentHealth <= 0){
-                        System.out.println("MORT");
-                        queue.post(new ro.ac.castravetii.events.PlayerXPGainEvent(em.get(attackEvent.target()).xpValue));
+                    if(health.currentHealth <= 0) {
+                        EnemyComponent enemy = em.get(attackEvent.target());
+                        queue.post(new PlayerXPGainEvent(enemy.xpValue));
+
+                        System.out.println("Enemy dead.");
                         getEngine().removeEntity(attackEvent.target());
                     }
                 }
-            // eliminare eveniment din coada dupa procesare
-            //noinspection SuspiciousMethodCalls
-            queue.remove(event);
         }
     }
 }

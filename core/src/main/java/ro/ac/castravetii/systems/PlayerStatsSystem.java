@@ -43,11 +43,10 @@ public class PlayerStatsSystem extends EntitySystem {
         // Tratez evenimentele legate de player daca exista
         if (!events.isEmpty()) {
             for (GameEvent event : events ){
-
                 switch (event) {
                     case AttackEvent e -> {
                         // Daca nu a fost atacat player-ul, trecem peste
-                        if (e.target().getComponent(PlayerComponent.class) == null) return;
+                        if (e.target().getComponent(PlayerComponent.class) == null) continue;
 
                         healthC.currentHealth -= e.damage();
 
@@ -58,13 +57,12 @@ public class PlayerStatsSystem extends EntitySystem {
 
                             queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }
-
+                        System.out.println("au.");
                         queue.post(UpdateHUDEvent.healthBar);
                     }
 
                     case PlayerXPGainEvent e -> {
                         levelC.xp += (int) (e.xp() * levelC.xpGain);
-
                         // Fac level up cat timp am xp-ul necesar si nu am ajuns la nivelul maxim
                         while (levelC.xp >= levelC.levelUpTarget && levelC.level < levelC.maxLevel) {
                             levelC.xp -= levelC.levelUpTarget; // Scad din xp-ul curent valoarea pentru level up
@@ -78,9 +76,6 @@ public class PlayerStatsSystem extends EntitySystem {
 
                     default -> throw new IllegalStateException("Unexpected value: " + event);
                 }
-
-                //noinspection SuspiciousMethodCalls
-                queue.remove(event);
             }
         }
 
