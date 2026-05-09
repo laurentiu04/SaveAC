@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Intersector;
 import ro.ac.castravetii.Gun;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.*;
-import ro.ac.castravetii.events.EnemyDamageEvent;
+import ro.ac.castravetii.events.AttackEvent;
 import ro.ac.castravetii.events.GameEventQueue;
 
 public class BulletSystem extends IteratingSystem {
@@ -51,7 +51,7 @@ public class BulletSystem extends IteratingSystem {
 
                 if (Intersector.overlapConvexPolygons(bulletCollider.polygon, enemyCollider.polygon)) {
                     // postare eveniment damage
-                    queue.post(new EnemyDamageEvent(enemyEntity, gun.getGunComponent().damage, bulletEntity));
+                    queue.post(new AttackEvent(bulletEntity, gun.getGunComponent().damage, enemyEntity));
                     // oprire glont
                     bullet.active = false;
                     break;

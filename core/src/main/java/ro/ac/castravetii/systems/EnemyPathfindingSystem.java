@@ -8,7 +8,7 @@ import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.TransformComponent;
-import ro.ac.castravetii.events.EnemyDamageEvent;
+import ro.ac.castravetii.events.AttackEvent;
 import ro.ac.castravetii.events.GameEventQueue;
 import ro.ac.castravetii.events.UpdateHUDEvent;
 
@@ -58,7 +58,7 @@ public class EnemyPathfindingSystem extends IteratingSystem {
 
             //modify the attack time : >= increment the value -> slower attack / decrement the value -> faster attack - "3f" THE VALUE
             if(ec.attackTimer >= 3f) {
-                queue.post(new EnemyDamageEvent(playerEntity, ec.damage, entity));
+                queue.post(new AttackEvent(entity, ec.damage, playerEntity));
                 queue.post(UpdateHUDEvent.healthBar);
 
                 ec.attackTimer = 0f;

@@ -5,10 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import ro.ac.castravetii.Gun;
 import ro.ac.castravetii.Player;
-import ro.ac.castravetii.components.HealthComponent;
-import ro.ac.castravetii.components.LevelComponent;
-import ro.ac.castravetii.components.MovementComponent;
-import ro.ac.castravetii.components.PlayerStatsComponent;
+import ro.ac.castravetii.components.*;
 import ro.ac.castravetii.events.*;
 
 import java.util.ArrayDeque;
@@ -41,14 +38,17 @@ public class PlayerStatsSystem extends EntitySystem {
 
     @Override
     public void update(float delta) {
-        ArrayDeque<GameEvent> events = queue.getEvents(PlayerDamageEvent.class, PlayerXPGainEvent.class, PlayerEvent.class);
+        ArrayDeque<GameEvent> events = queue.getEvents(AttackEvent.class, PlayerXPGainEvent.class, PlayerEvent.class);
 
         // Tratez evenimentele legate de player daca exista
         if (!events.isEmpty()) {
             for (GameEvent event : events ){
 
                 switch (event) {
-                    case PlayerDamageEvent e -> {
+                    case AttackEvent e -> {
+                        // Daca nu a fost atacat player-ul, trecem peste
+                        if (e.target().getComponent(PlayerComponent.class) == null) return;
+
                         healthC.currentHealth -= e.damage();
 
                         if (healthC.currentHealth <= 0) {
