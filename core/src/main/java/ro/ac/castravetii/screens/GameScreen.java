@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
 import ro.ac.castravetii.events.GameEventQueue;
-import ro.ac.castravetii.events.PlayerXPGainEvent;
 import ro.ac.castravetii.hud.HUD;
 import ro.ac.castravetii.systems.*;
 
@@ -19,7 +18,6 @@ public class GameScreen implements Screen {
     private HUD hud;
     public Player player;
     private MapGenerator mapGen;
-    public float time = 0;
 
     public GameScreen(Game game, GameEventQueue queue) {
         this.game = game;
@@ -37,7 +35,7 @@ public class GameScreen implements Screen {
 
         Services.setCameraLimits(Services.MAP_WIDTH, Services.MAP_HEIGHT);
 
-        Services.engine.addSystem(new RenderSystem(10));
+        Services.engine.addSystem(new RenderSystem(8));
 
         Services.engine.addSystem(new PlayerStatsSystem(queue,2));
         Services.engine.addSystem(new PlayerInputSystem(1));
@@ -49,9 +47,9 @@ public class GameScreen implements Screen {
         Services.engine.addSystem(new HealthbarSystem());
         Services.engine.addSystem(new MovementSystem(2));
         Services.engine.addSystem(new AnimationControlSystem());
-        Services.engine.addSystem(new ColliderRenderSystem());
+        Services.engine.addSystem(new ColliderRenderSystem(9));
         Services.engine.addSystem(new EnemyPathfindingSystem(queue));
-        Services.engine.addSystem(new GenerateEnemySystem());
+        Services.engine.addSystem(new EnemyWaveSystem());
         Services.engine.addSystem(new EnemyDamageSystem(queue,1));
 
     }
@@ -66,12 +64,6 @@ public class GameScreen implements Screen {
         Services.batch.begin();
         mapGen.render();
         Services.batch.end();
-
-        time += delta;
-        if (time >= 2f) {
-            time = 0;
-            queue.post(new PlayerXPGainEvent(10));
-        }
 
         Services.engine.update(Gdx.graphics.getDeltaTime());
 

@@ -1,9 +1,14 @@
 package ro.ac.castravetii;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import ro.ac.castravetii.components.BoxColliderComponent;
+import ro.ac.castravetii.components.PolygonColliderComponent;
+
+import javax.swing.*;
 
 /**
  * Clasa asta este facuta special ca sa nu trebuiasca sa scriem mereu Gdx.files.functie()
@@ -64,5 +69,17 @@ public class Utils {
 //        System.out.println(spritesheet.getRegionWidth());
 
         return new Animation<>(frameDuration, frames);
+    }
+
+    public static void flipCollider(Entity entity) {
+        PolygonColliderComponent polyCollider = entity.getComponent(PolygonColliderComponent.class);
+
+        if (polyCollider != null) {
+            polyCollider.polygon.setScale(polyCollider.polygon.getScaleX() * -1, 1);
+            return;
+        }
+
+        BoxColliderComponent boxCollider = entity.getComponent(BoxColliderComponent.class);
+
     }
 }
