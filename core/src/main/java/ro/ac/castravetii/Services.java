@@ -28,6 +28,7 @@ public final class Services {
     /**
      * Camera ortografica care o sa urmareasca player-ul
      */
+
     public static OrthographicCamera camera;
     public static float cameraZoom = 2f;
     public static float minLimitX;

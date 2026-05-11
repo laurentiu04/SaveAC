@@ -3,11 +3,9 @@ package ro.ac.castravetii.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import ro.ac.castravetii.Gun;
 import ro.ac.castravetii.Player;
-import ro.ac.castravetii.components.HealthComponent;
-import ro.ac.castravetii.components.LevelComponent;
-import ro.ac.castravetii.components.MovementComponent;
-import ro.ac.castravetii.components.PlayerStatsComponent;
+import ro.ac.castravetii.components.*;
 import ro.ac.castravetii.events.*;
 
 import java.util.ArrayDeque;
@@ -23,27 +21,33 @@ public class PlayerStatsSystem extends EntitySystem {
     private final PlayerStatsComponent statsC;
     private final MovementComponent movementC;
     private final GameEventQueue queue;
+    private final Gun gun;
 
     public PlayerStatsSystem(GameEventQueue queue, int priority){
         super(priority);
         this.queue = queue;
 
-        healthC = Player.getInstance().getHealthComponent();
-        levelC = Player.getInstance().getLevelComponent();
-        statsC = Player.getInstance().getPlayerStats();
-        movementC = Player.getInstance().getMovementComponent();
+        Player player = Player.getInstance();
+
+        healthC = player.getHealthComponent();
+        levelC = player.getLevelComponent();
+        statsC = player.getPlayerStats();
+        movementC = player.getMovementComponent();
+        gun = player.getGun();
     }
 
     @Override
     public void update(float delta) {
-        ArrayDeque<GameEvent> events = queue.getEvents(PlayerDamageEvent.class, PlayerXPGainEvent.class, PlayerEvent.class);
+        ArrayDeque<GameEvent> events = queue.getEvents(AttackEvent.class, PlayerXPGainEvent.class, PlayerEvent.class);
 
         // Tratez evenimentele legate de player daca exista
         if (!events.isEmpty()) {
             for (GameEvent event : events ){
-
                 switch (event) {
-                    case PlayerDamageEvent e -> {
+                    case AttackEvent e -> {
+                        // Daca nu a fost atacat player-ul, trecem peste
+                        if (e.target().getComponent(PlayerComponent.class) == null) continue;
+
                         healthC.currentHealth -= e.damage();
 
                         if (healthC.currentHealth <= 0) {
@@ -53,13 +57,12 @@ public class PlayerStatsSystem extends EntitySystem {
 
                             queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }
-
+                        System.out.println("au.");
                         queue.post(UpdateHUDEvent.healthBar);
                     }
 
                     case PlayerXPGainEvent e -> {
                         levelC.xp += (int) (e.xp() * levelC.xpGain);
-
                         // Fac level up cat timp am xp-ul necesar si nu am ajuns la nivelul maxim
                         while (levelC.xp >= levelC.levelUpTarget && levelC.level < levelC.maxLevel) {
                             levelC.xp -= levelC.levelUpTarget; // Scad din xp-ul curent valoarea pentru level up
@@ -73,9 +76,6 @@ public class PlayerStatsSystem extends EntitySystem {
 
                     default -> throw new IllegalStateException("Unexpected value: " + event);
                 }
-
-                //noinspection SuspiciousMethodCalls
-                queue.remove(event);
             }
         }
 
@@ -83,7 +83,7 @@ public class PlayerStatsSystem extends EntitySystem {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
                 statsC.strengthLevel++;
-                // TODO: creste damage-ul la arma
+                gun.getGunComponent().damage += (int) (gun.getGunComponent().damage * 0.1);
             } else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
                 statsC.speedLevel++;
                 movementC.speed += 8;

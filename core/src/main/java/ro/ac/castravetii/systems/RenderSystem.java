@@ -4,9 +4,12 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
+import ro.ac.castravetii.Utils;
 import ro.ac.castravetii.components.*;
 
 /**
@@ -47,7 +50,17 @@ public class RenderSystem extends SortedIteratingSystem {
         MovementComponent move = mm.get(entity);
 
         if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null) {
-            texture.flippedX = !(mm.get(entity).moveX > 0);
+            if (texture.flippedX && move.moveX > 0) {
+                texture.flippedX = false;
+                if (entity.getComponent(EnemyComponent.class) != null){
+                    Utils.flipCollider(entity);
+                }
+            } else if (!texture.flippedX && move.moveX < 0) {
+                texture.flippedX = true;
+                if (entity.getComponent(EnemyComponent.class) != null) {
+                    Utils.flipCollider(entity);
+                }
+            }
         }
 
         if (entity.getComponent(GunComponent.class) != null) {
@@ -58,8 +71,8 @@ public class RenderSystem extends SortedIteratingSystem {
         Services.batch.begin();
         Services.batch.draw(
             region,
-            transform.position.x - region.getRegionWidth()/2.0f,
-            transform.position.y,
+            transform.position.x - region.getRegionWidth() * transform.origin.x,
+            transform.position.y- region.getRegionWidth() * transform.origin.y,
             region.getRegionWidth()*transform.origin.x,
             region.getRegionWidth()*transform.origin.y,
             region.getRegionWidth(),
@@ -69,6 +82,14 @@ public class RenderSystem extends SortedIteratingSystem {
             transform.rotation
         );
         Services.batch.end();
+
+        // DEBUG - Arata originea fiecarui obiect
+        Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        Services.shapeRenderer.setColor(Color.BLACK);
+        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 2);
+        Services.shapeRenderer.setColor(Color.ORANGE);
+        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 1);
+        Services.shapeRenderer.end();
     }
 }
 

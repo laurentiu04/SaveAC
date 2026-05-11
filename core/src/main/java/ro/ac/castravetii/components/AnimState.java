@@ -6,6 +6,7 @@ package ro.ac.castravetii.components;
 public enum AnimState {
     IDLE,
     MOVING,
+    MOVING_BACK,
     ATTACKING,
     DYING,
     TAKE_DAMAGE

@@ -1,10 +1,7 @@
 package ro.ac.castravetii;
-import ro.ac.castravetii.components.*;
-// TODO: @Andrei Creare Enemy
 
+import ro.ac.castravetii.components.*;
 import com.badlogic.ashley.core.Entity;
-import ro.ac.castravetii.components.EnemyComponent;
-import ro.ac.castravetii.components.TextureComponent;
 
 public class Enemy {
 
@@ -17,41 +14,40 @@ public class Enemy {
     protected AnimationComponent animation;
 
     public Enemy() {
-
-        //Creating an Enemy entity
+        // creare entitate inamic
         entityEnemy = Services.engine.createEntity();
 
-        //Creating a new TransformComponent for later to be used in generating random positions for my Enemies.
+        // transform component pentru pozitie
         enemyTC = new TransformComponent();
         enemyTC.origin.x = 0.5f;
         entityEnemy.add(enemyTC);
 
-        //Creating texture component for my Enemy object
+        // componenta pentru textura
         texture = new TextureComponent();
         entityEnemy.add(texture);
 
-        //Creating a new EnemyComponent with 2 attributes health & damage that are initialized
+        // initializare viata - IMPORTANT: trebuie adaugata la entitate
         health = new HealthComponent();
         health.maxHealth = 200;
-        health.showHealthbar = true; // ai grija la healthbar nu se afiseaza
-        entityEnemy.add(health);
+        health.currentHealth = 200;
+        entityEnemy.add(health); // adaugam componenta de sanatate
 
+        // componenta specifica pentru inamic (damage etc)
         enemyC = new EnemyComponent();
         enemyC.damage = 20;
         entityEnemy.add(enemyC);
 
-        //MovementComponent for Enemy : The attributes are going to have smaller values because I want my Enemy to be slower than Player
+        // miscare inamic
         movement = new MovementComponent();
         movement.speed = 50f;
         entityEnemy.add(movement);
 
-        //Added new AnimationComponent for my Enemy : that AnimationComponent is responsible for visual effects of Enemy design
+        // animatie
         animation = new AnimationComponent();
-        // ATENTIE FRAMESIZE TREBUIE SA AIBA ACELEASI DIMENSIUNI CA DESIGN UL INITIAL PE CARE L FOLOSESTI IN texture.region
         entityEnemy.add(animation);
 
+        // adaugare entitate finalizata in engine
         Services.engine.addEntity(entityEnemy);
-
     }
 
     public TransformComponent getTransformComponent() {

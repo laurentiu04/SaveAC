@@ -8,6 +8,7 @@ import ro.ac.castravetii.components.TransformComponent;
 public class Gun {
     private final TextureComponent textureC;
     private final TransformComponent transformC;
+    private final GunComponent gunC;
 
     public Gun() {
         Entity entity = Services.engine.createEntity();
@@ -18,10 +19,11 @@ public class Gun {
         textureC.layer = 2;
         entity.add(textureC);
 
-        GunComponent gunC = Services.engine.createComponent(GunComponent.class);
+        gunC = Services.engine.createComponent(GunComponent.class);
         entity.add(gunC);
 
         transformC = Services.engine.createComponent(TransformComponent.class);
+        transformC.origin.set(0.02f, 0.5f);
         entity.add(transformC);
     }
 
@@ -31,5 +33,9 @@ public class Gun {
 
     public TextureComponent getTextureComponent() {
         return textureC;
+    }
+
+    public GunComponent getGunComponent() {
+        return gunC;
     }
 }

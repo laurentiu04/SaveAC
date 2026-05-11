@@ -25,12 +25,12 @@ public class HealthbarSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         Vector2 pos = tm.get(entity).position;
         HealthComponent health = hm.get(entity);
-        int healthbarWidth = 30;
+        int healthBarWidth = 30;
 
         if (health.showHealthbar) {
             Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             Services.shapeRenderer.setColor(Color.RED);
-            Services.shapeRenderer.rect(pos.x - healthbarWidth/2f, pos.y, healthbarWidth * ((float) health.currentHealth / health.maxHealth), 2);
+            Services.shapeRenderer.rect(pos.x - healthBarWidth/2f, pos.y, healthBarWidth * ((float) health.currentHealth / health.maxHealth), 2);
             Services.shapeRenderer.end();
         }
     }

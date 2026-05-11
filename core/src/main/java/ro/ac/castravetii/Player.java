@@ -10,7 +10,7 @@ import ro.ac.castravetii.events.*;
 /**
  * Container singleton pentru entitatea player
  */
-public final class Player {
+public final class  Player {
     /**
      * Variabila pentru a verifica daca a fost instantiata clasa player
      */
@@ -23,18 +23,15 @@ public final class Player {
     private final PlayerStatsComponent statsComponent;
     private final MovementComponent movementComponent;
     private final AnimationComponent animationComponent;
-    private final ColliderComponent colliderComponent;
+    private final EllipseColliderComponent colliderComponent;
     private final HealthComponent healthComponent;
     private final LevelComponent levelComponent;
     private final Gun gun;
 
-    private final GameEventQueue queue;
-
     /**
      * Constructor ascuns
      */
-    private Player(GameEventQueue queue) {
-        this.queue = queue;
+    private Player() {
 
         // Creez o entitate pentru player.
         playerEntity = Services.engine.createEntity();
@@ -49,7 +46,7 @@ public final class Player {
         transformComponent = new TransformComponent();
         transformComponent.position.x = Services.MAP_WIDTH*16;
         transformComponent.position.y = Services.MAP_HEIGHT*16;
-        transformComponent.origin.x = 0.5f;
+        transformComponent.origin.set(0.52f, 0.20f);
         playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
@@ -65,14 +62,12 @@ public final class Player {
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);
 
-        colliderComponent = new ColliderComponent();
-        colliderComponent.height = 43f;
-        colliderComponent.with = 18f;
-        colliderComponent.offsetX = -colliderComponent.with/2;
-        colliderComponent.offsetY = 15f;
-        colliderComponent.shape = ColliderShape.ELLIPSE;
-        colliderComponent.type = CollisionType.PLAYER;
-        colliderComponent.show = false;
+        colliderComponent = new EllipseColliderComponent();
+        colliderComponent.height = 44f;
+        colliderComponent.width = 18f;
+        colliderComponent.offset.x = -colliderComponent.width/2;
+        colliderComponent.offset.y = -20f;
+//        colliderComponent.show = true;
         playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();
@@ -91,7 +86,7 @@ public final class Player {
      * Metoda pentru crearea instantei singleton a clasei Player.
      */
     @SuppressWarnings("UnusedReturnValue")
-    public static Player create(GameEventQueue queue) {
+    public static Player create() {
 
         // Daca a fost creat deja un player, intoarce null.
         if (INSTANCE != null) {
@@ -99,7 +94,7 @@ public final class Player {
         }
 
         // Marchez crearea player-ului.
-        INSTANCE = new Player(queue);
+        INSTANCE = new Player();
 
         Services.camera.translate(INSTANCE.transformComponent.position.x, INSTANCE.transformComponent.position.y);
         return INSTANCE;
@@ -118,16 +113,15 @@ public final class Player {
 
         Vector2 camPos = new Vector2(Services.camera.position.x, Services.camera.position.y);
         Vector2 playerPos = Player.INSTANCE.transformComponent.position;
+        Vector3 tagetPos = new Vector3(playerPos.x, playerPos.y + textureComponent.region.getRegionHeight()*transformComponent.origin.y, 0f);
 
-        Vector3 newCamPos = new Vector3(playerPos.x, playerPos.y + 32, 0);
+        if (playerPos.x > Services.maxLimitX) tagetPos.x = Services.maxLimitX;
+        else if (playerPos.x < Services.minLimitX) tagetPos.x = Services.minLimitX;
+        if (playerPos.y > Services.maxLimitY) tagetPos.y = Services.maxLimitY;
+        else if (playerPos.y < Services.minLimitY) tagetPos.y = Services.minLimitY;
 
-        if (playerPos.x > Services.maxLimitX) newCamPos.x = Services.maxLimitX;
-        else if (playerPos.x < Services.minLimitX) newCamPos.x = Services.minLimitX;
-        if (playerPos.y + 32 > Services.maxLimitY) newCamPos.y = Services.maxLimitY;
-        else if (playerPos.y + 32 < Services.minLimitY) newCamPos.y = Services.minLimitY;
-
-        if (!camPos.epsilonEquals(new Vector2(newCamPos.x, newCamPos.y))) {
-            Services.camera.position.lerp(newCamPos, 6f * Gdx.graphics.getDeltaTime());
+        if (!camPos.epsilonEquals(new Vector2(tagetPos.x, tagetPos.y))) {
+            Services.camera.position.lerp(tagetPos, 6f * Gdx.graphics.getDeltaTime());
             Services.camera.update();
         }
     }

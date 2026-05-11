@@ -6,12 +6,13 @@ import ro.ac.castravetii.Enemy;
 import ro.ac.castravetii.PepperEnemy;
 import ro.ac.castravetii.components.TransformComponent;
 
-public class GenerateEnemySystem extends EntitySystem {
+public class EnemyWaveSystem extends EntitySystem {
     private float counter = 0f;
 
     //how many Enemies are spawned in current wave.
     private int spawnedInWave = 0;
     private int wave = 1;
+    private int maxWaves = 5;
 
     @Override
     public void update(float deltaTime){
@@ -48,6 +49,7 @@ public class GenerateEnemySystem extends EntitySystem {
             if(spawnedInWave >= maxPerWave){
                 wave++;
                 spawnedInWave = 0;
+                maxPerWave += 5;
             }
         }
     }

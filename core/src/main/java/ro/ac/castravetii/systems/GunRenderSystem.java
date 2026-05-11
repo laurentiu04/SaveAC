@@ -10,7 +10,7 @@ import ro.ac.castravetii.components.TransformComponent;
 public class GunRenderSystem extends EntitySystem {
     private final TransformComponent transformC;
     private final TransformComponent playerTransformC;
-    private final TextureComponent playerTextureC;
+    private final TextureComponent textureC;
 
     public GunRenderSystem(int priority) {
         super(priority);
@@ -18,18 +18,16 @@ public class GunRenderSystem extends EntitySystem {
         Gun gun = Player.getInstance().getGun();
 
         transformC = gun.getTransformComponent();
+        textureC = gun.getTextureComponent();
 
         playerTransformC = Player.getInstance().getTransformComponent();
-        transformC.origin.y = 0.5f;
-
-        playerTextureC = Player.getInstance().getGun().getTextureComponent();
     }
 
     @Override
     public void update(float delta) {
         transformC.position = new Vector2(
-            playerTransformC.position.x + (playerTextureC.flippedX ? 10 : 5),
-            playerTransformC.position.y + 24
+        playerTransformC.position.x - (textureC.flippedY ? -4 : 4),
+            playerTransformC.position.y + 20
         );
     }
 }
