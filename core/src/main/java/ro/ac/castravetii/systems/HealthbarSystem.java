@@ -18,7 +18,7 @@ public class HealthbarSystem extends IteratingSystem {
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
 
     public HealthbarSystem() {
-        super(Family.all(HealthComponent.class).exclude(PlayerComponent.class) .get());
+        super(Family.all(HealthComponent.class).exclude(PlayerComponent.class) .get(), 10);
     }
 
     @Override

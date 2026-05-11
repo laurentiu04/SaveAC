@@ -33,6 +33,9 @@ public class Enemy {
         //Creating a new EnemyComponent with 2 attributes health & damage that are initialized
         health = new HealthComponent();
         health.maxHealth = 200;
+        health.showHealthbar = true; // ai grija la healthbar nu se afiseaza
+        entityEnemy.add(health);
+
         enemyC = new EnemyComponent();
         enemyC.damage = 20;
         entityEnemy.add(enemyC);

@@ -153,4 +153,8 @@ public final class Player {
     public TextureComponent getTextureComponent() {
         return textureComponent;
     }
+
+    public Entity getEntity() {
+        return playerEntity;
+    }
 }

@@ -24,7 +24,6 @@ public class EnemyDamageSystem extends EntitySystem {
         for(GameEvent event : events){
             if(event instanceof EnemyDamageEvent dmg){
                 if(dmg.target == Player.getInstance().getEntity()){
-                    System.out.println("SE EXECUTA");
                     queue.post(new PlayerDamageEvent(dmg.amount));
                 }
             }
