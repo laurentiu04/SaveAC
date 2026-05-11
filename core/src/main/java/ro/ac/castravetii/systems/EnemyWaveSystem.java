@@ -18,16 +18,16 @@ public class EnemyWaveSystem extends EntitySystem {
     public void update(float deltaTime){
         counter += deltaTime;
 
-        int maxPerWave = 5;
+        int maxPerWave = 15;
 
         //every 3 seconds enemies appear.
-        float spawnInterval = 3f;
+        float spawnInterval = 0.3f;
 
         if(counter >= spawnInterval && spawnedInWave < maxPerWave){
             counter = 0f;
             //the map is 50x32, but I want a spawn point smaller because it is going to be boring
             //to wait for the enemies to come at player for a long period of time if they are spawned in other corner of the map.
-            float x = (float) (Math.random() * 1000);
+            float x = (float) (Math.random() * 200) + 200f;
             float y = (float) (Math.random() * 800);
 
             Enemy enemy;
