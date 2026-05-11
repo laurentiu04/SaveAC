@@ -18,7 +18,7 @@ public class BellPepperEnemy extends Enemy{
 
         enemyC.damage = 20;
 
-        movement.speed = 60f;
+        movement.speed = 30f;
 
         enemyTC.origin.set(0.5f, 0.2f);
         PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);

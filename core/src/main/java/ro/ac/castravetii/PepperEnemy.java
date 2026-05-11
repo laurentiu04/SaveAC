@@ -20,7 +20,7 @@ public class PepperEnemy extends Enemy{
 
         enemyC.damage = 10;
 
-        movement.speed = 50f;
+        movement.speed = 30f;
 
         collider = Services.engine.createComponent(PolygonColliderComponent.class);
         collider.vertices = new float[]{
