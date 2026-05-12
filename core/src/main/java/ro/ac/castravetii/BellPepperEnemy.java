@@ -7,20 +7,21 @@ public class BellPepperEnemy extends Enemy{
     public BellPepperEnemy(){
         super();
         //modificati fratilor aici sa nu mai fie glontele
-        texture.region = Services.textureAtlas.findRegion("BellPepper");
+        textureC.region = Services.textureAtlas.findRegion("BellPepper");
 
-        animation.movingAnim = Utils.createAnimation(48, 0.05f, "BellPepper-moving");
-        animation.idleSprite = texture.region;
-        animation.animationDuration = 50f;
+        animationC.movingAnim = Utils.createAnimation(48, 0.05f, "BellPepper-moving");
+        animationC.idleSprite = textureC.region;
+        animationC.animationDuration = 50f;
 
-        health.maxHealth = 80;
-        health.currentHealth = 80;
+        healthC.maxHealth = 80;
+        healthC.currentHealth = 80;
 
         enemyC.damage = 20;
+        enemyC.xpValue = 20;
 
-        movement.speed = 30f;
+        movementC.speed = 30f;
 
-        enemyTC.origin.set(0.5f, 0.2f);
+        transformC.origin.set(0.5f, 0.2f);
         PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);
         collider.vertices = new float[]{
             3,  0,   // bottom-left
@@ -35,6 +36,6 @@ public class BellPepperEnemy extends Enemy{
         collider.polygon.setOrigin(11, 11);
         collider.offset.set(-12, 10);
 //        collider.show = true;
-        entityEnemy.add(collider);
+        entity.add(collider);
     }
 }

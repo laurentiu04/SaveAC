@@ -57,7 +57,6 @@ public class PlayerStatsSystem extends EntitySystem {
 
                             queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }
-                        System.out.println("au.");
                         queue.post(UpdateHUDEvent.healthBar);
                     }
 
@@ -82,17 +81,33 @@ public class PlayerStatsSystem extends EntitySystem {
         if (statsC.upgradePoints > 0) {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+
+                /* Upgrade gun */
                 statsC.strengthLevel++;
-                gun.getGunComponent().damage += (int) (gun.getGunComponent().damage * 0.1);
+                GunComponent gunC = gun.getGunComponent();
+                // Upgrade gun damage +10%.
+                gunC.damage += (int) (gunC.damage * 0.1);
+                // Upgrade gun shooting speed -5%;
+                gunC.shotDelay -= gunC.shotDelay * 0.05f;
+
             } else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+
+                /* Update speed */
                 statsC.speedLevel++;
+
                 movementC.speed += 8;
             } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
+
+                /* Upgrade health */
                 statsC.healthLevel++;
                 healthC.maxHealth += 20;
+
             } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
+
+                /* Upgrade xp gain */
                 statsC.xpGainLevel++;
                 levelC.xpGain += 1.0f;
+
             }
 
             // 8, 9, 10, 11 sunt valorile int pentru numerele 1, 2, 3, 4 de pe tastatura

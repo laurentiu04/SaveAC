@@ -47,7 +47,7 @@ public class RenderSystem extends SortedIteratingSystem {
         TransformComponent transform = tm.get(entity);
         MovementComponent move = mm.get(entity);
 
-        if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null) {
+        if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null && entity.getComponent(BulletComponent.class) == null) {
             if (texture.flippedX && move.moveX > 0) {
                 texture.flippedX = false;
                 if (entity.getComponent(EnemyComponent.class) != null){
