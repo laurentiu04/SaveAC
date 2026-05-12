@@ -5,52 +5,53 @@ import com.badlogic.ashley.core.Entity;
 
 public class Enemy {
 
-    protected TransformComponent enemyTC;
-    protected Entity entityEnemy;
-    protected TextureComponent texture;
+    protected TransformComponent transformC;
+    protected Entity entity;
+    protected TextureComponent textureC;
     protected EnemyComponent enemyC;
-    protected HealthComponent health;
-    protected MovementComponent movement;
-    protected AnimationComponent animation;
+    protected HealthComponent healthC;
+    protected MovementComponent movementC;
+    protected AnimationComponent animationC;
 
     public Enemy() {
         // creare entitate inamic
-        entityEnemy = Services.engine.createEntity();
+        entity = Services.engine.createEntity();
 
         // transform component pentru pozitie
-        enemyTC = new TransformComponent();
-        enemyTC.origin.x = 0.5f;
-        entityEnemy.add(enemyTC);
+        transformC = new TransformComponent();
+        transformC.origin.x = 0.5f;
+        entity.add(transformC);
 
         // componenta pentru textura
-        texture = new TextureComponent();
-        entityEnemy.add(texture);
+        textureC = new TextureComponent();
+        entity.add(textureC);
 
         // initializare viata - IMPORTANT: trebuie adaugata la entitate
-        health = new HealthComponent();
-        health.maxHealth = 200;
-        health.currentHealth = 200;
-        entityEnemy.add(health); // adaugam componenta de sanatate
+        healthC = new HealthComponent();
+        healthC.maxHealth = 200;
+        healthC.currentHealth = 200;
+        healthC.showHealthbar = false;
+        entity.add(healthC); // adaugam componenta de sanatate
 
         // componenta specifica pentru inamic (damage etc)
         enemyC = new EnemyComponent();
         enemyC.damage = 20;
-        entityEnemy.add(enemyC);
+        entity.add(enemyC);
 
         // miscare inamic
-        movement = new MovementComponent();
-        movement.speed = 50f;
-        entityEnemy.add(movement);
+        movementC = new MovementComponent();
+        movementC.speed = 50f;
+        entity.add(movementC);
 
         // animatie
-        animation = new AnimationComponent();
-        entityEnemy.add(animation);
+        animationC = new AnimationComponent();
+        entity.add(animationC);
 
         // adaugare entitate finalizata in engine
-        Services.engine.addEntity(entityEnemy);
+        Services.engine.addEntity(entity);
     }
 
     public TransformComponent getTransformComponent() {
-        return enemyTC;
+        return transformC;
     }
 }

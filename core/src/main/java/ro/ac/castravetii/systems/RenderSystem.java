@@ -4,8 +4,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
@@ -49,7 +47,7 @@ public class RenderSystem extends SortedIteratingSystem {
         TransformComponent transform = tm.get(entity);
         MovementComponent move = mm.get(entity);
 
-        if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null) {
+        if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null && entity.getComponent(BulletComponent.class) == null) {
             if (texture.flippedX && move.moveX > 0) {
                 texture.flippedX = false;
                 if (entity.getComponent(EnemyComponent.class) != null){
@@ -84,12 +82,12 @@ public class RenderSystem extends SortedIteratingSystem {
         Services.batch.end();
 
         // DEBUG - Arata originea fiecarui obiect
-        Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        Services.shapeRenderer.setColor(Color.BLACK);
-        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 2);
-        Services.shapeRenderer.setColor(Color.ORANGE);
-        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 1);
-        Services.shapeRenderer.end();
+//        Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        Services.shapeRenderer.setColor(Color.BLACK);
+//        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 2);
+//        Services.shapeRenderer.setColor(Color.ORANGE);
+//        Services.shapeRenderer.circle(transform.position.x, transform.position.y, 1);
+//        Services.shapeRenderer.end();
     }
 }
 

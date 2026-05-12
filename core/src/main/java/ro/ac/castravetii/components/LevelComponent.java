@@ -2,6 +2,9 @@ package ro.ac.castravetii.components;
 
 import com.badlogic.ashley.core.Component;
 
+/**
+ * Componentă pentru sistemul de nivel al player-ului.
+ */
 public class LevelComponent implements Component {
     public int xp = 0;
     public float xpGain = 2f;

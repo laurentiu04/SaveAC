@@ -92,7 +92,7 @@ public final class Services {
         Services.shapeRenderer.setProjectionMatrix(Services.camera.combined);
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-            Gdx.files.internal("fonts/MILLENNIA.ttf")
+            Gdx.files.internal("fonts/MILLENNIA.TTF")
         );
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
         params.size = 20;
