@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.ray3k.stripe.FreeTypeSkin;
+import ro.ac.castravetii.systems.SoundSystem;
 
 /**
  * Clasa creata pentru toate variabilele ce ar trebui accesate global in proiect
@@ -63,6 +64,8 @@ public final class Services {
 
     public static int MAP_WIDTH = 50;
     public static int MAP_HEIGHT =50;
+
+    public static SoundSystem soundSystem;
     /**
      * Functie pentru eliminarea resurselor create
      */

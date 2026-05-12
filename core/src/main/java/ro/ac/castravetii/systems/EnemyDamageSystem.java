@@ -2,6 +2,7 @@ package ro.ac.castravetii.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.EntitySystem;
+import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.events.AttackEvent;
@@ -39,6 +40,9 @@ public class EnemyDamageSystem extends EntitySystem {
                 if(health != null){
                     // scadere viata
                     health.currentHealth -= attackEvent.damage();
+
+                    //adaugare sunet inamic lovit
+                    Services.soundSystem.play("enemyHit");
 
                     // eliminare daca viata e zero
                     if(health.currentHealth <= 0) {
