@@ -56,6 +56,8 @@ public class GunShootingSystem extends EntitySystem {
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && gunC.canShoot) {
             spawnBullet(gunTipX, gunTipY, transformC.rotation);
+
+            Services.soundSystem.play("shoot");
             gunC.canShoot = false;
             gunC.sinceLastShot = 0f;
         }
@@ -67,6 +69,7 @@ public class GunShootingSystem extends EntitySystem {
 //        Services.shapeRenderer.setColor(Color.RED);
 //        Services.shapeRenderer.line(gunTipX, gunTipY, mouseWorld.x, mouseWorld.y);
 //        Services.shapeRenderer.end();
+
     }
 
     private void spawnBullet(float x, float y, float angle) {

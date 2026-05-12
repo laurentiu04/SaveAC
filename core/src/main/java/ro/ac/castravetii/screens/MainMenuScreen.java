@@ -3,6 +3,7 @@ package ro.ac.castravetii.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,6 +19,8 @@ public class MainMenuScreen extends ScreenAdapter {
     private final Game game;
     private Stage stage;
     private final GameEventQueue queue;
+
+    private Music music;
 
     public MainMenuScreen(Game game, GameEventQueue queue) {
         this.game = game;
@@ -38,10 +41,21 @@ public class MainMenuScreen extends ScreenAdapter {
         TextButton exitButton = new TextButton("QUIT", Services.skin); // Exit button
         exitButton.setSize(170, 70);
 
+
+        music = Gdx.audio.newMusic(
+            Gdx.files.internal("music/realgone.mp3")
+        );
+
+        music.setLooping(true);
+        music.setVolume(1f);
+        music.play();
+
         playButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // Going from MainMenuScreen to GameScreen
+                music.stop(); //opresc muzica
+
                 game.setScreen(new GameScreen(game, queue));
             }
         });

@@ -3,6 +3,7 @@ package ro.ac.castravetii.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
 import ro.ac.castravetii.events.GameEventQueue;
@@ -18,6 +19,7 @@ public class GameScreen implements Screen {
     private HUD hud;
     public Player player;
     private MapGenerator mapGen;
+    public static SoundSystem soundSystem;
 
     public GameScreen(Game game, GameEventQueue queue) {
         this.game = game;
@@ -51,6 +53,10 @@ public class GameScreen implements Screen {
         Services.engine.addSystem(new EnemyPathfindingSystem(queue));
         Services.engine.addSystem(new EnemyWaveSystem());
         Services.engine.addSystem(new EnemyDamageSystem(queue,1));
+
+        //am nevoie de acces la sunete in oricare ar fi clasa, de asta fac asa.
+        Services.soundSystem = new SoundSystem(queue,2);
+        Services.engine.addSystem(Services.soundSystem);
 
     }
 

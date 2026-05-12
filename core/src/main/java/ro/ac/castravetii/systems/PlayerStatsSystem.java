@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import ro.ac.castravetii.Gun;
 import ro.ac.castravetii.Player;
+import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.*;
 import ro.ac.castravetii.events.*;
 
@@ -50,8 +51,15 @@ public class PlayerStatsSystem extends EntitySystem {
 
                         healthC.currentHealth -= e.damage();
 
+                        //poti pune aici ca player ul e ranit , un sunet...
+
                         if (healthC.currentHealth <= 0) {
                             healthC.currentHealth = 0;
+
+                            //trebuie adaugat un delay intai ca player ul sa moara intai si sa se auda sunetul si dupa sa se inchida
+                            //jocul sau varianta aia cu meniul dupa ce maore player sa se deschida un meniu in care ai optiuni de restart,exit...
+//                            Services.soundSystem.play("playerDead");
+
 
                             Gdx.app.exit();
 

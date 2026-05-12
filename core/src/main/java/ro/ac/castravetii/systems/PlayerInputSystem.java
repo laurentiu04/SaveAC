@@ -2,11 +2,15 @@ package ro.ac.castravetii.systems;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import ro.ac.castravetii.Player;
+import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.MovementComponent;
 
 public class PlayerInputSystem extends EntitySystem {
     private final MovementComponent moveComp;
+
+//    private final SoundSystem soundSystem;
 
     public PlayerInputSystem(int priority) {
         super(priority);
@@ -31,5 +35,13 @@ public class PlayerInputSystem extends EntitySystem {
 
         moveComp.moveX = moveComp.speed * moveComp.inputX;
         moveComp.moveY = moveComp.speed * moveComp.inputY;
+
+        boolean isMoving = moveComp.inputX != 0 || moveComp.inputY != 0;
+
+        if(isMoving){
+            Services.soundSystem.loop("run");
+        }else{
+            Services.soundSystem.stop("run");
+        }
     }
 }
