@@ -31,15 +31,19 @@ public class MovementSystem extends IteratingSystem {
         AnimationComponent animComp = am.get(entity);
 
         // Daca o entitate mai are viteza, calculam noua pozitie si o aplicam
-        if (move.moveX != 0 || move.moveY != 0) {
+        if (move.moveX != 0 || move.moveY != 0 || move.knockbackX != 0 || move.knockbackY != 0) {
             if (animComp != null && animComp.state != AnimState.MOVING) {
                 animComp.state = AnimState.MOVING;
             }
 
             transform.position = new Vector2(
-                transform.position.x + (move.moveX * deltaTime),
-                transform.position.y + (move.moveY * deltaTime)
+                transform.position.x + ((move.moveX + move.knockbackX) * deltaTime),
+                transform.position.y + ((move.moveY + move.knockbackY) * deltaTime)
             );
+
+            //setezi cat de smooth sa fie knockback ul
+            move.knockbackX *= 0.85f;
+            move.knockbackY *= 0.85f;
         } else {
             if (animComp != null && animComp.state != AnimState.IDLE) {
                 animComp.state = AnimState.IDLE;
