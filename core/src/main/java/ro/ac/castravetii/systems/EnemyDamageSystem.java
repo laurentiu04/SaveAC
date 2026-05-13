@@ -2,9 +2,12 @@ package ro.ac.castravetii.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.EntitySystem;
+import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.HealthComponent;
+import ro.ac.castravetii.components.MovementComponent;
+import ro.ac.castravetii.components.TransformComponent;
 import ro.ac.castravetii.events.AttackEvent;
 import ro.ac.castravetii.events.GameEvent;
 import ro.ac.castravetii.events.GameEventQueue;
@@ -36,6 +39,22 @@ public class EnemyDamageSystem extends EntitySystem {
             }
                 // accesare componenta sanatate de pe tinta
                 HealthComponent health = hm.get(attackEvent.target());
+                TransformComponent transform = attackEvent.target().getComponent(TransformComponent.class);
+
+                float dx = transform.position.x - Player.getInstance().getTransformComponent().position.x;
+                float dy = transform.position.y - Player.getInstance().getTransformComponent().position.y;
+
+                float length = (float) Math.sqrt(dx * dx + dy * dy);
+                if(length != 0){
+                    dx /= length;
+                    dy /= length;
+                }
+
+                MovementComponent move = attackEvent.target().getComponent(MovementComponent.class);
+                //forta cu cat il impinge pe inamic
+                float force = 500f;
+                move.knockbackX = dx * force;
+                move.knockbackY = dy * force;
 
                 if(health != null){
                     // scadere viata

@@ -34,10 +34,10 @@ public class PlayerInputSystem extends EntitySystem {
             movementC.inputY /= length;
         }
 
-        moveComp.moveX = moveComp.speed * moveComp.inputX;
-        moveComp.moveY = moveComp.speed * moveComp.inputY;
+        movementC.moveX = movementC.speed * movementC.inputX;
+        movementC.moveY = movementC.speed * movementC.inputY;
 
-        boolean isMoving = moveComp.inputX != 0 || moveComp.inputY != 0;
+        boolean isMoving = movementC.inputX != 0 || movementC.inputY != 0;
 
         if(isMoving){
             Services.soundSystem.loop("run");

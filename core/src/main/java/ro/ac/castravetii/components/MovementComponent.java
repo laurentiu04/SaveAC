@@ -13,7 +13,8 @@ public class MovementComponent implements Component, Pool.Poolable {
     public float speed = 150f;
     public float inputX = 0f;
     public float inputY = 0f;
-
+    public float knockbackX = 0f;
+    public float knockbackY = 0f;
     @Override
     public void reset() {
 

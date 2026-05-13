@@ -11,13 +11,14 @@ import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TransformComponent;
+import ro.ac.castravetii.events.GameEventQueue;
 
 
 public class HealthbarSystem extends IteratingSystem {
     ComponentMapper<HealthComponent> hm = ComponentMapper.getFor(HealthComponent.class);
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
 
-    public HealthbarSystem() {
+    public HealthbarSystem(GameEventQueue queue, int priority) {
         super(Family.all(HealthComponent.class).exclude(PlayerComponent.class) .get(), 10);
     }
 
