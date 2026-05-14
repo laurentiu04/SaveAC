@@ -8,10 +8,7 @@ import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.HealthComponent;
 import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.TransformComponent;
-import ro.ac.castravetii.events.AttackEvent;
-import ro.ac.castravetii.events.GameEvent;
-import ro.ac.castravetii.events.GameEventQueue;
-import ro.ac.castravetii.events.PlayerXPGainEvent;
+import ro.ac.castravetii.events.*;
 
 import java.util.ArrayDeque;
 
@@ -67,6 +64,7 @@ public class EnemyDamageSystem extends EntitySystem {
                     if(health.currentHealth <= 0) {
                         EnemyComponent enemy = em.get(attackEvent.target());
                         queue.post(new PlayerXPGainEvent(enemy.xpValue));
+                        queue.post(new EnemyKilledEvent(enemy.pointValue));
 
                         attackEvent.target().remove(EnemyComponent.class);
                         attackEvent.target().remove(MovementComponent.class);

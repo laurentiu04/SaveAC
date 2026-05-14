@@ -7,4 +7,5 @@ public class EnemyComponent implements Component {
     public boolean hasHit = false;
     public float attackTimer = 0f;
     public int xpValue = 10;
+    public int pointValue = 5;
 }
