@@ -19,7 +19,7 @@ public class HealthbarSystem extends IteratingSystem {
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
 
     public HealthbarSystem(GameEventQueue queue, int priority) {
-        super(Family.all(HealthComponent.class).exclude(PlayerComponent.class) .get(), 10);
+        super(Family.all(HealthComponent.class).exclude(PlayerComponent.class) .get(), priority);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class HealthbarSystem extends IteratingSystem {
         if (health.showHealthbar) {
             Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             Services.shapeRenderer.setColor(Color.RED);
-            Services.shapeRenderer.rect(pos.x - healthBarWidth/2f, pos.y, healthBarWidth * ((float) health.currentHealth / health.maxHealth), 2);
+            Services.shapeRenderer.rect(pos.x - healthBarWidth/2f, pos.y - 5, healthBarWidth * ((float) health.currentHealth / health.maxHealth), 2);
             Services.shapeRenderer.end();
         }
     }

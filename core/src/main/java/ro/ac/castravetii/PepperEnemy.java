@@ -16,8 +16,8 @@ public class PepperEnemy extends Enemy{
         animationC.idleSprite = textureC.region;
         animationC.animationDuration = 50f;
 
-        healthC.maxHealth = 50;
-        healthC.currentHealth = 50;
+        healthC.maxHealth = 40;
+        healthC.currentHealth = 40;
 
         enemyC.damage = 10;
         enemyC.xpValue = 10;

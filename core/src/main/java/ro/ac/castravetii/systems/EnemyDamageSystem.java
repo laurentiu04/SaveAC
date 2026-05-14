@@ -52,7 +52,7 @@ public class EnemyDamageSystem extends EntitySystem {
 
                 MovementComponent move = attackEvent.target().getComponent(MovementComponent.class);
                 //forta cu cat il impinge pe inamic
-                float force = 500f;
+                float force = 100f;
                 move.knockbackX = dx * force;
                 move.knockbackY = dy * force;
 
@@ -69,6 +69,7 @@ public class EnemyDamageSystem extends EntitySystem {
                         queue.post(new PlayerXPGainEvent(enemy.xpValue));
 
                         getEngine().removeEntity(attackEvent.target());
+                        Services.soundSystem.play("enemyDead");
                     }
                 }
         }

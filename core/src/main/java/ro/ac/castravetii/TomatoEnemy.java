@@ -1,6 +1,5 @@
 package ro.ac.castravetii;
 
-import ro.ac.castravetii.components.EllipseColliderComponent;
 import ro.ac.castravetii.components.PolygonColliderComponent;
 
 public class TomatoEnemy extends Enemy{
@@ -20,6 +19,8 @@ public class TomatoEnemy extends Enemy{
         enemyC.xpValue = 40;
         movementC.speed = 20f;
 
+        transformC.origin.set(0.5f, 0.2f);
+
         PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);
         collider.vertices = new float[]{
             6,  0,   // bottom-left
@@ -32,7 +33,7 @@ public class TomatoEnemy extends Enemy{
             0,  6,   // left-bottom
         };
         collider.polygon.setOrigin(11, 11);
-        collider.offset.set(-12, 20);
+        collider.offset.set(-12, 7);
         collider.show = true;
         entity.add(collider);
     }

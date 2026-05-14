@@ -30,7 +30,7 @@ public class Enemy {
         healthC = new HealthComponent();
         healthC.maxHealth = 200;
         healthC.currentHealth = 200;
-        healthC.showHealthbar = false;
+        healthC.showHealthbar = true;
         entity.add(healthC); // adaugam componenta de sanatate
 
         // componenta specifica pentru inamic (damage etc)

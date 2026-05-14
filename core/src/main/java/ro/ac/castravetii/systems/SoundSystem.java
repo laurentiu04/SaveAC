@@ -19,22 +19,36 @@ public class SoundSystem extends EntitySystem {
         sounds.put(
             "shoot",
             Gdx.audio.newSound(
-                Gdx.files.internal("sounds/shoot.wav")
+                Gdx.files.internal("sounds/shot.wav")
             )
         );
 
         sounds.put(
             "run",
             Gdx.audio.newSound(
-                Gdx.files.internal("sounds/running2.wav")
+                Gdx.files.internal("sounds/running.wav")
             )
         );
 
         sounds.put(
             "enemyHit",
             Gdx.audio.newSound(
-                Gdx.files.internal("sounds/enemyHit.wav")
+                Gdx.files.internal("sounds/hitHurt.wav")
             ));
+
+        sounds.put(
+            "enemyDead",
+            Gdx.audio.newSound(
+                Gdx.files.internal("sounds/death.wav")
+            )
+        );
+
+        sounds.put(
+            "powerUp",
+            Gdx.audio.newSound(
+                Gdx.files.internal("sounds/powerUp.wav")
+            )
+        );
 
 //        sounds.put(
 //            "playerDead",
@@ -62,7 +76,7 @@ public class SoundSystem extends EntitySystem {
         }
     }
 
-    //functie de stop peutru sunet
+    //functie de stop pentru sunet
     public void stop(String soundName){
         Sound sound = sounds.get(soundName);
 
