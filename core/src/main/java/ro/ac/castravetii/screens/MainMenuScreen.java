@@ -5,10 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ro.ac.castravetii.Services;
@@ -19,6 +21,7 @@ public class MainMenuScreen extends ScreenAdapter {
     private final Game game;
     private Stage stage;
     private final GameEventQueue queue;
+    private Image backgroundImage; // variabilă nouă
 
     private Music music;
 
@@ -31,6 +34,11 @@ public class MainMenuScreen extends ScreenAdapter {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+        Texture backgroundTexture = new Texture(Gdx.files.internal("pngs/BackgroundMainMenu.png"));
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setFillParent(true);
+        stage.addActor(backgroundImage);
 
         Table table = new Table(); // Table to center the elements
         table.setFillParent(true); // Filling full screen
@@ -100,5 +108,8 @@ public class MainMenuScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+        if (backgroundImage != null && backgroundImage.getDrawable() != null) {
+            ((TextureRegionDrawable)backgroundImage.getDrawable()).getRegion().getTexture().dispose();
+        }
     }
 }
