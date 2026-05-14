@@ -8,5 +8,6 @@ public class PlayerStatsComponent implements Component {
     public int strengthLevel = 1;
     public int xpGainLevel = 1;
     public int upgradePoints = 0;
+    public int score = 0;
 
 }

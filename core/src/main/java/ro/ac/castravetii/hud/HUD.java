@@ -11,6 +11,7 @@ import ro.ac.castravetii.Services;
 public class HUD implements Disposable {
 
     public final Stage stage;
+    private final Label killDisplay;
     private final LevelBar levelBar;
     private final HealthBar healthBar;
     private final Label fpsDisplay;
@@ -34,15 +35,18 @@ public class HUD implements Disposable {
         statsManager = new StatDisplayManager();
 
         fpsDisplay = new Label("", Services.skin, "levelBar");
+        killDisplay = new Label("SCORE: 0", Services.skin, "levelBar");
 
-        table.add(fpsDisplay).left().top().expand().colspan(3);
+        table.add(fpsDisplay).left().top().pad(10).expandX();
+        table.add(killDisplay).right().top().pad(10).expandX();
         table.row();
 
         VerticalGroup leftGroup = new VerticalGroup();
         leftGroup.space(5);
         leftGroup.addActor(new Container<>(healthBar).width(300));
         leftGroup.addActor(new Container<>(levelBar).width(300));
-        table.add(leftGroup).expandX().left().minWidth(300);
+        //table.add(leftGroup).expandX().left().minWidth(300);
+        table.add(leftGroup).left().bottom().pad(10).expand().colspan(2);
 
         Table centerGroup = new Table();
         table.add(centerGroup).space(20).expandX().center().minWidth(centerGroup.getPrefWidth());
@@ -50,8 +54,13 @@ public class HUD implements Disposable {
         HorizontalGroup rightGroup = new HorizontalGroup();
         rightGroup.addActor(statsManager);
         rightGroup.align(Align.right);
-        table.add(rightGroup).expandX().right().minWidth(300);
+        //table.add(rightGroup).expandX().right().minWidth(300);
+        table.add(statsManager).right().bottom().pad(10);
 //        table.setDebug(true);
+    }
+
+    public void updateKills(int points) {
+        killDisplay.setText("SCORE: " + points);
     }
 
     public HealthBar getHealthBar() {

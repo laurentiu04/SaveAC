@@ -8,6 +8,9 @@ import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.*;
 import ro.ac.castravetii.events.*;
+import com.badlogic.gdx.files.FileHandle;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayDeque;
 
@@ -37,12 +40,26 @@ public class PlayerStatsSystem extends EntitySystem {
         gun = player.getGun();
     }
 
+    private void saveFinalScore(int finalScore) {
+        try {
+            FileHandle file = Gdx.files.local("../scores.txt");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            String timestamp = dtf.format(LocalDateTime.now());
+            file.writeString(timestamp + " - Scor Final: " + finalScore + "\n", true);
+            Gdx.app.log("GameSave", "Scorul " + finalScore + " a fost salvat in scores.txt");
+        } catch (Exception e) {
+            Gdx.app.error("GameSave", "Eroare la salvarea scorului", e);
+        }
+    }
+
     @Override
     public void update(float delta) {
-        ArrayDeque<GameEvent> events = queue.getEvents(AttackEvent.class, PlayerXPGainEvent.class, PlayerEvent.class);
+        ArrayDeque<GameEvent> events = queue.getEvents(AttackEvent.class, PlayerXPGainEvent.class, PlayerEvent.class, EnemyKilledEvent.class);
 
         // Tratez evenimentele legate de player daca exista
         if (!events.isEmpty()) {
+
+
             for (GameEvent event : events ){
                 switch (event) {
                     case AttackEvent e -> {
@@ -55,11 +72,11 @@ public class PlayerStatsSystem extends EntitySystem {
 
                         if (healthC.currentHealth <= 0) {
                             healthC.currentHealth = 0;
-
+                            saveFinalScore(statsC.score); // pt salvare scor la moarte
                             //trebuie adaugat un delay intai ca player ul sa moara intai si sa se auda sunetul si dupa sa se inchida
                             //jocul sau varianta aia cu meniul dupa ce maore player sa se deschida un meniu in care ai optiuni de restart,exit...
 //                            Services.soundSystem.play("playerDead");
-
+                            System.out.println("DEBUG: Se salveaza scorul!");
 
                             Gdx.app.exit();
 
@@ -79,6 +96,11 @@ public class PlayerStatsSystem extends EntitySystem {
                         }
                         queue.post(UpdateHUDEvent.levelBar);
                         queue.post(UpdateHUDEvent.stats);
+                    }
+
+                    case EnemyKilledEvent e -> {
+                        statsC.score += e.points; // Folosește statsC
+                        queue.post(UpdateHUDEvent.stats); // update HUD
                     }
 
                     default -> throw new IllegalStateException("Unexpected value: " + event);
@@ -130,5 +152,7 @@ public class PlayerStatsSystem extends EntitySystem {
             }
 
         }
+
+
     }
 }
