@@ -1,20 +1,13 @@
 package ro.ac.castravetii.systems;
-
-import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import ro.ac.castravetii.events.GameEventQueue;
-
 import java.util.HashMap;
 
-public class SoundSystem extends EntitySystem {
-    private final GameEventQueue queue;
+public class SoundSystem {
 
     private final HashMap<String, Sound> sounds = new HashMap<>();
     private final HashMap<String, Long> loopSounds = new HashMap<>();
-    public SoundSystem(GameEventQueue queue, int priority){
-        super(priority);
-        this.queue = queue;
+    public SoundSystem(){
 
         sounds.put(
             "shoot",

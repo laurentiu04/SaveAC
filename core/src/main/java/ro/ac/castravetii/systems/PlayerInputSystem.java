@@ -5,15 +5,17 @@ import com.badlogic.gdx.Input;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.MovementComponent;
+import ro.ac.castravetii.components.TransformComponent;
 
 public class PlayerInputSystem extends EntitySystem {
     private final MovementComponent movementC;
-
+    private final TransformComponent transformC;
 
     public PlayerInputSystem(int priority) {
         super(priority);
 
         movementC = Player.getInstance().getMovementComponent();
+        transformC = Player.getInstance().getTransformComponent();
     }
 
     @Override
@@ -31,8 +33,25 @@ public class PlayerInputSystem extends EntitySystem {
             movementC.inputY /= length;
         }
 
-        movementC.moveX = movementC.speed * movementC.inputX;
-        movementC.moveY = movementC.speed * movementC.inputY;
+        if (transformC.position.x >= Services.MAP_WIDTH * Services.mapTileSize - 16 && movementC.inputX > 0) {
+            transformC.position.x = Services.MAP_WIDTH * Services.mapTileSize - 16;
+            movementC.moveX = 0;
+        } else if (transformC.position.x <= 16 && movementC.inputX < 0) {
+            transformC.position.x = 16;
+            movementC.moveX = 0;
+        } else {
+            movementC.moveX = movementC.speed * movementC.inputX;
+        }
+
+        if (transformC.position.y >= Services.MAP_HEIGHT * Services.mapTileSize - 80 && movementC.inputY > 0) {
+            transformC.position.y = Services.MAP_HEIGHT * Services.mapTileSize - 80;
+            movementC.moveY = 0;
+        } else if (transformC.position.y <= 16 && movementC.inputY < 0) {
+            transformC.position.y = 16;
+            movementC.moveY = 0;
+        } else {
+            movementC.moveY = movementC.speed * movementC.inputY;
+        }
 
         boolean isMoving = movementC.inputX != 0 || movementC.inputY != 0;
 

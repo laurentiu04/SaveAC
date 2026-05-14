@@ -68,7 +68,10 @@ public class EnemyDamageSystem extends EntitySystem {
                         EnemyComponent enemy = em.get(attackEvent.target());
                         queue.post(new PlayerXPGainEvent(enemy.xpValue));
 
-                        getEngine().removeEntity(attackEvent.target());
+                        attackEvent.target().remove(EnemyComponent.class);
+                        attackEvent.target().remove(MovementComponent.class);
+
+                        // Animatie de fade dupa care remove
                         Services.soundSystem.play("enemyDead");
                     }
                 }

@@ -31,6 +31,7 @@ public final class Services {
      */
 
     public static OrthographicCamera camera;
+    public static int mapTileSize = 32;
     public static float cameraZoom = 2f;
     public static float minLimitX;
     public static float maxLimitX;
@@ -62,8 +63,8 @@ public final class Services {
     public static BitmapFont font15;
     public static Skin skin;
 
-    public static int MAP_WIDTH = 50;
-    public static int MAP_HEIGHT =50;
+    public static int MAP_WIDTH     = 50;
+    public static int MAP_HEIGHT    = 50;
 
     public static SoundSystem soundSystem;
     /**
@@ -116,12 +117,14 @@ public final class Services {
         );
 
         skin = new FreeTypeSkin(Gdx.files.internal("skins/uiskin.json"), atlas);
+
+        soundSystem = new SoundSystem();
     }
 
     public static void setCameraLimits(int mapWidth, int mapHeight) {
         maxLimitX = (mapWidth*32 - camera.viewportWidth / cameraZoom /2f) - 1;
         minLimitX = camera.viewportWidth / cameraZoom /2;
-        maxLimitY = (mapHeight*32 - camera.viewportHeight / cameraZoom /2f) - 1;
+        maxLimitY = (mapHeight*32 - camera.viewportHeight / cameraZoom /2f) - 32;
         minLimitY = camera.viewportHeight / cameraZoom /2;
     }
 

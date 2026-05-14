@@ -7,7 +7,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import ro.ac.castravetii.*;
 import ro.ac.castravetii.events.GameEventQueue;
-import ro.ac.castravetii.events.PlayerXPGainEvent;
 import ro.ac.castravetii.hud.HUD;
 import ro.ac.castravetii.hud.PauseMenu;
 import ro.ac.castravetii.systems.*;
@@ -37,7 +36,7 @@ public class GameScreen implements Screen {
         mapGen = new MapGenerator();
         mapGen.createMap(Services.MAP_WIDTH, Services.MAP_HEIGHT, 32);
 
-        player = Player.create(queue);
+        player = Player.create();
 
         hud = new HUD();
 
@@ -50,15 +49,17 @@ public class GameScreen implements Screen {
         Services.engine.addSystem(new PlayerStatsSystem(queue,2));
         Services.engine.addSystem(new PlayerInputSystem(1));
         Services.engine.addSystem(new GunRenderSystem(1));
+        Services.engine.addSystem(new BulletSystem(queue));
         Services.engine.addSystem(new GunShootingSystem());
 
         Services.engine.addSystem(new HUDSystem(hud, queue, 10));
-        Services.engine.addSystem(new HealthbarSystem());
+        Services.engine.addSystem(new HealthbarSystem(queue, 10));
         Services.engine.addSystem(new MovementSystem(2));
         Services.engine.addSystem(new AnimationControlSystem());
-        Services.engine.addSystem(new ColliderRenderSystem());
+        Services.engine.addSystem(new ColliderRenderSystem(10));
         Services.engine.addSystem(new EnemyPathfindingSystem(queue));
-        Services.engine.addSystem(new GenerateEnemySystem());
+        Services.engine.addSystem(new EnemyDamageSystem(queue, 2));
+        Services.engine.addSystem(new EnemyWaveSystem());
         Services.engine.addSystem(new EnemyDamageSystem(queue,1));
 
     }
@@ -82,14 +83,6 @@ public class GameScreen implements Screen {
         mapGen.render();
         Services.batch.end();
 
-        if (state == GameState.RUNNING) {
-            time += delta;
-            if (time >= 2f) {
-                time = 0;
-                queue.post(new PlayerXPGainEvent(10));
-            }
-        }
-
         float engineDelta = (state == GameState.RUNNING) ? delta : 0f;
         Services.engine.update(engineDelta);
 
@@ -111,11 +104,13 @@ public class GameScreen implements Screen {
     public void pauseGame() {
         state = GameState.PAUSED;
         Gdx.input.setInputProcessor(pauseMenu.getStage());
+        Services.engine.removeSystem(Services.engine.getSystem(GunShootingSystem.class));
     }
 
     public void resumeGame() {
         state = GameState.RUNNING;
         Gdx.input.setInputProcessor(null);
+        Services.engine.addSystem(new GunShootingSystem());
     }
 
 
