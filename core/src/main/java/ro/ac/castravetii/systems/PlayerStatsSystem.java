@@ -124,7 +124,7 @@ public class PlayerStatsSystem extends EntitySystem {
                     statsC.upgradePoints--;
                     queue.post(UpdateHUDEvent.stats);
                     queue.post(UpdateHUDEvent.healthBar);
-                    Services.soundSystem.play("powerUp");
+                    Services.soundSystem.play("powerUp", 1f);
                     break;
                 }
             }

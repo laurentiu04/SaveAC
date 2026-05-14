@@ -61,7 +61,7 @@ public class EnemyDamageSystem extends EntitySystem {
                     health.currentHealth -= attackEvent.damage();
 
                     //adaugare sunet inamic lovit
-                    Services.soundSystem.play("enemyHit");
+                    Services.soundSystem.play("enemyHit", 1f);
 
                     // eliminare daca viata e zero
                     if(health.currentHealth <= 0) {
@@ -72,7 +72,7 @@ public class EnemyDamageSystem extends EntitySystem {
                         attackEvent.target().remove(MovementComponent.class);
 
                         // Animatie de fade dupa care remove
-                        Services.soundSystem.play("enemyDead");
+                        Services.soundSystem.play("enemyDead", 1.2f);
                     }
                 }
         }

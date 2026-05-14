@@ -57,7 +57,7 @@ public class GunShootingSystem extends EntitySystem {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && gunC.canShoot) {
             spawnBullet(gunTipX, gunTipY, transformC.rotation);
 
-            Services.soundSystem.play("shoot");
+            Services.soundSystem.play("shoot", 0.5f);
             gunC.canShoot = false;
             gunC.sinceLastShot = 0f;
         }

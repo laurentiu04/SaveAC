@@ -50,12 +50,12 @@ public class SoundSystem {
 //            ));
     }
 
-    public void play(String soundName){
+    public void play(String soundName, float volume){
 
         Sound sound = sounds.get(soundName);
 
         if(sound != null){
-            sound.play();
+            sound.play(volume);
         }
     }
 
