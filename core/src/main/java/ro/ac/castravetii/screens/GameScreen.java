@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
 
         Services.engine.addSystem(new RenderSystem(10));
 
-        Services.engine.addSystem(new PlayerStatsSystem(game, queue,2));
+        Services.engine.addSystem(new PlayerControlSystem(game, queue,2));
         Services.engine.addSystem(new PlayerInputSystem(1));
         Services.engine.addSystem(new GunRenderSystem(1));
         Services.engine.addSystem(new BulletSystem(queue));
