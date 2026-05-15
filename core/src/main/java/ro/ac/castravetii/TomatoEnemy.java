@@ -8,7 +8,7 @@ public class TomatoEnemy extends Enemy{
         super();
         textureC.region = Services.textureAtlas.findRegion("rosie");
 
-        animationC.movingAnim = Utils.createAnimation(64, 0.3f, "rosie-moving");
+        animationC.movingAnim = Utils.createAnimation(64, 0.05f, "rosie-moving");
         animationC.idleSprite = textureC.region;
         animationC.animationDuration = 50f;
 
@@ -17,7 +17,7 @@ public class TomatoEnemy extends Enemy{
 
         enemyC.damage = 40;
         enemyC.xpValue = 40;
-        movementC.speed = 20f;
+        movementC.speed = 60f;
 
         transformC.origin.set(0.5f, 0.2f);
 

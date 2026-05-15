@@ -13,12 +13,12 @@ public class LevelBar extends Stack {
     private final Label label;
 
     public LevelBar() {
-        bar =  new ProgressBar(0, 100, 1, false, Services.skin, "xpbar");
+        bar =  new ProgressBar(0, 100, 1, false, Services.skin, "levelbar");
         ProgressBar.ProgressBarStyle style = bar.getStyle();
         style.background.setMinHeight(44);
         style.knobBefore.setMinHeight(44);
 
-        label = new Label("", Services.skin, "levelBar");
+        label = new Label("", Services.skin, "levelbar");
         label.setAlignment(Align.center, Align.center);
         this.add(bar);
         this.add(new Container<>(label).padBottom(7f));

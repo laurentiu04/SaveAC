@@ -72,7 +72,7 @@ public final class Services {
      */
 
     public static void init() {
-        textureAtlas = new TextureAtlas("atlas/textures.atlas");
+        textureAtlas = new TextureAtlas("atlas/VeggieFightSprites.atlas");
         assetManager = new AssetManager();
         engine = new PooledEngine();
 

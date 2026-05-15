@@ -18,7 +18,7 @@ import java.util.ArrayDeque;
  * Acest sistem se va ocupa cu modiicarea stat-urilor player-ului
  * maxHealth, speed, damage, xpGain.
  */
-public class PlayerStatsSystem extends EntitySystem {
+public class PlayerControlSystem extends EntitySystem {
 
     private final HealthComponent healthC;
     private final LevelComponent levelC;
@@ -27,7 +27,7 @@ public class PlayerStatsSystem extends EntitySystem {
     private final GameEventQueue queue;
     private final Gun gun;
 
-    public PlayerStatsSystem(GameEventQueue queue, int priority){
+    public PlayerControlSystem(GameEventQueue queue, int priority){
         super(priority);
         this.queue = queue;
 
