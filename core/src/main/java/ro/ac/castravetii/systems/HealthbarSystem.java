@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +19,7 @@ public class HealthbarSystem extends IteratingSystem {
     ComponentMapper<HealthComponent> hm = ComponentMapper.getFor(HealthComponent.class);
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
 
-    public HealthbarSystem(GameEventQueue queue, int priority) {
+    public HealthbarSystem(Game game, GameEventQueue queue, int priority) {
         super(Family.all(HealthComponent.class).exclude(PlayerComponent.class) .get(), priority);
     }
 

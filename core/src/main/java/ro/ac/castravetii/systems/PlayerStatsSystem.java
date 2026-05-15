@@ -1,6 +1,7 @@
 package ro.ac.castravetii.systems;
 
 import com.badlogic.ashley.core.*;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import ro.ac.castravetii.Gun;
@@ -9,6 +10,8 @@ import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.*;
 import ro.ac.castravetii.events.*;
 import com.badlogic.gdx.files.FileHandle;
+import ro.ac.castravetii.screens.GameOverScreen;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,10 +29,13 @@ public class PlayerStatsSystem extends EntitySystem {
     private final MovementComponent movementC;
     private final GameEventQueue queue;
     private final Gun gun;
+    private final Game game;
 
-    public PlayerStatsSystem(GameEventQueue queue, int priority){
+    public PlayerStatsSystem(Game game, GameEventQueue queue, int priority){
         super(priority);
         this.queue = queue;
+        this.game = game;
+
 
         Player player = Player.getInstance();
 
@@ -78,7 +84,13 @@ public class PlayerStatsSystem extends EntitySystem {
 //                            Services.soundSystem.play("playerDead");
                             System.out.println("DEBUG: Se salveaza scorul!");
 
-                            Gdx.app.exit();
+                            //Gdx.app.exit();
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    game.setScreen(new GameOverScreen(game, queue, statsC.score));
+                                }
+                            });
 
                             queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }

@@ -82,6 +82,11 @@ public final class  Player {
         Services.engine.addEntity(playerEntity);
     }
 
+    // Resetam playerul
+    public static void resetInstance() {
+        INSTANCE = null;
+    }
+
     /**
      * Metoda pentru crearea instantei singleton a clasei Player.
      */
