@@ -68,6 +68,7 @@ public class EnemyDamageSystem extends EntitySystem {
 
                         attackEvent.target().remove(EnemyComponent.class);
                         attackEvent.target().remove(MovementComponent.class);
+                        attackEvent.target().remove(HealthComponent.class);
 
                         // Animatie de fade dupa care remove
                         Services.soundSystem.play("enemyDead", 1.2f);

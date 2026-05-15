@@ -32,16 +32,6 @@ public class MainMenuScreen extends ScreenAdapter {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        Table table = new Table(); // Table to center the elements
-        table.setFillParent(true); // Filling full screen
-        stage.addActor(table);
-        Image titleImage = new Image(Services.skin.getDrawable("Logo")); // Game name
-        TextButton playButton = new TextButton("PLAY", Services.skin); // Play button
-        playButton.setSize(170, 70);
-        TextButton exitButton = new TextButton("QUIT", Services.skin); // Exit button
-        exitButton.setSize(170, 70);
-
-
         music = Gdx.audio.newMusic(
             Gdx.files.internal("music/realgone.mp3")
         );
@@ -49,6 +39,18 @@ public class MainMenuScreen extends ScreenAdapter {
         music.setLooping(true);
         music.setVolume(1f);
         music.play();
+
+        Table table = new Table(); // Table to center the elements
+        table.setFillParent(true); // Filling full screen
+        stage.addActor(table);
+
+        Image titleImage = new Image(Services.skin.getDrawable("Logo")); // Game name
+
+        TextButton playButton = new TextButton("PLAY", Services.skin); // Play button
+        playButton.setSize(170, 70);
+
+        TextButton exitButton = new TextButton("QUIT", Services.skin); // Exit button
+        exitButton.setSize(170, 70);
 
         playButton.addListener(new ChangeListener() {
             @Override
@@ -70,14 +72,14 @@ public class MainMenuScreen extends ScreenAdapter {
         titleImage.pack();
 
         table.pad(50);
-        table.add(titleImage).width(titleImage.getImageWidth()*2).height(titleImage.getImageHeight()*2).space(50).grow().top().left().row(); // Adding title
+        table.add(titleImage).width(titleImage.getImageWidth()*2).height(titleImage.getImageHeight()*2).space(50).grow().top().row(); // Adding title
         VerticalGroup buttons = new VerticalGroup();
         buttons.space(10);
 //        buttons.setFillParent(true);
         buttons.align(Align.right | Align.center);
         buttons.addActor(new Container<>(playButton).width(170).height(70)); // Adding play button
         buttons.addActor(new Container<>(exitButton).width(170).height(70));// Adding exit button
-        table.add(buttons).left();
+        table.add(buttons).center();
 //        stage.setDebugAll(true);
     }
 

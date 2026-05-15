@@ -34,8 +34,8 @@ public class HUD implements Disposable {
 
         statsManager = new StatDisplayManager();
 
-        fpsDisplay = new Label("", Services.skin, "levelBar");
-        killDisplay = new Label("SCORE: 0", Services.skin, "levelBar");
+        fpsDisplay = new Label("", Services.skin, "levelbar");
+        killDisplay = new Label("SCORE: 0", Services.skin, "healthbar");
 
         table.add(fpsDisplay).left().top().pad(10).expandX();
         table.add(killDisplay).right().top().pad(10).expandX();
