@@ -4,17 +4,33 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import ro.ac.castravetii.*;
 import ro.ac.castravetii.components.EnemyComponent;
-import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TransformComponent;
+import ro.ac.castravetii.hud.HUD;
+
 
 public class EnemyWaveSystem extends EntitySystem {
     private float counter = 0f;
 
     //how many Enemies are spawned in current wave.
     private int spawnedInWave = 0;
-    private int wave = 1;
+    private int wave = 0;
     private int maxWaves = 5;
     public boolean spawningFinished = false;
+    private int maxPerWave = 15;
+
+    private final HUD hud;
+    public float TimerMessage = 0f;
+
+    public EnemyWaveSystem(HUD hud) {
+        this.hud = hud;
+
+        wave++;
+
+        hud.getWaveLabel().setText("WAVE 1");
+        hud.getWaveLabel().setVisible(true);
+
+        TimerMessage = 3f;
+    }
 
     public boolean isEnemyAlive(){
         return getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get()).size()>0;
@@ -24,19 +40,31 @@ public class EnemyWaveSystem extends EntitySystem {
     public void update(float deltaTime){
         counter += deltaTime;
 
-        int maxPerWave = 15;
-
         //every 3 seconds enemies appear.
         float spawnInterval = 0.3f;
 
         if(spawningFinished && !isEnemyAlive()){
             wave++;
 
+            hud.getWaveLabel().setText("WAVE " + wave);
+
+            hud.getWaveLabel().setVisible(true);
+
+            TimerMessage = 3f;
+
             spawnedInWave = 0;
 
             maxPerWave += 5;
 
             spawningFinished = false;
+        }
+
+        if(TimerMessage > 0){
+            TimerMessage -= deltaTime;
+
+            if(TimerMessage <= 0){
+                hud.getWaveLabel().setVisible(false);
+            }
         }
 
         if(counter >= spawnInterval && spawnedInWave < maxPerWave){
@@ -69,6 +97,10 @@ public class EnemyWaveSystem extends EntitySystem {
                 enemy = new BellPepperEnemy();
             }else if(wave == 3){
                 enemy = new TomatoEnemy();
+            }else if(wave == 4){
+                enemy = new EnemyBoss();
+
+                maxPerWave = 1;
             }else{
                 return;
             }

@@ -64,7 +64,7 @@ public class GameScreen implements Screen {
         Services.engine.addSystem(new ColliderRenderSystem(10));
         Services.engine.addSystem(new EnemyPathfindingSystem(queue));
         Services.engine.addSystem(new EnemyDamageSystem(queue, 2));
-        Services.engine.addSystem(new EnemyWaveSystem());
+        Services.engine.addSystem(new EnemyWaveSystem(hud));
         Services.engine.addSystem(new EnemyDamageSystem(queue,1));
 
     }
