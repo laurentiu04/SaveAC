@@ -1,10 +1,10 @@
 package ro.ac.castravetii.systems;
 
 import com.badlogic.ashley.core.EntitySystem;
-import ro.ac.castravetii.BellPepperEnemy;
-import ro.ac.castravetii.Enemy;
-import ro.ac.castravetii.PepperEnemy;
-import ro.ac.castravetii.TomatoEnemy;
+import com.badlogic.ashley.core.Family;
+import ro.ac.castravetii.*;
+import ro.ac.castravetii.components.EnemyComponent;
+import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TransformComponent;
 
 public class EnemyWaveSystem extends EntitySystem {
@@ -14,6 +14,11 @@ public class EnemyWaveSystem extends EntitySystem {
     private int spawnedInWave = 0;
     private int wave = 1;
     private int maxWaves = 5;
+    public boolean spawningFinished = false;
+
+    public boolean isEnemyAlive(){
+        return getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get()).size()>0;
+    }
 
     @Override
     public void update(float deltaTime){
@@ -24,18 +29,45 @@ public class EnemyWaveSystem extends EntitySystem {
         //every 3 seconds enemies appear.
         float spawnInterval = 0.3f;
 
+        if(spawningFinished && !isEnemyAlive()){
+            wave++;
+
+            spawnedInWave = 0;
+
+            maxPerWave += 5;
+
+            spawningFinished = false;
+        }
+
         if(counter >= spawnInterval && spawnedInWave < maxPerWave){
             counter = 0f;
             //the map is 50x32, but I want a spawn point smaller because it is going to be boring
             //to wait for the enemies to come at player for a long period of time if they are spawned in other corner of the map.
-            float x = (float) (Math.random() * 200) + 200f;
-            float y = (float) (Math.random() * 800);
+            float distance;
+            float x = 0;
+            float y = 0;
+
+            // spawn pentru inamici de la o distanta considerabila <3
+            do {
+                x = (float) (Math.random() * 800);
+                y = (float) (Math.random() * 800);
+
+                TransformComponent player = Player.getInstance().getTransformComponent();
+
+                float dx = x - player.position.x;
+                float dy = y - player.position.y;
+
+                distance = (float) Math.sqrt(dx * dx + dy * dy);
+
+            }while(distance < 300f);
 
             Enemy enemy;
 
             if(wave == 1){
                 enemy = new PepperEnemy();
             }else if(wave == 2){
+                enemy = new BellPepperEnemy();
+            }else if(wave == 3){
                 enemy = new TomatoEnemy();
             }else{
                 return;
@@ -46,11 +78,8 @@ public class EnemyWaveSystem extends EntitySystem {
             tc.position.y = y;
 
             spawnedInWave++;
-
             if(spawnedInWave >= maxPerWave){
-                wave++;
-                spawnedInWave = 0;
-                maxPerWave += 5;
+                spawningFinished = true;
             }
         }
     }

@@ -3,6 +3,7 @@ package ro.ac.castravetii.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.events.GameEventQueue;
+import ro.ac.castravetii.systems.SoundSystem;
 
 public class GameOverScreen extends ScreenAdapter {
     private final Game game;
