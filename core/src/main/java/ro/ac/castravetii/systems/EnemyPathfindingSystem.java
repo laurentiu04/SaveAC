@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.components.EnemyComponent;
 import ro.ac.castravetii.components.MovementComponent;
+import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TransformComponent;
 import ro.ac.castravetii.events.AttackEvent;
 import ro.ac.castravetii.events.GameEventQueue;
@@ -39,6 +40,23 @@ public class EnemyPathfindingSystem extends IteratingSystem {
         float dx = player.position.x - enemy.position.x;
         float dy = player.position.y - enemy.position.y;
 
+        for(Entity other : getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get())){
+            if(other == entity)
+                continue;
+            TransformComponent otherTransform = tm.get(other);
+
+            float ox = enemy.position.x - otherTransform.position.x;
+            float oy = enemy.position.y - otherTransform.position.y;
+
+            float dist = (float)Math.sqrt(ox * ox + oy * oy);
+
+            //daca inamicii sunt mai aproape de 40px sa se respinga
+            if(dist < 40f && dist > 0){
+                enemy.position.x += (ox/dist)*30f * deltaTime;
+                enemy.position.y += (oy/dist)*30f * deltaTime;
+            }
+        }
+
         float distance = (float)Math.sqrt(dx*dx+dy*dy);
 
         //I want my enemy to have a space between the player - I used "stopRange" for that.
@@ -60,6 +78,13 @@ public class EnemyPathfindingSystem extends IteratingSystem {
             if(ec.attackTimer >= 3f) {
                 queue.post(new AttackEvent(entity, ec.damage, playerEntity));
                 queue.post(UpdateHUDEvent.healthBar);
+
+                //40% sansa sa ia stun (stiu e mare dar modificam dupa... ar merge si o animatie de stun sincer :D)
+                if(Math.random() < 0.4f){
+                    playerEntity.getComponent(PlayerComponent.class).stunned = true;
+
+                    playerEntity.getComponent(PlayerComponent.class).stunTimer = 1f;
+                }
 
                 ec.attackTimer = 0f;
             }

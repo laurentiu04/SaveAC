@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.MovementComponent;
+import ro.ac.castravetii.components.PlayerComponent;
 import ro.ac.castravetii.components.TransformComponent;
 
 public class PlayerInputSystem extends EntitySystem {
@@ -20,6 +21,21 @@ public class PlayerInputSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
+
+        PlayerComponent pc = Player.getInstance().getEntity().getComponent(PlayerComponent.class);
+
+        if(pc.stunned){
+            pc.stunTimer -= deltaTime;
+
+            if(pc.stunTimer <= 0){
+                pc.stunned = false;
+            }
+
+            movementC.moveX = 0;
+            movementC.moveY = 0;
+
+            return;
+        }
 
         // Vad daca am apasat pe una dintre tastele W, A, S, D
         movementC.inputX = (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0)

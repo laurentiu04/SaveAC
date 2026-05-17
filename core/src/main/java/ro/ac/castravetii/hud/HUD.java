@@ -15,6 +15,7 @@ public class HUD implements Disposable {
     private final LevelBar levelBar;
     private final HealthBar healthBar;
     private final Label fpsDisplay;
+    private final Label wave;
 
     private final StatDisplayManager statsManager;
 
@@ -36,10 +37,19 @@ public class HUD implements Disposable {
 
         fpsDisplay = new Label("", Services.skin, "levelbar");
         killDisplay = new Label("SCORE: 0", Services.skin, "healthbar");
+        wave = new Label("", Services.skin);
+        wave.setFontScale(1.15f);
 
         table.add(fpsDisplay).left().top().pad(10).expandX();
         table.add(killDisplay).right().top().pad(10).expandX();
         table.row();
+
+        table.add();
+
+        table.add(wave).right().top().padTop(70);
+        table.row();
+
+        wave.setVisible(false);
 
         VerticalGroup leftGroup = new VerticalGroup();
         leftGroup.space(5);
@@ -73,6 +83,10 @@ public class HUD implements Disposable {
 
     public StatDisplayManager getStatsManager() {
         return statsManager;
+    }
+
+    public Label getWaveLabel(){
+        return wave;
     }
 
     public void updateFPS() {
