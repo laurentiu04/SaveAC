@@ -21,7 +21,7 @@ import java.util.ArrayDeque;
  * Acest sistem se va ocupa cu modiicarea stat-urilor player-ului
  * maxHealth, speed, damage, xpGain.
  */
-public class PlayerStatsSystem extends EntitySystem {
+public class PlayerControlSystem extends EntitySystem {
 
     private final HealthComponent healthC;
     private final LevelComponent levelC;
@@ -31,7 +31,7 @@ public class PlayerStatsSystem extends EntitySystem {
     private final Gun gun;
     private final Game game;
 
-    public PlayerStatsSystem(Game game, GameEventQueue queue, int priority){
+    public PlayerControlSystem(Game game, GameEventQueue queue, int priority){
         super(priority);
         this.queue = queue;
         this.game = game;
@@ -85,12 +85,7 @@ public class PlayerStatsSystem extends EntitySystem {
                             System.out.println("DEBUG: Se salveaza scorul!");
 
                             //Gdx.app.exit();
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    game.setScreen(new GameOverScreen(game, queue, statsC.score));
-                                }
-                            });
+                            Gdx.app.postRunnable(() -> game.setScreen(new GameOverScreen(game, queue, statsC.score)));
 
                             queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }

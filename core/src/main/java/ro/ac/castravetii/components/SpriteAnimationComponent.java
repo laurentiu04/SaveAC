@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  *
  * @see ro.ac.castravetii.Utils#createAnimation(int, float, String) createAnimation();
  */
-public class AnimationComponent implements Component {
+public class SpriteAnimationComponent implements Component {
     /**
      * Starea animatiei ce se va afisa.
      */

@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.EntitySystem;
 import ro.ac.castravetii.BellPepperEnemy;
 import ro.ac.castravetii.Enemy;
 import ro.ac.castravetii.PepperEnemy;
-import ro.ac.castravetii.TomatoEnemy;
 import ro.ac.castravetii.components.TransformComponent;
 
 public class EnemyWaveSystem extends EntitySystem {
@@ -19,7 +18,7 @@ public class EnemyWaveSystem extends EntitySystem {
     public void update(float deltaTime){
         counter += deltaTime;
 
-        int maxPerWave = 15;
+        int maxPerWave = 2;
 
         //every 3 seconds enemies appear.
         float spawnInterval = 0.3f;
@@ -36,7 +35,7 @@ public class EnemyWaveSystem extends EntitySystem {
             if(wave == 1){
                 enemy = new PepperEnemy();
             }else if(wave == 2){
-                enemy = new TomatoEnemy();
+                enemy = new BellPepperEnemy();
             }else{
                 return;
             }
