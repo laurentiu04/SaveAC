@@ -39,7 +39,7 @@ public class PepperEnemy extends Enemy{
         collider.offset.set(-12f, 0f);
         collider.polygon.setOrigin(12f, 16f);
 //        collider.show = true;
-        entity.add(collider);
+        this.add(collider);
     }
 
 }

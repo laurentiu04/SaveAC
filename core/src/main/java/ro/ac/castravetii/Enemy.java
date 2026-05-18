@@ -4,10 +4,9 @@ import ro.ac.castravetii.components.*;
 import ro.ac.castravetii.animations.*;
 import com.badlogic.ashley.core.Entity;
 
-public class Enemy {
+public class Enemy extends Entity{
 
     protected TransformComponent transformC;
-    protected Entity entity;
     protected TextureComponent textureC;
     protected EnemyComponent enemyC;
     protected HealthComponent healthC;
@@ -18,37 +17,37 @@ public class Enemy {
 
     public Enemy() {
         // creare entitate inamic
-        entity = Services.engine.createEntity();
+        super();
 
         // transform component pentru pozitie
         transformC = new TransformComponent();
         transformC.origin.x = 0.5f;
-        entity.add(transformC);
+        this.add(transformC);
 
         // componenta pentru textura
         textureC = new TextureComponent();
-        entity.add(textureC);
+        this.add(textureC);
 
         // initializare viata - IMPORTANT: trebuie adaugata la entitate
         healthC = new HealthComponent();
         healthC.maxHealth = 200;
         healthC.currentHealth = 200;
         healthC.showHealthbar = true;
-        entity.add(healthC); // adaugam componenta de sanatate
+        this.add(healthC); // adaugam componenta de sanatate
 
         // componenta specifica pentru inamic (damage etc)
         enemyC = new EnemyComponent();
         enemyC.damage = 20;
-        entity.add(enemyC);
+        this.add(enemyC);
 
         // miscare inamic
         movementC = new MovementComponent();
         movementC.speed = 50f;
-        entity.add(movementC);
+        this.add(movementC);
 
         // animatie
         animationC = new SpriteAnimationComponent();
-        entity.add(animationC);
+        this.add(animationC);
 
         // Animatie rotatie
         wobbleAnim = new RotationAnimation(transformC, -5f, 5f, 0.75f, CubicBezier.EASE_IN_OUT);
@@ -58,12 +57,19 @@ public class Enemy {
 
         deathAnim = new OpacityAnimation(textureC, 1f, 0, 1f, CubicBezier.EASE_OUT);
         deathAnim.setFillMode(FillMode.FORWARDS);
+        deathAnim.setDelay(3f);
 
         // adaugare entitate finalizata in engine
-        Services.engine.addEntity(entity);
+        Services.engine.addEntity(this);
     }
 
-    public TransformComponent getTransformComponent() {
-        return transformC;
+    public void die() {
+        this.remove(EnemyComponent.class);
+        this.remove(MovementComponent.class);
+        this.remove(HealthComponent.class);
+
+        wobbleAnim.end();
+        deathAnim.play();
     }
+
 }

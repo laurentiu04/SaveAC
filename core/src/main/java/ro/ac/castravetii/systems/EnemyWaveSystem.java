@@ -105,7 +105,7 @@ public class EnemyWaveSystem extends EntitySystem {
                 return;
             }
 
-            TransformComponent tc = enemy.getTransformComponent();
+            TransformComponent tc = enemy.getComponent(TransformComponent.class);
             tc.position.x = x;
             tc.position.y = y;
 

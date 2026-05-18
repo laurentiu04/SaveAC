@@ -37,6 +37,6 @@ public class BellPepperEnemy extends Enemy{
         collider.polygon.setOrigin(11, 11);
         collider.offset.set(-12, 0);
         //collider.show = true;
-        entity.add(collider);
+        this.add(collider);
     }
 }

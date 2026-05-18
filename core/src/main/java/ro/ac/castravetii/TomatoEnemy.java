@@ -34,6 +34,6 @@ public class TomatoEnemy extends Enemy{
         };
         collider.polygon.setOrigin(11, 11);
         collider.offset.set(-12, 7);
-        entity.add(collider);
+        this.add(collider);
     }
 }
