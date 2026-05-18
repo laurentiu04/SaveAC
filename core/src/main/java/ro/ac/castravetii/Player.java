@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import ro.ac.castravetii.components.*;
-import ro.ac.castravetii.events.*;
 
 /**
  * Container singleton pentru entitatea player
@@ -22,7 +21,7 @@ public final class  Player {
     private final PlayerComponent playerComponent;
     private final PlayerStatsComponent statsComponent;
     private final MovementComponent movementComponent;
-    private final AnimationComponent animationComponent;
+    private final SpriteAnimationComponent animationComponent;
     private final EllipseColliderComponent colliderComponent;
     private final HealthComponent healthComponent;
     private final LevelComponent levelComponent;
@@ -57,7 +56,7 @@ public final class  Player {
         movementComponent.speed = 100f;
         playerEntity.add(movementComponent);
 
-        animationComponent = new AnimationComponent();
+        animationComponent = new SpriteAnimationComponent();
         animationComponent.movingAnim = Utils.createAnimation(64, 0.035f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);

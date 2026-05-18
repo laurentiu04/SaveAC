@@ -85,12 +85,7 @@ public class PlayerControlSystem extends EntitySystem {
                             System.out.println("DEBUG: Se salveaza scorul!");
 
                             //Gdx.app.exit();
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    game.setScreen(new GameOverScreen(game, queue, statsC.score));
-                                }
-                            });
+                            Gdx.app.postRunnable(() -> game.setScreen(new GameOverScreen(game, queue, statsC.score)));
 
                             queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }
