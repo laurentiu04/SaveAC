@@ -14,7 +14,7 @@ public class EnemyWaveSystem extends EntitySystem {
     //how many Enemies are spawned in current wave.
     private int spawnedInWave = 0;
     private int wave = 0;
-    private int maxWaves = 5;
+    private final int maxWaves = 5;
     public boolean spawningFinished = false;
     private int maxPerWave = 15;
 
@@ -46,7 +46,11 @@ public class EnemyWaveSystem extends EntitySystem {
         if(spawningFinished && !isEnemyAlive()){
             wave++;
 
-            hud.getWaveLabel().setText("WAVE " + wave);
+            if(wave == 4){
+                hud.getWaveLabel().setText("FINAL WAVE ");
+            }else{
+                hud.getWaveLabel().setText("WAVE " + wave);
+            }
 
             hud.getWaveLabel().setVisible(true);
 

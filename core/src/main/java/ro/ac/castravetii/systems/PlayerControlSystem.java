@@ -60,11 +60,10 @@ public class PlayerControlSystem extends EntitySystem {
 
     @Override
     public void update(float delta) {
-        ArrayDeque<GameEvent> events = queue.getEvents(AttackEvent.class, PlayerXPGainEvent.class, PlayerEvent.class, EnemyKilledEvent.class);
+        ArrayDeque<GameEvent> events = queue.getEvents(AttackEvent.class, PlayerXPGainEvent.class, PlayerEvent.class, EnemyKilledEvent.class, PlayerHealEvent.class);
 
         // Tratez evenimentele legate de player daca exista
         if (!events.isEmpty()) {
-
 
             for (GameEvent event : events ){
                 switch (event) {
@@ -74,8 +73,9 @@ public class PlayerControlSystem extends EntitySystem {
 
                         healthC.currentHealth -= e.damage();
 
-                        //poti pune aici ca player ul e ranit , un sunet...
+                        healthC.regenTimer = healthC.regenDelay;
 
+                        //poti pune aici ca player ul e ranit , un sunet...
                         if (healthC.currentHealth <= 0) {
                             healthC.currentHealth = 0;
                             saveFinalScore(statsC.score); // pt salvare scor la moarte
@@ -94,6 +94,7 @@ public class PlayerControlSystem extends EntitySystem {
 
                             queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                         }
+
                         queue.post(UpdateHUDEvent.healthBar);
                     }
 
@@ -120,6 +121,20 @@ public class PlayerControlSystem extends EntitySystem {
             }
         }
 
+        if(healthC.currentHealth < healthC.maxHealth){
+            if(healthC.regenTimer > 0){
+                healthC.regenTimer -= delta;
+            }else{
+                    healthC.currentHealth += 1;
+
+                    healthC.regenTimer = 1f;
+                    if(healthC.currentHealth > healthC.maxHealth){
+                        healthC.currentHealth = healthC.maxHealth;
+                }
+                queue.post(UpdateHUDEvent.healthBar);
+            }
+        }
+
         if (statsC.upgradePoints > 0) {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
@@ -131,7 +146,6 @@ public class PlayerControlSystem extends EntitySystem {
                 gunC.damage += (int) (gunC.damage * 0.1);
                 // Upgrade gun shooting speed -5%;
                 gunC.shotDelay -= gunC.shotDelay * 0.05f;
-
             } else if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
 
                 /* Update speed */
