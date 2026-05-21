@@ -10,6 +10,8 @@ public class BulletComponent implements Component {
     // Statusul glonțului
     public boolean active = true;
 
+    public boolean isEnemy = false;
+
     // Constructor gol (recomandat pentru Ashley)
     public BulletComponent() {}
 }
