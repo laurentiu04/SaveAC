@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Pool;
 
 public class TextureComponent implements Component, Pool.Poolable {
     public TextureRegion region;
+    public float opacity = 1f;
     public int layer = 1;
     public boolean flippedX = false;
     public boolean flippedY = false;

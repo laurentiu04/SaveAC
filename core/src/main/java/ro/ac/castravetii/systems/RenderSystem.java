@@ -67,6 +67,7 @@ public class RenderSystem extends SortedIteratingSystem {
         }
 
         Services.batch.begin();
+        Services.batch.setColor(1, 1, 1, texture.opacity);
         Services.batch.draw(
             region,
             transform.position.x - region.getRegionWidth() * transform.origin.x,

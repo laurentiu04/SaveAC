@@ -4,12 +4,12 @@ import ro.ac.castravetii.components.PolygonColliderComponent;
 
 public class PepperEnemy extends Enemy{
 
-    public PolygonColliderComponent collider;
+    private final PolygonColliderComponent collider;
+    private Knife knife;
 
     public PepperEnemy(){
         super();
         textureC.region = Services.textureAtlas.findRegion("Pepper");
-
         transformC.origin.set(0.5f, 0.20f);
 
         animationC.movingAnim = Utils.createAnimation(32, 0.05f, "Pepper-moving");
@@ -18,8 +18,6 @@ public class PepperEnemy extends Enemy{
 
         healthC.maxHealth = 40;
         healthC.currentHealth = 40;
-
-        enemyC.damage = 10;
         enemyC.xpValue = 10;
 
         movementC.speed = 40f;
@@ -38,9 +36,10 @@ public class PepperEnemy extends Enemy{
             10,  0,   // body bottom-left
             16,  0,   // body bottom-right
         };
-        collider.offset.set(-12f, 8f);
+        collider.offset.set(-12f, 0f);
         collider.polygon.setOrigin(12f, 16f);
 //        collider.show = true;
-        entity.add(collider);
+        this.add(collider);
     }
+
 }

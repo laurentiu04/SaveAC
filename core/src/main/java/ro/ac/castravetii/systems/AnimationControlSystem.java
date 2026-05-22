@@ -4,23 +4,23 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import ro.ac.castravetii.components.AnimationComponent;
+import ro.ac.castravetii.components.SpriteAnimationComponent;
 import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.TextureComponent;
 
 public class AnimationControlSystem extends IteratingSystem {
-    ComponentMapper<AnimationComponent> am = ComponentMapper.getFor(AnimationComponent.class);
+    ComponentMapper<SpriteAnimationComponent> am = ComponentMapper.getFor(SpriteAnimationComponent.class);
     ComponentMapper<TextureComponent> tm = ComponentMapper.getFor(TextureComponent.class);
     ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
 
     public AnimationControlSystem() {
-        super(Family.all(AnimationComponent.class, TextureComponent.class ,MovementComponent.class).get());
+        super(Family.all(SpriteAnimationComponent.class, TextureComponent.class ,MovementComponent.class).get());
     }
 
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        AnimationComponent animComp = am.get(entity);
+        SpriteAnimationComponent animComp = am.get(entity);
         TextureComponent textComp = tm.get(entity);
         MovementComponent moveComp = mm.get(entity);
 

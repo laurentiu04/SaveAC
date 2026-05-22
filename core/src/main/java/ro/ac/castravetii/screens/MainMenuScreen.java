@@ -78,14 +78,14 @@ public class MainMenuScreen extends ScreenAdapter {
         titleImage.pack();
 
         table.pad(50);
-        table.add(titleImage).width(titleImage.getImageWidth()*2).height(titleImage.getImageHeight()*2).space(50).grow().top().left().row(); // Adding title
+        table.add(titleImage).width(titleImage.getImageWidth()*2).height(titleImage.getImageHeight()*2).space(50).grow().top().row(); // Adding title
         VerticalGroup buttons = new VerticalGroup();
         buttons.space(10);
 //        buttons.setFillParent(true);
         buttons.align(Align.right | Align.center);
         buttons.addActor(new Container<>(playButton).width(170).height(70)); // Adding play button
         buttons.addActor(new Container<>(exitButton).width(170).height(70));// Adding exit button
-        table.add(buttons).left();
+        table.add(buttons).center();
 //        stage.setDebugAll(true);
     }
 

@@ -76,8 +76,8 @@ public class EnemyWaveSystem extends EntitySystem {
             //the map is 50x32, but I want a spawn point smaller because it is going to be boring
             //to wait for the enemies to come at player for a long period of time if they are spawned in other corner of the map.
             float distance;
-            float x = 0;
-            float y = 0;
+            float x;
+            float y;
 
             // spawn pentru inamici de la o distanta considerabila <3
             do {
@@ -109,7 +109,7 @@ public class EnemyWaveSystem extends EntitySystem {
                 return;
             }
 
-            TransformComponent tc = enemy.getTransformComponent();
+            TransformComponent tc = enemy.getComponent(TransformComponent.class);
             tc.position.x = x;
             tc.position.y = y;
 
