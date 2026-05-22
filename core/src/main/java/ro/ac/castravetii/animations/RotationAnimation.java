@@ -23,6 +23,6 @@ public class RotationAnimation extends Animation<TransformComponent> {
 
     @Override
     public void reset() {
-        element.rotation = startValue;
+        element.rotation = 0;
     }
 }

@@ -31,6 +31,7 @@ abstract class Animation<T> {
     }
 
     public void play(){
+        this.end();
         this.playing = true;
     }
 
