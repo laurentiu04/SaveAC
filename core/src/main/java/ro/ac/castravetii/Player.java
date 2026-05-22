@@ -4,6 +4,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import ro.ac.castravetii.animations.CubicBezier;
+import ro.ac.castravetii.animations.PlayMode;
+import ro.ac.castravetii.animations.RotationAnimation;
+import ro.ac.castravetii.animations.ScaleXAnimation;
 import ro.ac.castravetii.components.*;
 
 /**
@@ -26,6 +30,8 @@ public final class  Player {
     private final HealthComponent healthComponent;
     private final LevelComponent levelComponent;
     private final Gun gun;
+    public final ScaleXAnimation stunAnimationScale;
+    public final RotationAnimation stunAnimationRotation;
 
     /**
      * Constructor ascuns
@@ -76,6 +82,15 @@ public final class  Player {
         playerEntity.add(levelComponent);
 
         gun = new Gun();
+        gun.getTransformComponent().parent = transformComponent;
+        gun.getTransformComponent().position.set(-4, 20);
+
+        stunAnimationScale = new ScaleXAnimation(transformComponent, 0.9f, 1.1f, 1f, CubicBezier.EASE_IN_OUT);
+        stunAnimationScale.setPlayMode(PlayMode.PING_PONG);
+        stunAnimationScale.setDelay(0.25f);
+
+        stunAnimationRotation = new RotationAnimation(transformComponent, 5f, -5f, 1f, CubicBezier.EASE_IN_OUT);
+        stunAnimationRotation.setPlayMode(PlayMode.PING_PONG);
 
         // Adaug entitatea la engine.
         Services.engine.addEntity(playerEntity);
