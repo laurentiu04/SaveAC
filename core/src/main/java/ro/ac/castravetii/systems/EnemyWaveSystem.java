@@ -46,7 +46,11 @@ public class EnemyWaveSystem extends EntitySystem {
         if(spawningFinished && !isEnemyAlive()){
             wave++;
 
-            hud.getWaveLabel().setText("WAVE " + wave);
+            if(wave == 4){
+                hud.getWaveLabel().setText("FINAL WAVE ");
+            }else{
+                hud.getWaveLabel().setText("WAVE " + wave);
+            }
 
             hud.getWaveLabel().setVisible(true);
 
