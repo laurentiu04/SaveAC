@@ -12,8 +12,9 @@ public class Enemy extends Entity{
     protected HealthComponent healthC;
     protected MovementComponent movementC;
     protected SpriteAnimationComponent animationC;
-    protected RotationAnimation wobbleAnim;
-    protected OpacityAnimation deathAnim;
+    public RotationAnimation wobbleAnim;
+    public OpacityAnimation deathAnim;
+    protected Knife knife;
 
     public Enemy() {
         // creare entitate inamic
@@ -53,11 +54,14 @@ public class Enemy extends Entity{
         wobbleAnim = new RotationAnimation(transformC, -5f, 5f, 0.75f, CubicBezier.EASE_IN_OUT);
         wobbleAnim.setFillMode(FillMode.FORWARDS);
         wobbleAnim.setPlayMode(PlayMode.PING_PONG);
-        wobbleAnim.play();
 
         deathAnim = new OpacityAnimation(textureC, 1f, 0, 1f, CubicBezier.EASE_OUT);
         deathAnim.setFillMode(FillMode.FORWARDS);
         deathAnim.setDelay(3f);
+
+        knife = new Knife();
+        knife.getComponent(TransformComponent.class).parent = transformC;
+        knife.getComponent(TransformComponent.class).position.set(-2f, 8f);
 
         // adaugare entitate finalizata in engine
         Services.engine.addEntity(this);
@@ -70,6 +74,10 @@ public class Enemy extends Entity{
 
         wobbleAnim.end();
         deathAnim.play();
+        knife.despawnAnimation.play();
     }
 
+    public Knife getKnife() {
+        return knife;
+    }
 }

@@ -29,6 +29,8 @@ public class PlayerInputSystem extends EntitySystem {
 
             if(pc.stunTimer <= 0){
                 pc.stunned = false;
+                Player.getInstance().stunAnimationRotation.end();
+                Player.getInstance().stunAnimationScale.end();
             }
 
             movementC.moveX = 0;

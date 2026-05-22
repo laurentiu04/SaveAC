@@ -8,4 +8,5 @@ public class EnemyComponent implements Component {
     public float attackTimer = 0f;
     public int xpValue = 10;
     public int pointValue = 5;
+    public boolean dead = false;
 }
