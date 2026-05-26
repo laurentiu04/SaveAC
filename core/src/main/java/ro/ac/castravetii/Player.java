@@ -13,12 +13,13 @@ import ro.ac.castravetii.components.*;
 /**
  * Container singleton pentru entitatea player
  */
-public final class Player extends Entity {
+public final class  Player {
     /**
      * Variabila pentru a verifica daca a fost instantiata clasa player
      */
     private static Player INSTANCE = null;
 
+    private final Entity playerEntity;
     private final TransformComponent transformComponent;
     private final TextureComponent textureComponent;
     private final PlayerComponent playerComponent;
@@ -37,52 +38,56 @@ public final class Player extends Entity {
      */
     private Player() {
 
+        // Creez o entitate pentru player.
+        playerEntity = Services.engine.createEntity();
+
         playerComponent = new PlayerComponent();
-        this.add(playerComponent);
+        playerEntity.add(playerComponent);
 
         statsComponent = new PlayerStatsComponent();
-        this.add(statsComponent);
+        playerEntity.add(statsComponent);
 
         // Creez componente pentru player si le atasez la entitate.
         transformComponent = new TransformComponent();
         transformComponent.position.x = Services.MAP_WIDTH*16;
         transformComponent.position.y = Services.MAP_HEIGHT*16;
         transformComponent.origin.set(0.52f, 0.20f);
-        this.add(transformComponent);
+        playerEntity.add(transformComponent);
 
         textureComponent = new TextureComponent();
         textureComponent.region = Services.textureAtlas.findRegion("castravete");
-        this.add(textureComponent);
+        playerEntity.add(textureComponent);
 
         movementComponent = new MovementComponent();
         movementComponent.speed = 100f;
-        this.add(movementComponent);
+        playerEntity.add(movementComponent);
 
         animationComponent = new SpriteAnimationComponent();
         animationComponent.movingAnim = Utils.createAnimation(64, 0.035f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
-        this.add(animationComponent);
+        playerEntity.add(animationComponent);
 
         colliderComponent = new PolygonColliderComponent();
         colliderComponent.vertices = new float[] {
-            11.00f,  0.00f,
-            7.78f, 16.00f,
-            0.00f, 22.00f,
-            -7.78f, 16.00f,
-            -11.00f,  0.00f,
-            -7.78f,-16.00f,
-            0.00f,-22.00f,
-            7.78f,-16.00f,
+            16.00f,  0.00f,
+            11.31f, 25.00f,
+            0.00f, 35.36f,
+            -11.31f, 25.00f,
+            -16.00f,  0.00f,
+            -11.31f,-25.00f,
+            0.00f,-35.36f,
+            11.31f,-25.00f,
         };
-        colliderComponent.offset.set(0, 20f);
+//        colliderComponent.offset.x = -colliderComponent.;
+        colliderComponent.offset.y = -20f;
         colliderComponent.show = true;
-        this.add(colliderComponent);
+        playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();
-    this.add(healthComponent);
+        playerEntity.add(healthComponent);
 
         levelComponent = new LevelComponent();
-        this.add(levelComponent);
+        playerEntity.add(levelComponent);
 
         gun = new Gun();
         gun.getTransformComponent().parent = transformComponent;
@@ -96,7 +101,7 @@ public final class Player extends Entity {
         stunAnimationRotation.setPlayMode(PlayMode.PING_PONG);
 
         // Adaug entitatea la engine.
-        Services.engine.addEntity(this);
+        Services.engine.addEntity(playerEntity);
     }
 
     // Resetam playerul
@@ -170,4 +175,7 @@ public final class Player extends Entity {
         return textureComponent;
     }
 
+    public Entity getEntity() {
+        return playerEntity;
+    }
 }
