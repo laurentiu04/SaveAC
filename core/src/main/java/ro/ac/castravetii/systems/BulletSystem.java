@@ -14,7 +14,7 @@ import ro.ac.castravetii.events.AttackEvent;
 import ro.ac.castravetii.events.GameEventQueue;
 
 public class BulletSystem extends IteratingSystem {
-    private final ComponentMapper<BulletComponent> bm = ComponentMapper.getFor(BulletComponent.class);
+    private final ComponentMapper<ProjectileComponent> bm = ComponentMapper.getFor(ProjectileComponent.class);
     private final ComponentMapper<EllipseColliderComponent> ecm = ComponentMapper.getFor(EllipseColliderComponent.class);
     private final ComponentMapper<PolygonColliderComponent> pcm = ComponentMapper.getFor(PolygonColliderComponent.class);
     private final ComponentMapper<BoxColliderComponent> bcm = ComponentMapper.getFor(BoxColliderComponent.class);
@@ -26,7 +26,7 @@ public class BulletSystem extends IteratingSystem {
 
     public BulletSystem(GameEventQueue queue) {
         // procesare entitati care au bulletComponent
-        super(Family.all(BulletComponent.class).get());
+        super(Family.all(ProjectileComponent.class).get());
         this.queue = queue;
         gun = Player.getInstance().getGun();
     }
@@ -41,7 +41,7 @@ public class BulletSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity bulletEntity, float deltaTime) {
-        BulletComponent bullet = bm.get(bulletEntity);
+        ProjectileComponent bullet = bm.get(bulletEntity);
         PolygonColliderComponent bulletCollider = pcm.get(bulletEntity);
 
         if (bullet.isEnemy) {
@@ -51,7 +51,7 @@ public class BulletSystem extends IteratingSystem {
                 if (Intersector.overlapConvexPolygons(bulletCollider.polygon, playerCollider.polygon)) {
 
                     queue.post(new AttackEvent(bulletEntity, 20, playerEntity));
-
+                    System.out.println("LOVIT PLAYER");
                     bullet.active = false;
                 }
 

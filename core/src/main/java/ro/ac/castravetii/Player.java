@@ -26,7 +26,7 @@ public final class  Player {
     private final PlayerStatsComponent statsComponent;
     private final MovementComponent movementComponent;
     private final SpriteAnimationComponent animationComponent;
-    private final EllipseColliderComponent colliderComponent;
+    private final PolygonColliderComponent colliderComponent;
     private final HealthComponent healthComponent;
     private final LevelComponent levelComponent;
     private final Gun gun;
@@ -67,12 +67,20 @@ public final class  Player {
         animationComponent.idleSprite = textureComponent.region;
         playerEntity.add(animationComponent);
 
-        colliderComponent = new EllipseColliderComponent();
-        colliderComponent.height = 44f;
-        colliderComponent.width = 18f;
-        colliderComponent.offset.x = -colliderComponent.width/2;
+        colliderComponent = new PolygonColliderComponent();
+        colliderComponent.vertices = new float[] {
+            16.00f,  0.00f,
+            11.31f, 25.00f,
+            0.00f, 35.36f,
+            -11.31f, 25.00f,
+            -16.00f,  0.00f,
+            -11.31f,-25.00f,
+            0.00f,-35.36f,
+            11.31f,-25.00f,
+        };
+//        colliderComponent.offset.x = -colliderComponent.;
         colliderComponent.offset.y = -20f;
-//        colliderComponent.show = true;
+        colliderComponent.show = true;
         playerEntity.add(colliderComponent);
 
         healthComponent = new HealthComponent();

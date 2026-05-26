@@ -26,7 +26,7 @@ public class Bullet extends Entity{
 
         this.add(collider);
 
-        BulletComponent bulletC = Services.engine.createComponent(BulletComponent.class);
+        ProjectileComponent bulletC = Services.engine.createComponent(ProjectileComponent.class);
         this.add(bulletC);
 
         TransformComponent transformC = Services.engine.createComponent(TransformComponent.class);

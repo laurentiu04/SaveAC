@@ -14,7 +14,6 @@ public class Enemy extends Entity{
     protected SpriteAnimationComponent animationC;
     public RotationAnimation wobbleAnim;
     public OpacityAnimation deathAnim;
-    protected Knife knife;
 
     public Enemy() {
         // creare entitate inamic
@@ -59,10 +58,6 @@ public class Enemy extends Entity{
         deathAnim.setFillMode(FillMode.FORWARDS);
         deathAnim.setDelay(3f);
 
-        knife = new Knife();
-        knife.getComponent(TransformComponent.class).parent = transformC;
-        knife.getComponent(TransformComponent.class).position.set(-2f, 8f);
-
         // adaugare entitate finalizata in engine
         Services.engine.addEntity(this);
     }
@@ -74,10 +69,5 @@ public class Enemy extends Entity{
 
         wobbleAnim.end();
         deathAnim.play();
-        knife.despawnAnimation.play();
-    }
-
-    public Knife getKnife() {
-        return knife;
     }
 }

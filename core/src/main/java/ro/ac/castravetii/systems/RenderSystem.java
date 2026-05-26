@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.Utils;
 import ro.ac.castravetii.components.*;
@@ -48,7 +46,7 @@ public class RenderSystem extends SortedIteratingSystem {
         TransformComponent transform = tm.get(entity);
         MovementComponent move = mm.get(entity);
 
-        if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null && entity.getComponent(BulletComponent.class) == null) {
+        if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null && entity.getComponent(ProjectileComponent.class) == null) {
             if (transform.scale.x < 0f && move.moveX > 0) {
                 transform.scale.x *= -1f;
                 if (entity.getComponent(EnemyComponent.class) != null){

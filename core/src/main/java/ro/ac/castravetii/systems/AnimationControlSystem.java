@@ -47,7 +47,7 @@ public class AnimationControlSystem extends IteratingSystem {
                 if(animComp.elapsedAnimTime < animComp.movingAnim.getAnimationDuration()) {
                     animComp.elapsedAnimTime += deltaTime * speedFactor;
                 } else {
-                    animComp.elapsedAnimTime = 0;
+                    animComp.elapsedAnimTime -= animComp.movingAnim.getAnimationDuration();
                 }
 
                 if ((moveComp.moveX > 0 && !textComp.flippedX) || (moveComp.moveX < 0 && textComp.flippedX))
