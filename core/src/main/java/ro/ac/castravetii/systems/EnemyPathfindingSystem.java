@@ -33,7 +33,7 @@ public class EnemyPathfindingSystem extends IteratingSystem {
         MovementComponent move = mm.get(entity);
 
         //How can I access player entity ? Solution:
-        Entity playerEntity = Player.getInstance().getEntity();
+        Entity playerEntity = Player.getInstance();
 
 
         float dx = player.position.x - transformC.position.x;
@@ -98,7 +98,6 @@ public class EnemyPathfindingSystem extends IteratingSystem {
                 }
 
                 if (isBellPepper) {
-
                     new Seed(transformC.position, player.position);
                 } else {
 
