@@ -2,6 +2,7 @@ package ro.ac.castravetii.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -13,4 +14,5 @@ public class EllipseColliderComponent implements Component {
     public Vector2 offset = new Vector2();
     public boolean show = false;
     public Ellipse ellipse = new Ellipse();
+    public Polygon polygon;
 }

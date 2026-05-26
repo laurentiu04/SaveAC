@@ -46,6 +46,7 @@ public class Seed extends Entity {
             0, 4,
             0, 0
         };
+        collider.polygon.setVertices(collider.vertices);
         collider.polygon.setOrigin(2, 2);
         collider.offset.set(-2, -2);
         this.add(collider);

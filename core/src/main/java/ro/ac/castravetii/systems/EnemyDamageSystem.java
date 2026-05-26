@@ -18,23 +18,24 @@ public class EnemyDamageSystem extends EntitySystem {
     private final ComponentMapper<HealthComponent> hm = ComponentMapper.getFor(HealthComponent.class);
     private final ComponentMapper<EnemyComponent> em = ComponentMapper.getFor(EnemyComponent.class);
 
-    public EnemyDamageSystem(GameEventQueue queue, int priority){
+    public EnemyDamageSystem(GameEventQueue queue, int priority) {
         super(priority);
         this.queue = queue;
     }
 
     @Override
-    public void update(float deltaTime){
+    public void update(float deltaTime) {
         // preluare lista evenimente damage
         ArrayDeque<GameEvent> events = queue.getEvents(AttackEvent.class);
 
         if (events.isEmpty()) return;
 
-        for(GameEvent event : events){
-            AttackEvent attackEvent = (AttackEvent) event;
+        AttackEvent attackEvent;
+        for (GameEvent event : events) {
+            attackEvent = (AttackEvent) event;
             if (attackEvent.target() instanceof Enemy) {
 
-                Enemy enemy = (Enemy)attackEvent.target();
+                Enemy enemy = (Enemy) attackEvent.target();
 
                 // accesare componenta sanatate de pe tinta
                 HealthComponent health = hm.get(enemy);
@@ -74,7 +75,21 @@ public class EnemyDamageSystem extends EntitySystem {
                         Services.soundSystem.play("enemyDead", 1.2f);
                     }
                 }
+            } else if (attackEvent.target() instanceof com.badlogic.ashley.core.Entity) {
+                HealthComponent playerHealth = Player.getInstance().getHealthComponent();
+
+                    playerHealth.currentHealth -= attackEvent.damage();
+
+
+                    System.out.println("DEBUG: Player took damage! Current HP: " + playerHealth.currentHealth);
+
+
+                    if (playerHealth.currentHealth <= 0) {
+                        System.out.println("DEBUG: Player has died!");
+
+                    }
+                }
+
             }
         }
     }
-}

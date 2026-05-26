@@ -71,7 +71,7 @@ public class EnemyPathfindingSystem extends IteratingSystem {
 
         boolean isBellPepper = entity instanceof BellPepperEnemy;
 
-        stopRange = isBellPepper ? 150f : 20f;
+        stopRange = isBellPepper ? 150f : 40f;
 
         if (distance > stopRange) {
             move.moveX = (dx / distance) * move.speed;
