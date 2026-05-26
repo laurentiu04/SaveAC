@@ -2,7 +2,6 @@ package ro.ac.castravetii;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.*;
 
 public class Seed extends Entity {
@@ -51,7 +50,7 @@ public class Seed extends Entity {
         collider.offset.set(-2, -2);
         this.add(collider);
 
-        BulletComponent bulletC = Services.engine.createComponent(BulletComponent.class);
+        ProjectileComponent bulletC = Services.engine.createComponent(ProjectileComponent.class);
         bulletC.isEnemy = true;  // Targets the player instead of enemies
         bulletC.lifeTime = 4.0f; // Automatically cleans up after 4 seconds if it misses
         this.add(bulletC);

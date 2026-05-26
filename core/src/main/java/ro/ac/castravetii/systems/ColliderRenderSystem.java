@@ -27,6 +27,7 @@ public class ColliderRenderSystem extends IteratingSystem {
         Vector2 pos = transformC.position;
         float rotation = transformC.rotation;
 
+        Services.batch.end();
         Services.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         Services.shapeRenderer.setColor(Color.PURPLE);
         if (bcm.has(entity)) {
@@ -79,5 +80,6 @@ public class ColliderRenderSystem extends IteratingSystem {
         }
 
         Services.shapeRenderer.end();
+        Services.batch.begin();
     }
 }

@@ -1,6 +1,7 @@
 package ro.ac.castravetii;
 
 import ro.ac.castravetii.components.PolygonColliderComponent;
+import ro.ac.castravetii.components.TransformComponent;
 
 public class PepperEnemy extends Enemy{
 
@@ -20,7 +21,7 @@ public class PepperEnemy extends Enemy{
         healthC.currentHealth = 40;
         enemyC.xpValue = 10;
 
-        movementC.speed = 40f;
+        movementC.speed = 70f;
 
         collider = Services.engine.createComponent(PolygonColliderComponent.class);
         collider.vertices = new float[]{
@@ -39,7 +40,23 @@ public class PepperEnemy extends Enemy{
         collider.offset.set(-12f, 0f);
         collider.polygon.setOrigin(12f, 16f);
 //        collider.show = true;
+
+        knife = new Knife();
+        knife.getComponent(TransformComponent.class).parent = transformC;
+        knife.getComponent(TransformComponent.class).position.set(-2f, 8f);
+
         this.add(collider);
+    }
+
+    @Override
+    public void die() {
+        super.die();
+
+        knife.despawnAnimation.play();
+    }
+
+    public Knife getKnife() {
+        return knife;
     }
 
 }

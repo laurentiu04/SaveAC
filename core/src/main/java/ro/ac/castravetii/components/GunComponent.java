@@ -21,5 +21,5 @@ public class GunComponent implements Component {
     /**
      * Cât damage dă arma.
      */
-    public int damage = 10;
+    public int damage = 50;
 }

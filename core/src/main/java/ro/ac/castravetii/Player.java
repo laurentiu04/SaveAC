@@ -13,20 +13,19 @@ import ro.ac.castravetii.components.*;
 /**
  * Container singleton pentru entitatea player
  */
-public final class  Player {
+public final class Player extends Entity {
     /**
      * Variabila pentru a verifica daca a fost instantiata clasa player
      */
     private static Player INSTANCE = null;
 
-    private final Entity playerEntity;
     private final TransformComponent transformComponent;
     private final TextureComponent textureComponent;
     private final PlayerComponent playerComponent;
     private final PlayerStatsComponent statsComponent;
     private final MovementComponent movementComponent;
     private final SpriteAnimationComponent animationComponent;
-    private final EllipseColliderComponent colliderComponent;
+    private final PolygonColliderComponent colliderComponent;
     private final HealthComponent healthComponent;
     private final LevelComponent levelComponent;
     private final Gun gun;
@@ -38,48 +37,52 @@ public final class  Player {
      */
     private Player() {
 
-        // Creez o entitate pentru player.
-        playerEntity = Services.engine.createEntity();
-
         playerComponent = new PlayerComponent();
-        playerEntity.add(playerComponent);
+        this.add(playerComponent);
 
         statsComponent = new PlayerStatsComponent();
-        playerEntity.add(statsComponent);
+        this.add(statsComponent);
 
         // Creez componente pentru player si le atasez la entitate.
         transformComponent = new TransformComponent();
         transformComponent.position.x = Services.MAP_WIDTH*16;
         transformComponent.position.y = Services.MAP_HEIGHT*16;
         transformComponent.origin.set(0.52f, 0.20f);
-        playerEntity.add(transformComponent);
+        this.add(transformComponent);
 
         textureComponent = new TextureComponent();
         textureComponent.region = Services.textureAtlas.findRegion("castravete");
-        playerEntity.add(textureComponent);
+        this.add(textureComponent);
 
         movementComponent = new MovementComponent();
         movementComponent.speed = 100f;
-        playerEntity.add(movementComponent);
+        this.add(movementComponent);
 
         animationComponent = new SpriteAnimationComponent();
         animationComponent.movingAnim = Utils.createAnimation(64, 0.035f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
-        playerEntity.add(animationComponent);
+        this.add(animationComponent);
 
-        colliderComponent = new EllipseColliderComponent();
-        colliderComponent.height = 44f;
-        colliderComponent.width = 18f;
-        colliderComponent.offset.x = -colliderComponent.width/2;
-        colliderComponent.offset.y = -20f;
-//        colliderComponent.show = true;
-        playerEntity.add(colliderComponent);
+        colliderComponent = new PolygonColliderComponent();
+        colliderComponent.vertices = new float[] {
+            11.00f,  0.00f,
+            7.78f, 16.00f,
+            0.00f, 22.00f,
+            -7.78f, 16.00f,
+            -11.00f,  0.00f,
+            -7.78f,-16.00f,
+            0.00f,-22.00f,
+            7.78f,-16.00f,
+        };
+        colliderComponent.offset.set(0, 20f);
+        colliderComponent.show = true;
+        this.add(colliderComponent);
 
         healthComponent = new HealthComponent();
-        playerEntity.add(healthComponent);
+    this.add(healthComponent);
 
         levelComponent = new LevelComponent();
-        playerEntity.add(levelComponent);
+        this.add(levelComponent);
 
         gun = new Gun();
         gun.getTransformComponent().parent = transformComponent;
@@ -93,7 +96,7 @@ public final class  Player {
         stunAnimationRotation.setPlayMode(PlayMode.PING_PONG);
 
         // Adaug entitatea la engine.
-        Services.engine.addEntity(playerEntity);
+        Services.engine.addEntity(this);
     }
 
     // Resetam playerul
@@ -167,7 +170,4 @@ public final class  Player {
         return textureComponent;
     }
 
-    public Entity getEntity() {
-        return playerEntity;
-    }
 }
