@@ -70,7 +70,6 @@ public class PlayerControlSystem extends EntitySystem {
                     case AttackEvent e -> {
                         // Daca nu a fost atacat player-ul, trecem peste
                         if (e.target() instanceof Player) {
-
                             healthC.currentHealth -= e.damage();
 
                             //poti pune aici ca player ul e ranit , un sunet...

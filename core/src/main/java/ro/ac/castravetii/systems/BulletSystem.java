@@ -26,7 +26,7 @@ public class BulletSystem extends IteratingSystem {
 
     public BulletSystem(GameEventQueue queue) {
         // procesare entitati care au bulletComponent
-        super(Family.all(ProjectileComponent.class).get());
+        super(Family.all(ProjectileComponent.class).get(), 1);
         this.queue = queue;
         gun = Player.getInstance().getGun();
     }
@@ -36,7 +36,7 @@ public class BulletSystem extends IteratingSystem {
         super.addedToEngine(engine);
         // cache pentru entitatile care pot fi lovite
         enemies = engine.getEntitiesFor(Family.all(EnemyComponent.class).get());
-        playerEntity = Player.getInstance().getEntity();
+        playerEntity = Player.getInstance();
     }
 
     @Override
@@ -49,9 +49,7 @@ public class BulletSystem extends IteratingSystem {
                 PolygonColliderComponent playerCollider = pcm.get(playerEntity);
 
                 if (Intersector.overlapConvexPolygons(bulletCollider.polygon, playerCollider.polygon)) {
-
                     queue.post(new AttackEvent(bulletEntity, 20, playerEntity));
-                    System.out.println("LOVIT PLAYER");
                     bullet.active = false;
                 }
 
