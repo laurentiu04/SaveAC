@@ -1,5 +1,6 @@
 package ro.ac.castravetii.systems;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import ro.ac.castravetii.*;
@@ -20,6 +21,8 @@ public class EnemyWaveSystem extends EntitySystem {
 
     private final HUD hud;
     public float TimerMessage = 0f;
+
+    public boolean reset = false;
 
     public EnemyWaveSystem(HUD hud) {
         this.hud = hud;
@@ -51,6 +54,15 @@ public class EnemyWaveSystem extends EntitySystem {
             }else{
                 hud.getWaveLabel().setText("WAVE " + wave);
             }
+
+            //cand ajunge la wave 5 se dealoca toate entitatile
+//            if(wave == 1 && !reset){
+//                for(Entity enemy : getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get())){
+//                    getEngine().removeEntity(enemy);
+//                }
+//
+//                reset = true;
+//            }
 
             hud.getWaveLabel().setVisible(true);
 
