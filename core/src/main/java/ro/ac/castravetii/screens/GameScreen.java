@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
 
         hud = new HUD();
 
-        pauseMenu = new PauseMenu(this);
+        pauseMenu = new PauseMenu(this,queue);
 
         Services.setCameraLimits(Services.MAP_WIDTH, Services.MAP_HEIGHT);
 
