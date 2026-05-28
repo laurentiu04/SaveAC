@@ -18,6 +18,8 @@ public class EnemyWaveSystem extends EntitySystem {
     // Endless wave 5 state
     private int endlessWaveNumber = 0; // sub-wave counter within wave 5
 
+    public boolean reset = false;
+
     public EnemyWaveSystem(HUD hud) {
         this.hud = hud;
         wave++;

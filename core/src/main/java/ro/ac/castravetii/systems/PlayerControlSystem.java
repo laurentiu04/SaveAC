@@ -45,8 +45,8 @@ public class PlayerControlSystem extends EntitySystem {
         movementC = player.getMovementComponent();
         gun = player.getGun();
     }
-
-    private void saveFinalScore(int finalScore) {
+    //metoda publica pentru testare
+    public void saveFinalScore(int finalScore) {
         try {
             FileHandle file = Gdx.files.local("../scores.txt");
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
