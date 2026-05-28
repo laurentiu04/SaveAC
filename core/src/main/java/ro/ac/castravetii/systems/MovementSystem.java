@@ -15,9 +15,7 @@ public class MovementSystem extends IteratingSystem {
     // Stocare componente necesare
     private final ComponentMapper<MovementComponent> movm = ComponentMapper.getFor(MovementComponent.class);
     private final ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
-    ComponentMapper<AnimationComponent> am = ComponentMapper.getFor(AnimationComponent.class);
-
-    // TODO: ComponentMapper pentru inamici
+    private final ComponentMapper<SpriteAnimationComponent> am = ComponentMapper.getFor(SpriteAnimationComponent.class);
 
     // Stocare entitati ce trebuie sa se miste.
     public MovementSystem(int priority) {
@@ -28,7 +26,7 @@ public class MovementSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         TransformComponent transform = tm.get(entity);
         MovementComponent move = movm.get(entity);
-        AnimationComponent animComp = am.get(entity);
+        SpriteAnimationComponent animComp = am.get(entity);
 
         // Daca o entitate mai are viteza, calculam noua pozitie si o aplicam
         if (move.moveX != 0 || move.moveY != 0 || move.knockbackX != 0 || move.knockbackY != 0) {

@@ -16,5 +16,5 @@ public class PolygonColliderComponent implements Component {
     };
     public Vector2 offset = new Vector2();
     public boolean show = false;
-    public Polygon polygon = new Polygon();
+    public Polygon polygon = new Polygon(vertices);
 }

@@ -69,33 +69,55 @@ public class PlayerControlSystem extends EntitySystem {
                 switch (event) {
                     case AttackEvent e -> {
                         // Daca nu a fost atacat player-ul, trecem peste
-                        if (e.target().getComponent(PlayerComponent.class) == null) continue;
+                        //if (e.target() instanceof Player) {
 
-                        healthC.currentHealth -= e.damage();
+                            if (!(e.target() instanceof Entity playerEntity)) continue;
+                            if (playerEntity.getComponent(PlayerComponent.class) == null) continue;
 
-                        healthC.regenTimer = healthC.regenDelay;
+                        if (e.target() instanceof Player) {
+                            healthC.currentHealth -= e.damage();
+                            System.out.println("DEBUG: Jucatorul a luat " + e.damage() + " damage!");
 
-                        //poti pune aici ca player ul e ranit , un sunet...
-                        if (healthC.currentHealth <= 0) {
-                            healthC.currentHealth = 0;
-                            saveFinalScore(statsC.score); // pt salvare scor la moarte
-                            //trebuie adaugat un delay intai ca player ul sa moara intai si sa se auda sunetul si dupa sa se inchida
-                            //jocul sau varianta aia cu meniul dupa ce maore player sa se deschida un meniu in care ai optiuni de restart,exit...
-//                            Services.soundSystem.play("playerDead");
-                            System.out.println("DEBUG: Se salveaza scorul!");
+                            TransformComponent playerPos = playerEntity.getComponent(TransformComponent.class);
 
-                            //Gdx.app.exit();
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    game.setScreen(new GameOverScreen(game, queue, statsC.score));
+                            if (e.source() instanceof Entity enemyEntity) {
+                                TransformComponent enemyPos = enemyEntity.getComponent(TransformComponent.class);
+
+                                if (playerPos != null && enemyPos != null) {
+                                    float dirX = playerPos.position.x - enemyPos.position.x;
+                                    float dirY = playerPos.position.y - enemyPos.position.y;
+
+                                    float length = (float) Math.sqrt(dirX * dirX + dirY * dirY);
+                                    if (length > 0) {
+                                        dirX /= length;
+                                        dirY /= length;
+
+                                        float force = 400f;
+                                        movementC.knockbackX = dirX * force;
+                                        movementC.knockbackY = dirY * force;
+                                    }
                                 }
-                            });
+                            }
 
-                            queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
-                        }
 
-                        queue.post(UpdateHUDEvent.healthBar);
+
+                            //poti pune aici ca player ul e ranit , un sunet...
+
+                            if (healthC.currentHealth <= 0) {
+                                healthC.currentHealth = 0;
+                                saveFinalScore(statsC.score); // pt salvare scor la moarte
+                                //trebuie adaugat un delay intai ca player ul sa moara intai si sa se auda sunetul si dupa sa se inchida
+                                //jocul sau varianta aia cu meniul dupa ce maore player sa se deschida un meniu in care ai optiuni de restart,exit...
+//                            Services.soundSystem.play("playerDead");
+                                System.out.println("DEBUG: Se salveaza scorul!");
+
+                                //Gdx.app.exit();
+                                Gdx.app.postRunnable(() -> game.setScreen(new GameOverScreen(game, queue, statsC.score)));
+
+                                queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
+                            }
+                            queue.post(UpdateHUDEvent.healthBar);
+                        //}
                     }
 
                     case PlayerXPGainEvent e -> {

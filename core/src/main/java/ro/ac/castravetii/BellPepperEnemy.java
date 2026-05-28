@@ -19,7 +19,7 @@ public class BellPepperEnemy extends Enemy{
         enemyC.damage = 20;
         enemyC.xpValue = 20;
 
-        movementC.speed = 30f;
+        movementC.speed = 85f;
 
         transformC.origin.set(0.5f, 0.2f);
         PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);
@@ -33,9 +33,17 @@ public class BellPepperEnemy extends Enemy{
             0,  19,  // left-top
             0,  3,   // left-bottom
         };
+
         collider.polygon.setOrigin(11, 11);
-        collider.offset.set(-12, 10);
-//        collider.show = true;
-        entity.add(collider);
+        collider.offset.set(-12, 0);
+        //collider.show = true;
+        this.add(collider);
+    }
+
+    @Override
+    public void die() {
+        super.die();
+
+        textureC.region = Services.textureAtlas.findRegion("BellPepper-dead");
     }
 }

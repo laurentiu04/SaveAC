@@ -1,7 +1,5 @@
 package ro.ac.castravetii.events;
 
-import com.badlogic.ashley.core.Entity;
-
 /**
  * Event pentru orice tip de atac.
  *
@@ -9,5 +7,5 @@ import com.badlogic.ashley.core.Entity;
  * @param damage Damage-ul atacului.
  * @param target Entitatea atacată.
  */
-public record AttackEvent(Entity source, int damage, Entity target) implements GameEvent {
+public record AttackEvent(Object source, int damage, Object target) implements GameEvent {
 }

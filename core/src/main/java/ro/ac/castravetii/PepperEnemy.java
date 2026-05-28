@@ -1,15 +1,15 @@
 package ro.ac.castravetii;
 
 import ro.ac.castravetii.components.PolygonColliderComponent;
+import ro.ac.castravetii.components.TransformComponent;
 
 public class PepperEnemy extends Enemy{
 
-    public PolygonColliderComponent collider;
+    private final Knife knife;
 
     public PepperEnemy(){
         super();
         textureC.region = Services.textureAtlas.findRegion("Pepper");
-
         transformC.origin.set(0.5f, 0.20f);
 
         animationC.movingAnim = Utils.createAnimation(32, 0.05f, "Pepper-moving");
@@ -18,13 +18,11 @@ public class PepperEnemy extends Enemy{
 
         healthC.maxHealth = 40;
         healthC.currentHealth = 40;
-
-        enemyC.damage = 10;
         enemyC.xpValue = 10;
 
-        movementC.speed = 40f;
+        movementC.speed = 70f;
 
-        collider = Services.engine.createComponent(PolygonColliderComponent.class);
+        PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);
         collider.vertices = new float[]{
             // clockwise from bottom-right stem tip
             20,  0,   // stem tip (bottom-right)
@@ -38,9 +36,27 @@ public class PepperEnemy extends Enemy{
             10,  0,   // body bottom-left
             16,  0,   // body bottom-right
         };
-        collider.offset.set(-12f, 8f);
+        collider.offset.set(-12f, 0f);
         collider.polygon.setOrigin(12f, 16f);
 //        collider.show = true;
-        entity.add(collider);
+
+        knife = new Knife();
+        knife.getComponent(TransformComponent.class).parent = transformC;
+        knife.getComponent(TransformComponent.class).position.set(-2f, 8f);
+
+        this.add(collider);
     }
+
+    @Override
+    public void die() {
+        super.die();
+
+        Services.engine.removeEntity(knife);
+        textureC .region = Services.textureAtlas.findRegion("Pepper-dead");
+    }
+
+    public Knife getKnife() {
+        return knife;
+    }
+
 }
