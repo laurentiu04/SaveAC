@@ -8,6 +8,9 @@ public class HealthComponent implements Component, Pool.Poolable {
     public int currentHealth = maxHealth;
     public boolean showHealthbar = true;
 
+    public float regenTimer = 0f;
+    public float regenDelay = 2f;
+
     @Override
     public void reset() {
 

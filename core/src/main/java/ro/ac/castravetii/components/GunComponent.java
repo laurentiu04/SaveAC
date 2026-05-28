@@ -9,7 +9,7 @@ public class GunComponent implements Component {
     /**
      * Durata pauzei între shot-uri.
      */
-    public float shotDelay = 0.2f;
+    public float shotDelay = 0.4f;
     /**
      * Variabliă ce stochează căt timp a trecut de la ultimul shot.
      */

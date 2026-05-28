@@ -15,9 +15,7 @@ public class MovementSystem extends IteratingSystem {
     // Stocare componente necesare
     private final ComponentMapper<MovementComponent> movm = ComponentMapper.getFor(MovementComponent.class);
     private final ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
-    ComponentMapper<SpriteAnimationComponent> am = ComponentMapper.getFor(SpriteAnimationComponent.class);
-
-    // TODO: ComponentMapper pentru inamici
+    private final ComponentMapper<SpriteAnimationComponent> am = ComponentMapper.getFor(SpriteAnimationComponent.class);
 
     // Stocare entitati ce trebuie sa se miste.
     public MovementSystem(int priority) {

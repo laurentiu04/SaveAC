@@ -4,16 +4,11 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import ro.ac.castravetii.Player;
-import ro.ac.castravetii.components.EnemyComponent;
-import ro.ac.castravetii.components.MovementComponent;
-import ro.ac.castravetii.components.PlayerComponent;
-import ro.ac.castravetii.components.TransformComponent;
+import ro.ac.castravetii.*;
+import ro.ac.castravetii.components.*;
 import ro.ac.castravetii.events.AttackEvent;
 import ro.ac.castravetii.events.GameEventQueue;
 import ro.ac.castravetii.events.UpdateHUDEvent;
-import ro.ac.castravetii.BellPepperEnemy;
-import ro.ac.castravetii.Seed;
 
 
 public class EnemyPathfindingSystem extends IteratingSystem {
@@ -33,31 +28,31 @@ public class EnemyPathfindingSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TransformComponent enemy = tm.get(entity);
+        TransformComponent transformC = tm.get(entity);
         TransformComponent player = Player.getInstance().getTransformComponent();
         MovementComponent move = mm.get(entity);
 
         //How can I access player entity ? Solution:
-        Entity playerEntity = Player.getInstance().getEntity();
+        Entity playerEntity = Player.getInstance();
 
 
-        float dx = player.position.x - enemy.position.x;
-        float dy = player.position.y - enemy.position.y;
+        float dx = player.position.x - transformC.position.x;
+        float dy = player.position.y - transformC.position.y;
 
         for (Entity other : getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get())) {
             if (other == entity)
                 continue;
             TransformComponent otherTransform = tm.get(other);
 
-            float ox = enemy.position.x - otherTransform.position.x;
-            float oy = enemy.position.y - otherTransform.position.y;
+            float ox = transformC.position.x - otherTransform.position.x;
+            float oy = transformC.position.y - otherTransform.position.y;
 
             float dist = (float) Math.sqrt(ox * ox + oy * oy);
 
             //daca inamicii sunt mai aproape de 40px sa se respinga
             if (dist < 40f && dist > 0) {
-                enemy.position.x += (ox / dist) * 30f * deltaTime;
-                enemy.position.y += (oy / dist) * 30f * deltaTime;
+                transformC.position.x += (ox / dist) * 30f * deltaTime;
+                transformC.position.y += (oy / dist) * 30f * deltaTime;
             }
         }
 
@@ -77,6 +72,15 @@ public class EnemyPathfindingSystem extends IteratingSystem {
             move.moveX = (dx / distance) * move.speed;
             move.moveY = (dy / distance) * move.speed;
 
+            if (entity instanceof PepperEnemy) {
+                PepperEnemy enemy = (PepperEnemy) entity;
+                TransformComponent knifeTransformC = enemy.getKnife().getComponent(TransformComponent.class);
+                knifeTransformC.position.x = enemy.getComponent(TextureComponent.class).region.getRegionWidth() * 0.2f * (move.moveX > 0f ? -1f : 1f);
+                knifeTransformC.rotation = -10f * (move.moveX > 0f ? -1f : 1f);
+
+                enemy.wobbleAnim.play();
+            }
+
             ec.hasHit = false;
         } else {
             move.moveX = 0;
@@ -93,10 +97,8 @@ public class EnemyPathfindingSystem extends IteratingSystem {
                     }
                 }
 
-
-                if (entity instanceof BellPepperEnemy) {
-
-                    new Seed(enemy.position, player.position);
+                if (isBellPepper) {
+                    new Seed(transformC.position, player.position);
                 } else {
 
                     queue.post(new AttackEvent(entity, ec.damage, playerEntity));

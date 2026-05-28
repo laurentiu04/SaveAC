@@ -36,4 +36,11 @@ public class TomatoEnemy extends Enemy{
         collider.offset.set(-12, 7);
         this.add(collider);
     }
+
+    @Override
+    public void die() {
+        super.die();
+
+        textureC.region = Services.textureAtlas.findRegion("Tomato-dead");
+    }
 }

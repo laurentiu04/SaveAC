@@ -18,23 +18,24 @@ public class EnemyDamageSystem extends EntitySystem {
     private final ComponentMapper<HealthComponent> hm = ComponentMapper.getFor(HealthComponent.class);
     private final ComponentMapper<EnemyComponent> em = ComponentMapper.getFor(EnemyComponent.class);
 
-    public EnemyDamageSystem(GameEventQueue queue, int priority){
+    public EnemyDamageSystem(GameEventQueue queue, int priority) {
         super(priority);
         this.queue = queue;
     }
 
     @Override
-    public void update(float deltaTime){
+    public void update(float deltaTime) {
         // preluare lista evenimente damage
         ArrayDeque<GameEvent> events = queue.getEvents(AttackEvent.class);
 
         if (events.isEmpty()) return;
 
-        for(GameEvent event : events){
-            AttackEvent attackEvent = (AttackEvent) event;
-            if (attackEvent.target() instanceof Enemy) {
+        AttackEvent attackEvent;
+        for (GameEvent event : events) {
+            attackEvent = (AttackEvent) event;
+            if (attackEvent.target() instanceof Enemy enemy) {
 
-                Enemy enemy = (Enemy)attackEvent.target();
+                EnemyComponent enemyC = em.get(enemy);
 
                 // accesare componenta sanatate de pe tinta
                 HealthComponent health = hm.get(enemy);
@@ -50,6 +51,7 @@ public class EnemyDamageSystem extends EntitySystem {
                 }
 
                 MovementComponent move = enemy.getComponent(MovementComponent.class);
+
                 //forta cu cat il impinge pe inamic
                 float force = 100f;
                 move.knockbackX = dx * force;
@@ -64,7 +66,6 @@ public class EnemyDamageSystem extends EntitySystem {
 
                     // eliminare daca viata e zero
                     if (health.currentHealth <= 0) {
-                        EnemyComponent enemyC = em.get(enemy);
                         queue.post(new PlayerXPGainEvent(enemyC.xpValue));
                         queue.post(new EnemyKilledEvent(enemyC.pointValue));
 
@@ -75,6 +76,7 @@ public class EnemyDamageSystem extends EntitySystem {
                     }
                 }
             }
+
+            }
         }
     }
-}

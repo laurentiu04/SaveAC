@@ -4,81 +4,98 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import ro.ac.castravetii.animations.CubicBezier;
+import ro.ac.castravetii.animations.PlayMode;
+import ro.ac.castravetii.animations.RotationAnimation;
+import ro.ac.castravetii.animations.ScaleXAnimation;
 import ro.ac.castravetii.components.*;
 
 /**
  * Container singleton pentru entitatea player
  */
-public final class  Player {
+public final class  Player extends Entity{
     /**
      * Variabila pentru a verifica daca a fost instantiata clasa player
      */
     private static Player INSTANCE = null;
 
-    private final Entity playerEntity;
     private final TransformComponent transformComponent;
     private final TextureComponent textureComponent;
-    private final PlayerComponent playerComponent;
     private final PlayerStatsComponent statsComponent;
     private final MovementComponent movementComponent;
-    private final SpriteAnimationComponent animationComponent;
-    private final EllipseColliderComponent colliderComponent;
     private final HealthComponent healthComponent;
     private final LevelComponent levelComponent;
     private final Gun gun;
+    public final ScaleXAnimation stunAnimationScale;
+    public final RotationAnimation stunAnimationRotation;
 
     /**
      * Constructor ascuns
      */
     private Player() {
 
-        // Creez o entitate pentru player.
-        playerEntity = Services.engine.createEntity();
 
-        playerComponent = new PlayerComponent();
-        playerEntity.add(playerComponent);
+        PlayerComponent playerComponent = new PlayerComponent();
+        this.add(playerComponent);
 
         statsComponent = new PlayerStatsComponent();
-        playerEntity.add(statsComponent);
+        this.add(statsComponent);
 
         // Creez componente pentru player si le atasez la entitate.
         transformComponent = new TransformComponent();
         transformComponent.position.x = Services.MAP_WIDTH*16;
         transformComponent.position.y = Services.MAP_HEIGHT*16;
         transformComponent.origin.set(0.52f, 0.20f);
-        playerEntity.add(transformComponent);
+        this.add(transformComponent);
 
         textureComponent = new TextureComponent();
         textureComponent.region = Services.textureAtlas.findRegion("castravete");
-        playerEntity.add(textureComponent);
+        this.add(textureComponent);
 
         movementComponent = new MovementComponent();
         movementComponent.speed = 100f;
-        playerEntity.add(movementComponent);
+        this.add(movementComponent);
 
-        animationComponent = new SpriteAnimationComponent();
+        SpriteAnimationComponent animationComponent = new SpriteAnimationComponent();
         animationComponent.movingAnim = Utils.createAnimation(64, 0.035f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
-        playerEntity.add(animationComponent);
+        this.add(animationComponent);
 
-        colliderComponent = new EllipseColliderComponent();
-        colliderComponent.height = 44f;
-        colliderComponent.width = 18f;
-        colliderComponent.offset.x = -colliderComponent.width/2;
-        colliderComponent.offset.y = -20f;
+        PolygonColliderComponent colliderComponent = new PolygonColliderComponent();
+        colliderComponent.vertices = new float[] {
+            11.00f,  0.00f,
+            7.78f, 16.00f,
+            0.00f, 22.00f,
+            -7.78f, 16.00f,
+            -11.00f,  0.00f,
+            -7.78f,-16.00f,
+            0.00f,-22.00f,
+            7.78f,-16.00f,
+        };
+
+        colliderComponent.offset.y = 20f;
 //        colliderComponent.show = true;
-        playerEntity.add(colliderComponent);
+        this.add(colliderComponent);
 
         healthComponent = new HealthComponent();
-        playerEntity.add(healthComponent);
+        this.add(healthComponent);
 
         levelComponent = new LevelComponent();
-        playerEntity.add(levelComponent);
+        this.add(levelComponent);
 
         gun = new Gun();
+        gun.getTransformComponent().parent = transformComponent;
+        gun.getTransformComponent().position.set(-4, 20);
+
+        stunAnimationScale = new ScaleXAnimation(transformComponent, 0.9f, 1.1f, 1f, CubicBezier.EASE_IN_OUT);
+        stunAnimationScale.setPlayMode(PlayMode.PING_PONG);
+        stunAnimationScale.setDelay(0.25f);
+
+        stunAnimationRotation = new RotationAnimation(transformComponent, 5f, -5f, 1f, CubicBezier.EASE_IN_OUT);
+        stunAnimationRotation.setPlayMode(PlayMode.PING_PONG);
 
         // Adaug entitatea la engine.
-        Services.engine.addEntity(playerEntity);
+        Services.engine.addEntity(this);
     }
 
     // Resetam playerul
@@ -148,11 +165,4 @@ public final class  Player {
 
     public Gun getGun() { return gun; }
 
-    public TextureComponent getTextureComponent() {
-        return textureComponent;
-    }
-
-    public Entity getEntity() {
-        return playerEntity;
-    }
 }

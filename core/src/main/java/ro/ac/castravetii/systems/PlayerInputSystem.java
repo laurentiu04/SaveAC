@@ -23,13 +23,15 @@ public class PlayerInputSystem extends EntitySystem {
     @Override
     public void update(float deltaTime) {
 
-        PlayerComponent pc = Player.getInstance().getEntity().getComponent(PlayerComponent.class);
+        PlayerComponent pc = Player.getInstance().getComponent(PlayerComponent.class);
 
         if(pc.stunned){
             pc.stunTimer -= deltaTime;
 
             if(pc.stunTimer <= 0){
                 pc.stunned = false;
+                Player.getInstance().stunAnimationRotation.end();
+                Player.getInstance().stunAnimationScale.end();
             }
 
             movementC.moveX = 0;
