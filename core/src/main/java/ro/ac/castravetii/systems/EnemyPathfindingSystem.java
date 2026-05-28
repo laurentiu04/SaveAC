@@ -75,8 +75,6 @@ public class EnemyPathfindingSystem extends IteratingSystem {
                 TransformComponent knifeTransformC = enemy.getKnife().getComponent(TransformComponent.class);
                 knifeTransformC.position.x = enemy.getComponent(TextureComponent.class).region.getRegionWidth() * 0.2f * (move.moveX > 0f ? -1f : 1f);
                 knifeTransformC.rotation = -10f * (move.moveX > 0f ? -1f : 1f);
-
-                enemy.wobbleAnim.play();
             }
 
             ec.hasHit = false;

@@ -38,34 +38,33 @@ public class HUD implements Disposable {
         fpsDisplay = new Label("", Services.skin, "levelbar");
         killDisplay = new Label("SCORE: 0", Services.skin, "healthbar");
         wave = new Label("", Services.skin);
-        wave.setFontScale(1.15f);
+        wave.setFontScale(1.5f);
 
-        table.add(fpsDisplay).left().top().pad(10).expandX();
-        table.add(killDisplay).right().top().pad(10).expandX();
-        table.row();
-
-        table.add();
-
-        table.add(wave).right().top().padTop(70);
+//        table.add(wave).right().top().padTop(70);
         table.row();
 
         wave.setVisible(false);
+
+        table.add(fpsDisplay).left().top();
+        table.add(killDisplay).top();
+        table.row();
 
         VerticalGroup leftGroup = new VerticalGroup();
         leftGroup.space(5);
         leftGroup.addActor(new Container<>(healthBar).width(300));
         leftGroup.addActor(new Container<>(levelBar).width(300));
         //table.add(leftGroup).expandX().left().minWidth(300);
-        table.add(leftGroup).left().bottom().pad(10).expand().colspan(2);
+        table.add(leftGroup).left().bottom().pad(10).expandY().width(400).maxWidth(300);
 
         Table centerGroup = new Table();
-        table.add(centerGroup).space(20).expandX().center().minWidth(centerGroup.getPrefWidth());
+        centerGroup.add(wave).top().expandY().padTop(20);
+        table.add(centerGroup).space(20).expand().top().minWidth(centerGroup.getPrefWidth());
 
         HorizontalGroup rightGroup = new HorizontalGroup();
         rightGroup.addActor(statsManager);
         rightGroup.align(Align.right);
         //table.add(rightGroup).expandX().right().minWidth(300);
-        table.add(statsManager).right().bottom().pad(10);
+        table.add(statsManager).right().bottom().pad(10).width(400);
 //        table.setDebug(true);
     }
 

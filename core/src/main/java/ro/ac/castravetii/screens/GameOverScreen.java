@@ -3,7 +3,6 @@ package ro.ac.castravetii.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.events.GameEventQueue;
-import ro.ac.castravetii.systems.SoundSystem;
 
 public class GameOverScreen extends ScreenAdapter {
     private final Game game;
@@ -44,7 +42,7 @@ public class GameOverScreen extends ScreenAdapter {
         Label scoreLabel = new Label("Score: " + finalScore, Services.skin);
 
         // Buton Retry
-        TextButton retryButton = new TextButton("RETRY", Services.skin);
+        Button retryButton = new Button(Services.skin, "restart");
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -53,7 +51,7 @@ public class GameOverScreen extends ScreenAdapter {
         });
 
         // Buton Main Menu
-        TextButton menuButton = new TextButton("MAIN MENU", Services.skin);
+        Button menuButton = new Button(Services.skin, "mainMenu");
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -64,8 +62,8 @@ public class GameOverScreen extends ScreenAdapter {
         // Organizarea în tabel
         table.add(gameOverLabel).padBottom(20).row();
         table.add(scoreLabel).padBottom(40).row();
-        table.add(retryButton).width(200).height(60).padBottom(10).row();
-        table.add(menuButton).width(200).height(60);
+        table.add(retryButton).padBottom(10).row();
+        table.add(menuButton);
     }
 
     @Override

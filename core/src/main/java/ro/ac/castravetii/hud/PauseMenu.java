@@ -32,8 +32,8 @@ public class PauseMenu {
 
         Button resumeButton = new Button(Services.skin, "resume");
         Button quitButton = new Button(Services.skin, "exit");
-        Button restartButton = new Button(Services.skin,"resume");
-        Button MainMenuButton = new Button(Services.skin,"resume");
+        Button restartButton = new Button(Services.skin,"restart");
+        Button MainMenuButton = new Button(Services.skin,"mainMenu");
 
         resumeButton.addListener(new ClickListener() {
             @Override

@@ -51,7 +51,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
 
         music = Gdx.audio.newMusic(
-            Gdx.files.internal("music/realgone.mp3")
+            Gdx.files.internal("music/unity.wav")
         );
 
         music.setLooping(true);

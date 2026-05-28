@@ -76,7 +76,6 @@ public class PlayerControlSystem extends EntitySystem {
 
                         if (e.target() instanceof Player) {
                             healthC.currentHealth -= e.damage();
-                            System.out.println("DEBUG: Jucatorul a luat " + e.damage() + " damage!");
 
                             TransformComponent playerPos = playerEntity.getComponent(TransformComponent.class);
 

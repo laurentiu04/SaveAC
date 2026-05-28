@@ -6,49 +6,70 @@ filter: Linear, Linear
 repeat: none
 Logo
   rotate: false
-  xy: 1, 773
+  xy: 1, 789
   size: 235, 56
   orig: 235, 56
   offset: 0, 0
   index: -1
 Logo_Castravetii
   rotate: false
-  xy: 1, 947
+  xy: 1, 963
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
   index: -1
+MainMenu-button
+  rotate: false
+  xy: 1, 715
+  size: 182, 72
+  orig: 182, 72
+  offset: 0, 0
+  index: -1
+MainMenu-button-hover
+  rotate: false
+  xy: 1, 641
+  size: 182, 72
+  orig: 182, 72
+  offset: 0, 0
+  index: -1
+MainMenu-button-pressed
+  rotate: false
+  xy: 1, 567
+  size: 182, 72
+  orig: 182, 72
+  offset: 0, 0
+  index: -1
 exit-button
   rotate: false
-  xy: 1, 481
+  xy: 1, 53
   size: 140, 68
   orig: 140, 68
   offset: 0, 0
   index: -1
 exit-button-hover
   rotate: false
-  xy: 1, 411
+  xy: 243, 835
   size: 140, 68
   orig: 140, 68
   offset: 0, 0
   index: -1
 exit-button-pressed
   rotate: false
-  xy: 1, 341
+  xy: 501, 893
   size: 140, 68
   orig: 140, 68
   offset: 0, 0
   index: -1
 health_stat
   rotate: false
-  xy: 1, 3
+  xy: 1293, 881
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: -1
 healthbar_bg
   rotate: false
-  xy: 1, 889
+  xy: 1, 905
   size: 256, 56
   split: 10, 10, 10, 15
   pad: 9, 9, 9, 14
@@ -57,7 +78,7 @@ healthbar_bg
   index: -1
 xpbar_bg
   rotate: false
-  xy: 1, 889
+  xy: 1, 905
   size: 256, 56
   split: 10, 10, 10, 15
   pad: 9, 9, 9, 14
@@ -66,7 +87,7 @@ xpbar_bg
   index: -1
 healthbar_fill
   rotate: false
-  xy: 1, 831
+  xy: 1, 847
   size: 240, 56
   split: 4, 4, 12, 17
   pad: 119, 114, 28, 27
@@ -75,35 +96,35 @@ healthbar_fill
   index: -1
 key1
   rotate: false
-  xy: 243, 859
+  xy: 185, 759
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
   index: -1
 key2
   rotate: false
-  xy: 143, 355
+  xy: 385, 875
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
   index: -1
 key3
   rotate: false
-  xy: 2005, 1999
+  xy: 2005, 2015
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
   index: -1
 key4
   rotate: false
-  xy: 583, 917
+  xy: 83, 23
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
   index: -1
 menu_button
   rotate: false
-  xy: 151, 515
+  xy: 1033, 833
   size: 128, 128
   split: 14, 14, 14, 14
   orig: 128, 128
@@ -111,7 +132,7 @@ menu_button
   index: -1
 menu_button_hover
   rotate: false
-  xy: 143, 385
+  xy: 1163, 833
   size: 128, 128
   split: 14, 14, 14, 14
   orig: 128, 128
@@ -119,7 +140,7 @@ menu_button_hover
   index: -1
 playButtonDown
   rotate: false
-  xy: 1, 213
+  xy: 643, 835
   size: 128, 126
   split: 15, 15, 14, 14
   pad: 14, 14, 13, 13
@@ -128,7 +149,7 @@ playButtonDown
   index: -1
 playButtonHover
   rotate: false
-  xy: 1, 85
+  xy: 773, 835
   size: 128, 126
   split: 15, 15, 9, 19
   pad: 14, 14, 8, 18
@@ -137,7 +158,7 @@ playButtonHover
   index: -1
 playButtonUp
   rotate: false
-  xy: 151, 645
+  xy: 903, 835
   size: 128, 126
   split: 15, 15, 9, 19
   pad: 14, 14, 8, 18
@@ -146,63 +167,84 @@ playButtonUp
   index: -1
 point_counter
   rotate: false
-  xy: 501, 895
+  xy: 1, 1
   size: 80, 50
   orig: 80, 50
   offset: 0, 0
   index: -1
 point_counter_on
   rotate: false
-  xy: 1923, 1977
+  xy: 1923, 1993
   size: 80, 50
   orig: 80, 50
   offset: 0, 0
   index: -1
+restart-button
+  rotate: false
+  xy: 1, 493
+  size: 162, 72
+  orig: 162, 72
+  offset: 0, 0
+  index: -1
+restart-hover
+  rotate: false
+  xy: 1, 419
+  size: 162, 72
+  orig: 162, 72
+  offset: 0, 0
+  index: -1
+restart-pressed
+  rotate: false
+  xy: 1, 345
+  size: 162, 72
+  orig: 162, 72
+  offset: 0, 0
+  index: -1
 resume-button
   rotate: false
-  xy: 1, 699
-  size: 148, 72
-  orig: 148, 72
+  xy: 1, 123
+  size: 147, 72
+  orig: 147, 72
   offset: 0, 0
   index: -1
 resume-button-hover
   rotate: false
-  xy: 1, 625
+  xy: 1, 271
   size: 148, 72
   orig: 148, 72
   offset: 0, 0
   index: -1
 resume-button-pressed
   rotate: false
-  xy: 1, 551
+  xy: 1, 197
   size: 148, 72
   orig: 148, 72
   offset: 0, 0
   index: -1
 speed_stat
   rotate: false
-  xy: 1923, 1895
+  xy: 1923, 1911
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: -1
 strength_stat
   rotate: false
-  xy: 1923, 1813
+  xy: 1359, 881
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: -1
 xp_stat
   rotate: false
-  xy: 1923, 1731
+  xy: 1923, 1829
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: -1
 xpbar_fill
   rotate: false
-  xy: 259, 889
+  xy: 259, 905
   size: 240, 56
   split: 4, 4, 12, 17
   pad: 119, 114, 28, 27

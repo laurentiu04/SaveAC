@@ -26,8 +26,8 @@ public class AnimationControlSystem extends IteratingSystem {
 
         switch (animComp.state) {
             case IDLE -> {
+                animComp.elapsedAnimTime = 0f;
                 if (textComp.region != animComp.idleSprite && animComp.idleSprite != null) {
-                    animComp.elapsedAnimTime = 0f;
                     textComp.region = animComp.idleSprite;
                 }
             }
