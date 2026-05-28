@@ -71,8 +71,8 @@ public class PlayerControlSystem extends EntitySystem {
                         // Daca nu a fost atacat player-ul, trecem peste
                         //if (e.target() instanceof Player) {
 
-                            if (!(e.target() instanceof Entity playerEntity)) continue;
-                            if (playerEntity.getComponent(PlayerComponent.class) == null) continue;
+                        if (!(e.target() instanceof Entity playerEntity)) continue;
+                        if (playerEntity.getComponent(PlayerComponent.class) == null) continue;
 
                         if (e.target() instanceof Player) {
                             healthC.currentHealth -= e.damage();
@@ -100,7 +100,6 @@ public class PlayerControlSystem extends EntitySystem {
                             }
 
 
-
                             //poti pune aici ca player ul e ranit , un sunet...
 
                             if (healthC.currentHealth <= 0) {
@@ -117,11 +116,12 @@ public class PlayerControlSystem extends EntitySystem {
                                 queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                             }
                             queue.post(UpdateHUDEvent.healthBar);
-                        //}
+                            //}
+                        }
                     }
 
-                    case PlayerXPGainEvent e -> {
-                        levelC.xp += (int) (e.xp() * levelC.xpGain);
+                    case PlayerXPGainEvent xpEvent -> {
+                        levelC.xp += (int) (xpEvent.xp() * levelC.xpGain);
                         // Fac level up cat timp am xp-ul necesar si nu am ajuns la nivelul maxim
                         while (levelC.xp >= levelC.levelUpTarget && levelC.level < levelC.maxLevel) {
                             levelC.xp -= levelC.levelUpTarget; // Scad din xp-ul curent valoarea pentru level up
@@ -133,8 +133,8 @@ public class PlayerControlSystem extends EntitySystem {
                         queue.post(UpdateHUDEvent.stats);
                     }
 
-                    case EnemyKilledEvent e -> {
-                        statsC.score += e.points; // Folosește statsC
+                    case EnemyKilledEvent killedEvent -> {
+                        statsC.score += killedEvent.points; // Folosește statsC
                         queue.post(UpdateHUDEvent.stats); // update HUD
                     }
 

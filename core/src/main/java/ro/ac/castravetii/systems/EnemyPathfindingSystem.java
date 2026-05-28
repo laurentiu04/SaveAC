@@ -17,11 +17,10 @@ public class EnemyPathfindingSystem extends IteratingSystem {
     private final ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
     private final ComponentMapper<EnemyComponent> em = ComponentMapper.getFor(EnemyComponent.class);
     private final GameEventQueue queue;
-    private final ComponentMapper<ro.ac.castravetii.components.TextureComponent> tmAtlas = ComponentMapper.getFor(ro.ac.castravetii.components.TextureComponent.class);
     //Run the system for ONLY the entities that have TransformComponent - NO, RUN ONLY FOR ENEMY !!!
 
     public EnemyPathfindingSystem(GameEventQueue queue){
-        super(Family.all(EnemyComponent.class).get());
+        super(Family.all(EnemyComponent.class, MovementComponent.class).get());
         this.queue = queue;
     }
 
@@ -59,7 +58,7 @@ public class EnemyPathfindingSystem extends IteratingSystem {
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
         //I want my enemy to have a space between the player - I used "stopRange" for that.
-        float stopRange = 20f;
+        float stopRange;
 
         EnemyComponent ec = em.get(entity);
         ec.attackTimer += deltaTime;
@@ -72,8 +71,7 @@ public class EnemyPathfindingSystem extends IteratingSystem {
             move.moveX = (dx / distance) * move.speed;
             move.moveY = (dy / distance) * move.speed;
 
-            if (entity instanceof PepperEnemy) {
-                PepperEnemy enemy = (PepperEnemy) entity;
+            if (entity instanceof PepperEnemy enemy) {
                 TransformComponent knifeTransformC = enemy.getKnife().getComponent(TransformComponent.class);
                 knifeTransformC.position.x = enemy.getComponent(TextureComponent.class).region.getRegionWidth() * 0.2f * (move.moveX > 0f ? -1f : 1f);
                 knifeTransformC.rotation = -10f * (move.moveX > 0f ? -1f : 1f);
@@ -88,15 +86,6 @@ public class EnemyPathfindingSystem extends IteratingSystem {
 
             //modify the attack time : >= increment the value -> slower attack / decrement the value -> faster attack - "3f" THE VALUE
             if (ec.attackTimer >= 3f) {
-
-                isBellPepper = false;
-                if (tmAtlas.has(entity) && tmAtlas.get(entity).region instanceof com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion atlasRegion) {
-
-                    if (atlasRegion.name != null && atlasRegion.name.contains("BellPepper")) {
-                        isBellPepper = true;
-                    }
-                }
-
                 if (isBellPepper) {
                     new Seed(transformC.position, player.position);
                 } else {
