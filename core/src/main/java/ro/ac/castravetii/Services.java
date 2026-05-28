@@ -129,12 +129,15 @@ public final class Services {
     }
 
     public static void dispose() {
-        batch.dispose();
-        textureAtlas.dispose();
-        assetManager.dispose();
-        skin.dispose();
-        shapeRenderer.dispose();
-        font20.dispose();
-        tilemapRenderer.dispose();
+        //batch.dispose();
+        //textureAtlas.dispose();
+        //assetManager.dispose();
+        //skin.dispose();
+        //shapeRenderer.dispose();
+        //font20.dispose();
+        if(tilemapRenderer != null) {
+            tilemapRenderer.dispose();
+            tilemapRenderer = null;
+        }
     }
 }

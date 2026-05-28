@@ -10,4 +10,5 @@ public class PlayerStatsComponent implements Component {
     public int upgradePoints = 0;
     public int score = 0;
 
+
 }

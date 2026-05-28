@@ -6,6 +6,7 @@ import ro.ac.castravetii.Player;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.components.MovementComponent;
 import ro.ac.castravetii.components.PlayerComponent;
+import ro.ac.castravetii.components.PlayerStatsComponent;
 import ro.ac.castravetii.components.TransformComponent;
 
 public class PlayerInputSystem extends EntitySystem {

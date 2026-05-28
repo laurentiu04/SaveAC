@@ -69,8 +69,37 @@ public class PlayerControlSystem extends EntitySystem {
                 switch (event) {
                     case AttackEvent e -> {
                         // Daca nu a fost atacat player-ul, trecem peste
+                        //if (e.target() instanceof Player) {
+
+                            if (!(e.target() instanceof Entity playerEntity)) continue;
+                            if (playerEntity.getComponent(PlayerComponent.class) == null) continue;
+
                         if (e.target() instanceof Player) {
                             healthC.currentHealth -= e.damage();
+                            System.out.println("DEBUG: Jucatorul a luat " + e.damage() + " damage!");
+
+                            TransformComponent playerPos = playerEntity.getComponent(TransformComponent.class);
+
+                            if (e.source() instanceof Entity enemyEntity) {
+                                TransformComponent enemyPos = enemyEntity.getComponent(TransformComponent.class);
+
+                                if (playerPos != null && enemyPos != null) {
+                                    float dirX = playerPos.position.x - enemyPos.position.x;
+                                    float dirY = playerPos.position.y - enemyPos.position.y;
+
+                                    float length = (float) Math.sqrt(dirX * dirX + dirY * dirY);
+                                    if (length > 0) {
+                                        dirX /= length;
+                                        dirY /= length;
+
+                                        float force = 400f;
+                                        movementC.knockbackX = dirX * force;
+                                        movementC.knockbackY = dirY * force;
+                                    }
+                                }
+                            }
+
+
 
                             //poti pune aici ca player ul e ranit , un sunet...
 
@@ -88,7 +117,7 @@ public class PlayerControlSystem extends EntitySystem {
                                 queue.post(PlayerEvent.died); // Adaug in coada un event ca player-ul a murit
                             }
                             queue.post(UpdateHUDEvent.healthBar);
-                        }
+                        //}
                     }
 
                     case PlayerXPGainEvent e -> {
