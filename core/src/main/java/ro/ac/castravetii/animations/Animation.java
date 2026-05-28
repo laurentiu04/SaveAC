@@ -11,6 +11,7 @@ abstract class Animation<T> {
     /**
      * Collection of all the active animations. It's used by the {@link AnimationController#update(float delta)} to update the animations.
      */
+    @SuppressWarnings("rawtypes")
     public static ArrayDeque<Animation> collection = new ArrayDeque<>();
 
     protected final T element;
@@ -43,10 +44,6 @@ abstract class Animation<T> {
         }
 
         elapsedTime = 0;
-    }
-
-    public void setDuration(float duration) {
-        this.duration = duration;
     }
 
     public void setPlayMode(PlayMode mode) {
@@ -93,21 +90,13 @@ abstract class Animation<T> {
         float alpha;
 
         switch (this.playMode) {
-            case NORMAL, LOOP -> {
-                alpha = bezier.evaluate(progress);
-            }
+            case NORMAL, LOOP -> alpha = bezier.evaluate(progress);
 
-            case REVERSE, LOOP_REVERSE -> {
-                alpha = bezier.evaluate(1f - progress);
-            }
+            case REVERSE, LOOP_REVERSE -> alpha = bezier.evaluate(1f - progress);
 
-            case ALTERNATE, PING_PONG -> {
-                alpha = progress <= 0.5f ? bezier.evaluate(progress * 2f) : bezier.evaluate(1f - (progress - 0.5f) / 0.5f);
-            }
+            case ALTERNATE, PING_PONG -> alpha = progress <= 0.5f ? bezier.evaluate(progress * 2f) : bezier.evaluate(1f - (progress - 0.5f) / 0.5f);
 
-            case ALTERNATE_REVERSE -> {
-                alpha = progress < 0.5f ? bezier.evaluate(1f - progress * 2f) : bezier.evaluate((progress - 0.5f) / 0.5f);
-            }
+            case ALTERNATE_REVERSE -> alpha = progress < 0.5f ? bezier.evaluate(1f - progress * 2f) : bezier.evaluate((progress - 0.5f) / 0.5f);
 
             default -> {
                 System.out.println("Default case triggered.");
@@ -129,5 +118,9 @@ abstract class Animation<T> {
      * Override this function to define how the element should be reset.
      */
     public abstract void reset();
+
+    public boolean isPlaying() {
+        return playing;
+    }
 }
 

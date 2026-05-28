@@ -5,8 +5,7 @@ import ro.ac.castravetii.components.TransformComponent;
 
 public class PepperEnemy extends Enemy{
 
-    private final PolygonColliderComponent collider;
-    private Knife knife;
+    private final Knife knife;
 
     public PepperEnemy(){
         super();
@@ -23,7 +22,7 @@ public class PepperEnemy extends Enemy{
 
         movementC.speed = 70f;
 
-        collider = Services.engine.createComponent(PolygonColliderComponent.class);
+        PolygonColliderComponent collider = Services.engine.createComponent(PolygonColliderComponent.class);
         collider.vertices = new float[]{
             // clockwise from bottom-right stem tip
             20,  0,   // stem tip (bottom-right)
@@ -52,7 +51,8 @@ public class PepperEnemy extends Enemy{
     public void die() {
         super.die();
 
-        knife.despawnAnimation.play();
+        Services.engine.removeEntity(knife);
+        textureC .region = Services.textureAtlas.findRegion("Pepper-dead");
     }
 
     public Knife getKnife() {

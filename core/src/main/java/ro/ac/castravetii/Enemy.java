@@ -63,10 +63,12 @@ public class Enemy extends Entity{
     }
 
     public void die() {
-        this.remove(EnemyComponent.class);
+//        this.remove(EnemyComponent.class);
         this.remove(MovementComponent.class);
         this.remove(HealthComponent.class);
+        this.remove(PolygonColliderComponent.class);
 
+        enemyC.dead = true;
         wobbleAnim.end();
         deathAnim.play();
     }

@@ -39,4 +39,11 @@ public class BellPepperEnemy extends Enemy{
         //collider.show = true;
         this.add(collider);
     }
+
+    @Override
+    public void die() {
+        super.die();
+
+        textureC.region = Services.textureAtlas.findRegion("BellPepper-dead");
+    }
 }

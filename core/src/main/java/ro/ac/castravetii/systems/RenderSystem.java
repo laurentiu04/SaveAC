@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import ro.ac.castravetii.Enemy;
 import ro.ac.castravetii.Services;
 import ro.ac.castravetii.Utils;
 import ro.ac.castravetii.components.*;
@@ -18,6 +19,7 @@ public class RenderSystem extends SortedIteratingSystem {
     ComponentMapper<TextureComponent> txm = ComponentMapper.getFor(TextureComponent.class);
     ComponentMapper<TransformComponent> tm = ComponentMapper.getFor(TransformComponent.class);
     ComponentMapper<MovementComponent> mm = ComponentMapper.getFor(MovementComponent.class);
+    ComponentMapper<EnemyComponent> em = ComponentMapper.getFor(EnemyComponent.class);
 
     public RenderSystem(int priority) {
         super(
@@ -45,6 +47,17 @@ public class RenderSystem extends SortedIteratingSystem {
         TextureRegion region = texture.region;
         TransformComponent transform = tm.get(entity);
         MovementComponent move = mm.get(entity);
+        EnemyComponent enemyC = em.get(entity);
+
+        // Daca entitatea curenta are componenta de tip EnemyComponent si deathAnimation s-a terminat, ii dam remove
+        if (enemyC != null && enemyC.dead) {
+
+            Enemy enemy = (Enemy) entity;
+            if (!enemy.deathAnim.isPlaying()) {
+                Services.engine.removeEntity(entity);
+                return;
+            }
+        }
 
         if (move != null && move.moveX != 0 && entity.getComponent(PlayerComponent.class) == null && entity.getComponent(ProjectileComponent.class) == null) {
             if (transform.scale.x < 0f && move.moveX > 0) {
@@ -69,6 +82,7 @@ public class RenderSystem extends SortedIteratingSystem {
 
         if (entity.getComponent(GunComponent.class) != null) {
             scaleX = transform.scale.x;
+            //noinspection SuspiciousNameCombination
             scaleY = transform.parent.scale.x;
         }
 

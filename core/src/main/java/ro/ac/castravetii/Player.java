@@ -21,11 +21,8 @@ public final class  Player extends Entity{
 
     private final TransformComponent transformComponent;
     private final TextureComponent textureComponent;
-    private final PlayerComponent playerComponent;
     private final PlayerStatsComponent statsComponent;
     private final MovementComponent movementComponent;
-    private final SpriteAnimationComponent animationComponent;
-    private final PolygonColliderComponent colliderComponent;
     private final HealthComponent healthComponent;
     private final LevelComponent levelComponent;
     private final Gun gun;
@@ -38,7 +35,7 @@ public final class  Player extends Entity{
     private Player() {
 
 
-        playerComponent = new PlayerComponent();
+        PlayerComponent playerComponent = new PlayerComponent();
         this.add(playerComponent);
 
         statsComponent = new PlayerStatsComponent();
@@ -59,12 +56,12 @@ public final class  Player extends Entity{
         movementComponent.speed = 100f;
         this.add(movementComponent);
 
-        animationComponent = new SpriteAnimationComponent();
+        SpriteAnimationComponent animationComponent = new SpriteAnimationComponent();
         animationComponent.movingAnim = Utils.createAnimation(64, 0.035f, "castravete-moving");
         animationComponent.idleSprite = textureComponent.region;
         this.add(animationComponent);
 
-        colliderComponent = new PolygonColliderComponent();
+        PolygonColliderComponent colliderComponent = new PolygonColliderComponent();
         colliderComponent.vertices = new float[] {
             11.00f,  0.00f,
             7.78f, 16.00f,
@@ -77,7 +74,7 @@ public final class  Player extends Entity{
         };
 
         colliderComponent.offset.y = 20f;
-        colliderComponent.show = true;
+//        colliderComponent.show = true;
         this.add(colliderComponent);
 
         healthComponent = new HealthComponent();
@@ -168,7 +165,4 @@ public final class  Player extends Entity{
 
     public Gun getGun() { return gun; }
 
-    public TextureComponent getTextureComponent() {
-        return textureComponent;
-    }
 }

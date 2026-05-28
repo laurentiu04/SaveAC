@@ -33,9 +33,9 @@ public class EnemyDamageSystem extends EntitySystem {
         AttackEvent attackEvent;
         for (GameEvent event : events) {
             attackEvent = (AttackEvent) event;
-            if (attackEvent.target() instanceof Enemy) {
+            if (attackEvent.target() instanceof Enemy enemy) {
 
-                Enemy enemy = (Enemy) attackEvent.target();
+                EnemyComponent enemyC = em.get(enemy);
 
                 // accesare componenta sanatate de pe tinta
                 HealthComponent health = hm.get(enemy);
@@ -51,6 +51,7 @@ public class EnemyDamageSystem extends EntitySystem {
                 }
 
                 MovementComponent move = enemy.getComponent(MovementComponent.class);
+
                 //forta cu cat il impinge pe inamic
                 float force = 100f;
                 move.knockbackX = dx * force;
@@ -65,7 +66,6 @@ public class EnemyDamageSystem extends EntitySystem {
 
                     // eliminare daca viata e zero
                     if (health.currentHealth <= 0) {
-                        EnemyComponent enemyC = em.get(enemy);
                         queue.post(new PlayerXPGainEvent(enemyC.xpValue));
                         queue.post(new EnemyKilledEvent(enemyC.pointValue));
 
@@ -75,20 +75,7 @@ public class EnemyDamageSystem extends EntitySystem {
                         Services.soundSystem.play("enemyDead", 1.2f);
                     }
                 }
-            } else if (attackEvent.target() instanceof com.badlogic.ashley.core.Entity) {
-                HealthComponent playerHealth = Player.getInstance().getHealthComponent();
-
-                    playerHealth.currentHealth -= attackEvent.damage();
-
-
-                    System.out.println("DEBUG: Player took damage! Current HP: " + playerHealth.currentHealth);
-
-
-                    if (playerHealth.currentHealth <= 0) {
-                        System.out.println("DEBUG: Player has died!");
-
-                    }
-                }
+            }
 
             }
         }
